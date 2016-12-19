@@ -1,0 +1,20 @@
+* Scalps iOS API
+
+** Requirements
+
+** Installation
+
+Scalps iOS API pod is available through [[CocoaPods][http://cocoapods.org]]. To
+install it, simply add the following line to your Podfile:
+
+#+BEGIN_SRC ruby
+  pod "Scalps"
+#+END_SRC
+
+** Authors
+
+rk, rafal.kowalski@mac.com
+
+** License
+
+Scalps iOS API pod is available under the MIT license. See the LICENSE file for more info.
