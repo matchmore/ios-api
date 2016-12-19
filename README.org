@@ -4,11 +4,11 @@
 
 ** Installation
 
-Scalps iOS API pod is available through [[CocoaPods][http://cocoapods.org]]. To
-install it, simply add the following line to your Podfile:
+Scalps iOS API pod is available through [[http://cocoapods.org][CocoaPods]]. To install it,
+simply add the following line to your Podfile:
 
 #+BEGIN_SRC ruby
-  pod "Scalps"
+  pod "Scalps", :git => 'git@bitbucket.org:scalps/ios-api.git', :tag => 'v0.0.1'
 #+END_SRC
 
 ** Authors
