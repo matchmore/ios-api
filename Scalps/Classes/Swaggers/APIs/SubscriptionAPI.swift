@@ -29,8 +29,8 @@ open class SubscriptionAPI: APIBase {
      Create a subscription for a device for a user
      - POST /users/{userId}/devices/{deviceId}/subscriptions
      - API Key:
-       - type: apiKey dev-key 
-       - name: dev-key
+       - type: apiKey api-key 
+       - name: api-key
      - examples: [{contentType=application/json, example={
   "duration" : 1.3579000000000001069366817318950779736042022705078125,
   "op" : "aeiou",

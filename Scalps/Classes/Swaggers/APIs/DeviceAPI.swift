@@ -12,9 +12,9 @@ import Alamofire
 open class DeviceAPI: APIBase {
     /**
      Create device for a user
-
-     - parameter userId: (path) The id (UUID) of the user to create a device for
-     - parameter device: (body) The device to be created for the user.
+     
+     - parameter userId: (path) The id (UUID) of the user to create a device for 
+     - parameter device: (body) The device to be created for the user.  
      - parameter limit: (query) How many items to return at one time (1-100, default 100) (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
@@ -29,41 +29,40 @@ open class DeviceAPI: APIBase {
      Create device for a user
      - POST /users/{userId}/devices
      - API Key:
-       - type: apiKey dev-key
-       - name: dev-key
+       - type: apiKey api-key 
+       - name: api-key
      - examples: [{contentType=application/json, example={
   "name" : "aeiou",
   "deviceId" : "aeiou",
   "platform" : "aeiou",
   "deviceToken" : "aeiou"
 }}]
-
-     - parameter userId: (path) The id (UUID) of the user to create a device for
-     - parameter device: (body) The device to be created for the user.
+     
+     - parameter userId: (path) The id (UUID) of the user to create a device for 
+     - parameter device: (body) The device to be created for the user.  
      - parameter limit: (query) How many items to return at one time (1-100, default 100) (optional)
 
-     - returns: RequestBuilder<Device>
+     - returns: RequestBuilder<Device> 
      */
     open class func createDeviceWithRequestBuilder(userId: String, device: Device, limit: Int32? = nil) -> RequestBuilder<Device> {
         var path = "/users/{userId}/devices"
         path = path.replacingOccurrences(of: "{userId}", with: "\(userId)", options: .literal, range: nil)
         let URLString = ScalpsAPI.basePath + path
         let parameters = device.encodeToJSON() as? [String:AnyObject]
-
+ 
         let convertedParameters = APIHelper.convertBoolToString(parameters)
-
+ 
         let requestBuilder: RequestBuilder<Device>.Type = ScalpsAPI.requestBuilderFactory.getBuilder()
 
-        return requestBuilder.init(method: "POST", URLString: URLString, parameters: parameters, isBody: true)
-        // return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: true)
+        return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: false)
     }
 
     /**
      Create a new location for a user device
-
-     - parameter userId: (path) The id (UUID) of the user to create a device location for
-     - parameter deviceId: (path) The id (UUID) of the user device
-     - parameter location: (body) Location to create for a device.
+     
+     - parameter userId: (path) The id (UUID) of the user to create a device location for 
+     - parameter deviceId: (path) The id (UUID) of the user device 
+     - parameter location: (body) Location to create for a device.  
      - parameter completion: completion handler to receive the data and the error objects
      */
     open class func createLocation(userId: String, deviceId: String, location: DeviceLocation, completion: @escaping ((_ data: DeviceLocation?,_ error: Error?) -> Void)) {
@@ -77,8 +76,8 @@ open class DeviceAPI: APIBase {
      Create a new location for a user device
      - POST /users/{userId}/devices/{deviceId}/locations
      - API Key:
-       - type: apiKey dev-key
-       - name: dev-key
+       - type: apiKey api-key 
+       - name: api-key
      - examples: [{contentType=application/json, example={
   "altitude" : 1.3579000000000001069366817318950779736042022705078125,
   "verticalAccuracy" : 1.3579000000000001069366817318950779736042022705078125,
@@ -88,12 +87,12 @@ open class DeviceAPI: APIBase {
   "timestamp" : 123456789,
   "longitude" : 1.3579000000000001069366817318950779736042022705078125
 }}]
+     
+     - parameter userId: (path) The id (UUID) of the user to create a device location for 
+     - parameter deviceId: (path) The id (UUID) of the user device 
+     - parameter location: (body) Location to create for a device.  
 
-     - parameter userId: (path) The id (UUID) of the user to create a device location for
-     - parameter deviceId: (path) The id (UUID) of the user device
-     - parameter location: (body) Location to create for a device.
-
-     - returns: RequestBuilder<DeviceLocation>
+     - returns: RequestBuilder<DeviceLocation> 
      */
     open class func createLocationWithRequestBuilder(userId: String, deviceId: String, location: DeviceLocation) -> RequestBuilder<DeviceLocation> {
         var path = "/users/{userId}/devices/{deviceId}/locations"
@@ -101,9 +100,9 @@ open class DeviceAPI: APIBase {
         path = path.replacingOccurrences(of: "{deviceId}", with: "\(deviceId)", options: .literal, range: nil)
         let URLString = ScalpsAPI.basePath + path
         let parameters = location.encodeToJSON() as? [String:AnyObject]
-
+ 
         let convertedParameters = APIHelper.convertBoolToString(parameters)
-
+ 
         let requestBuilder: RequestBuilder<DeviceLocation>.Type = ScalpsAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: true)
@@ -111,10 +110,10 @@ open class DeviceAPI: APIBase {
 
     /**
      Create a publication for a device for a user
-
-     - parameter userId: (path) The id (UUID) of the user to create a device for
-     - parameter deviceId: (path) The id (UUID) of the user device
-     - parameter publication: (body) Publication to create on a device.
+     
+     - parameter userId: (path) The id (UUID) of the user to create a device for 
+     - parameter deviceId: (path) The id (UUID) of the user device 
+     - parameter publication: (body) Publication to create on a device.  
      - parameter completion: completion handler to receive the data and the error objects
      */
     open class func createPublication(userId: String, deviceId: String, publication: Publication, completion: @escaping ((_ data: Publication?,_ error: Error?) -> Void)) {
@@ -128,8 +127,8 @@ open class DeviceAPI: APIBase {
      Create a publication for a device for a user
      - POST /users/{userId}/devices/{deviceId}/publications
      - API Key:
-       - type: apiKey dev-key
-       - name: dev-key
+       - type: apiKey api-key 
+       - name: api-key
      - examples: [{contentType=application/json, example={
   "duration" : 1.3579000000000001069366817318950779736042022705078125,
   "op" : "aeiou",
@@ -149,12 +148,12 @@ open class DeviceAPI: APIBase {
   "deviceId" : "aeiou",
   "timestamp" : 123456789
 }}]
+     
+     - parameter userId: (path) The id (UUID) of the user to create a device for 
+     - parameter deviceId: (path) The id (UUID) of the user device 
+     - parameter publication: (body) Publication to create on a device.  
 
-     - parameter userId: (path) The id (UUID) of the user to create a device for
-     - parameter deviceId: (path) The id (UUID) of the user device
-     - parameter publication: (body) Publication to create on a device.
-
-     - returns: RequestBuilder<Publication>
+     - returns: RequestBuilder<Publication> 
      */
     open class func createPublicationWithRequestBuilder(userId: String, deviceId: String, publication: Publication) -> RequestBuilder<Publication> {
         var path = "/users/{userId}/devices/{deviceId}/publications"
@@ -162,9 +161,9 @@ open class DeviceAPI: APIBase {
         path = path.replacingOccurrences(of: "{deviceId}", with: "\(deviceId)", options: .literal, range: nil)
         let URLString = ScalpsAPI.basePath + path
         let parameters = publication.encodeToJSON() as? [String:AnyObject]
-
+ 
         let convertedParameters = APIHelper.convertBoolToString(parameters)
-
+ 
         let requestBuilder: RequestBuilder<Publication>.Type = ScalpsAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: true)
@@ -172,10 +171,10 @@ open class DeviceAPI: APIBase {
 
     /**
      Create a subscription for a device for a user
-
-     - parameter userId: (path) The id (UUID) of the user to create a device for
-     - parameter deviceId: (path) The id (UUID) of the user device
-     - parameter subscription: (body) Subscription to create on a device.
+     
+     - parameter userId: (path) The id (UUID) of the user to create a device for 
+     - parameter deviceId: (path) The id (UUID) of the user device 
+     - parameter subscription: (body) Subscription to create on a device.  
      - parameter completion: completion handler to receive the data and the error objects
      */
     open class func createSubscription(userId: String, deviceId: String, subscription: Subscription, completion: @escaping ((_ data: Subscription?,_ error: Error?) -> Void)) {
@@ -189,8 +188,8 @@ open class DeviceAPI: APIBase {
      Create a subscription for a device for a user
      - POST /users/{userId}/devices/{deviceId}/subscriptions
      - API Key:
-       - type: apiKey dev-key
-       - name: dev-key
+       - type: apiKey api-key 
+       - name: api-key
      - examples: [{contentType=application/json, example={
   "duration" : 1.3579000000000001069366817318950779736042022705078125,
   "op" : "aeiou",
@@ -210,12 +209,12 @@ open class DeviceAPI: APIBase {
   "deviceId" : "aeiou",
   "timestamp" : 123456789
 }}]
+     
+     - parameter userId: (path) The id (UUID) of the user to create a device for 
+     - parameter deviceId: (path) The id (UUID) of the user device 
+     - parameter subscription: (body) Subscription to create on a device.  
 
-     - parameter userId: (path) The id (UUID) of the user to create a device for
-     - parameter deviceId: (path) The id (UUID) of the user device
-     - parameter subscription: (body) Subscription to create on a device.
-
-     - returns: RequestBuilder<Subscription>
+     - returns: RequestBuilder<Subscription> 
      */
     open class func createSubscriptionWithRequestBuilder(userId: String, deviceId: String, subscription: Subscription) -> RequestBuilder<Subscription> {
         var path = "/users/{userId}/devices/{deviceId}/subscriptions"
@@ -223,9 +222,9 @@ open class DeviceAPI: APIBase {
         path = path.replacingOccurrences(of: "{deviceId}", with: "\(deviceId)", options: .literal, range: nil)
         let URLString = ScalpsAPI.basePath + path
         let parameters = subscription.encodeToJSON() as? [String:AnyObject]
-
+ 
         let convertedParameters = APIHelper.convertBoolToString(parameters)
-
+ 
         let requestBuilder: RequestBuilder<Subscription>.Type = ScalpsAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: true)
@@ -233,9 +232,9 @@ open class DeviceAPI: APIBase {
 
     /**
      Info about a device of a user
-
-     - parameter userId: (path) The id (UUID) of the user of the device
-     - parameter deviceId: (path) The id (UUID) of the user device
+     
+     - parameter userId: (path) The id (UUID) of the user of the device 
+     - parameter deviceId: (path) The id (UUID) of the user device 
      - parameter completion: completion handler to receive the data and the error objects
      */
     open class func getDevice(userId: String, deviceId: String, completion: @escaping ((_ data: Device?,_ error: Error?) -> Void)) {
@@ -249,19 +248,19 @@ open class DeviceAPI: APIBase {
      Info about a device of a user
      - GET /users/{userId}/devices/{deviceId}
      - API Key:
-       - type: apiKey dev-key
-       - name: dev-key
+       - type: apiKey api-key 
+       - name: api-key
      - examples: [{contentType=application/json, example={
   "name" : "aeiou",
   "deviceId" : "aeiou",
   "platform" : "aeiou",
   "deviceToken" : "aeiou"
 }}]
+     
+     - parameter userId: (path) The id (UUID) of the user of the device 
+     - parameter deviceId: (path) The id (UUID) of the user device 
 
-     - parameter userId: (path) The id (UUID) of the user of the device
-     - parameter deviceId: (path) The id (UUID) of the user device
-
-     - returns: RequestBuilder<Device>
+     - returns: RequestBuilder<Device> 
      */
     open class func getDeviceWithRequestBuilder(userId: String, deviceId: String) -> RequestBuilder<Device> {
         var path = "/users/{userId}/devices/{deviceId}"
@@ -270,11 +269,11 @@ open class DeviceAPI: APIBase {
         let URLString = ScalpsAPI.basePath + path
 
         let nillableParameters: [String:Any?] = [:]
-
+ 
         let parameters = APIHelper.rejectNil(nillableParameters)
-
+ 
         let convertedParameters = APIHelper.convertBoolToString(parameters)
-
+ 
         let requestBuilder: RequestBuilder<Device>.Type = ScalpsAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: URLString, parameters: convertedParameters, isBody: true)

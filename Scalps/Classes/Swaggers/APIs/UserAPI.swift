@@ -29,8 +29,8 @@ open class UserAPI: APIBase {
      Create device for a user
      - POST /users/{userId}/devices
      - API Key:
-       - type: apiKey dev-key 
-       - name: dev-key
+       - type: apiKey api-key 
+       - name: api-key
      - examples: [{contentType=application/json, example={
   "name" : "aeiou",
   "deviceId" : "aeiou",
@@ -54,7 +54,7 @@ open class UserAPI: APIBase {
  
         let requestBuilder: RequestBuilder<Device>.Type = ScalpsAPI.requestBuilderFactory.getBuilder()
 
-        return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: true)
+        return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: false)
     }
 
     /**
@@ -76,8 +76,8 @@ open class UserAPI: APIBase {
      Create a new location for a user device
      - POST /users/{userId}/devices/{deviceId}/locations
      - API Key:
-       - type: apiKey dev-key 
-       - name: dev-key
+       - type: apiKey api-key 
+       - name: api-key
      - examples: [{contentType=application/json, example={
   "altitude" : 1.3579000000000001069366817318950779736042022705078125,
   "verticalAccuracy" : 1.3579000000000001069366817318950779736042022705078125,
@@ -127,8 +127,8 @@ open class UserAPI: APIBase {
      Create a publication for a device for a user
      - POST /users/{userId}/devices/{deviceId}/publications
      - API Key:
-       - type: apiKey dev-key 
-       - name: dev-key
+       - type: apiKey api-key 
+       - name: api-key
      - examples: [{contentType=application/json, example={
   "duration" : 1.3579000000000001069366817318950779736042022705078125,
   "op" : "aeiou",
@@ -188,8 +188,8 @@ open class UserAPI: APIBase {
      Create a subscription for a device for a user
      - POST /users/{userId}/devices/{deviceId}/subscriptions
      - API Key:
-       - type: apiKey dev-key 
-       - name: dev-key
+       - type: apiKey api-key 
+       - name: api-key
      - examples: [{contentType=application/json, example={
   "duration" : 1.3579000000000001069366817318950779736042022705078125,
   "op" : "aeiou",
@@ -248,8 +248,8 @@ open class UserAPI: APIBase {
      Info about a device of a user
      - GET /users/{userId}/devices/{deviceId}
      - API Key:
-       - type: apiKey dev-key 
-       - name: dev-key
+       - type: apiKey api-key 
+       - name: api-key
      - examples: [{contentType=application/json, example={
   "name" : "aeiou",
   "deviceId" : "aeiou",
@@ -296,8 +296,8 @@ open class UserAPI: APIBase {
      Info about a user
      - GET /users/{userId}
      - API Key:
-       - type: apiKey dev-key 
-       - name: dev-key
+       - type: apiKey api-key 
+       - name: api-key
      - examples: [{contentType=application/json, example=""}]
      
      - parameter userId: (path) The id (UUID) of the user to retrieve 
