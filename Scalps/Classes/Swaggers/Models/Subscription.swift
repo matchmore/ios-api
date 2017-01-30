@@ -19,7 +19,7 @@ open class Subscription: JSONEncodable {
     public var topic: String?
     /** This is an expression to filter the publications. For instance &#39;job&#x3D;&#39;developer&#39;&#39; will allow matching only with publications containing a &#39;job&#39; key with a value of &#39;developer&#39; */
     public var selector: String?
-    public var location: DeviceLocation?
+    public var location: Location?
     /** The range of the subscription in meters. This is the range around the device holding the subscription in which matches with publications can be triggered */
     public var range: Double?
     /** The duration of the subscription in seconds. If set to &#39;-1&#39; the subscription will live forever and if set to &#39;0&#39; it will be instant at the time of subscription. */

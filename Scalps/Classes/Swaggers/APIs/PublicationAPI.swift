@@ -15,11 +15,14 @@ open class PublicationAPI: APIBase {
      
      - parameter userId: (path) The id (UUID) of the user to create a device for 
      - parameter deviceId: (path) The id (UUID) of the user device 
-     - parameter publication: (body) Publication to create on a device.  
+     - parameter topic: (form) The topic of the publication. This will act as a first match filter. For a subscription to be able to match a publication they must have the exact same topic  
+     - parameter range: (form) The range of the publication in meters. This is the range around the device holding the publication in which matches with subscriptions can be triggered  
+     - parameter duration: (form) The duration of the publication in seconds. If set to &#39;-1&#39; the publication will live forever and if set to &#39;0&#39; it will be instant at the time of publication.  
+     - parameter properties: (form)  A string representing a map of (key, value) pairs in JSON format:  &#x60;{\&quot;key1\&quot;: \&quot;value1\&quot;, \&quot;key2\&quot;: \&quot;value2\&quot;}&#x60;  
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func createPublication(userId: String, deviceId: String, publication: Publication, completion: @escaping ((_ data: Publication?,_ error: Error?) -> Void)) {
-        createPublicationWithRequestBuilder(userId: userId, deviceId: deviceId, publication: publication).execute { (response, error) -> Void in
+    open class func createPublication(userId: String, deviceId: String, topic: String, range: Double, duration: Double, properties: String, completion: @escaping ((_ data: Publication?,_ error: Error?) -> Void)) {
+        createPublicationWithRequestBuilder(userId: userId, deviceId: deviceId, topic: topic, range: range, duration: duration, properties: properties).execute { (response, error) -> Void in
             completion(response?.body, error);
         }
     }
@@ -34,7 +37,6 @@ open class PublicationAPI: APIBase {
      - examples: [{contentType=application/json, example={
   "duration" : 1.3579000000000001069366817318950779736042022705078125,
   "op" : "aeiou",
-  "payload" : { },
   "topic" : "aeiou",
   "range" : 1.3579000000000001069366817318950779736042022705078125,
   "location" : {
@@ -42,33 +44,44 @@ open class PublicationAPI: APIBase {
     "verticalAccuracy" : 1.3579000000000001069366817318950779736042022705078125,
     "latitude" : 1.3579000000000001069366817318950779736042022705078125,
     "horizontalAccuracy" : 1.3579000000000001069366817318950779736042022705078125,
-    "deviceId" : "aeiou",
     "timestamp" : 123456789,
     "longitude" : 1.3579000000000001069366817318950779736042022705078125
   },
   "publicationId" : "aeiou",
   "deviceId" : "aeiou",
+  "properties" : { },
   "timestamp" : 123456789
 }}]
      
      - parameter userId: (path) The id (UUID) of the user to create a device for 
      - parameter deviceId: (path) The id (UUID) of the user device 
-     - parameter publication: (body) Publication to create on a device.  
+     - parameter topic: (form) The topic of the publication. This will act as a first match filter. For a subscription to be able to match a publication they must have the exact same topic  
+     - parameter range: (form) The range of the publication in meters. This is the range around the device holding the publication in which matches with subscriptions can be triggered  
+     - parameter duration: (form) The duration of the publication in seconds. If set to &#39;-1&#39; the publication will live forever and if set to &#39;0&#39; it will be instant at the time of publication.  
+     - parameter properties: (form)  A string representing a map of (key, value) pairs in JSON format:  &#x60;{\&quot;key1\&quot;: \&quot;value1\&quot;, \&quot;key2\&quot;: \&quot;value2\&quot;}&#x60;  
 
      - returns: RequestBuilder<Publication> 
      */
-    open class func createPublicationWithRequestBuilder(userId: String, deviceId: String, publication: Publication) -> RequestBuilder<Publication> {
+    open class func createPublicationWithRequestBuilder(userId: String, deviceId: String, topic: String, range: Double, duration: Double, properties: String) -> RequestBuilder<Publication> {
         var path = "/users/{userId}/devices/{deviceId}/publications"
         path = path.replacingOccurrences(of: "{userId}", with: "\(userId)", options: .literal, range: nil)
         path = path.replacingOccurrences(of: "{deviceId}", with: "\(deviceId)", options: .literal, range: nil)
         let URLString = ScalpsAPI.basePath + path
-        let parameters = publication.encodeToJSON() as? [String:AnyObject]
+
+        let nillableParameters: [String:Any?] = [
+            "topic": topic,
+            "range": range,
+            "duration": duration,
+            "properties": properties
+        ]
+ 
+        let parameters = APIHelper.rejectNil(nillableParameters)
  
         let convertedParameters = APIHelper.convertBoolToString(parameters)
  
         let requestBuilder: RequestBuilder<Publication>.Type = ScalpsAPI.requestBuilderFactory.getBuilder()
 
-        return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: true)
+        return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: false)
     }
 
 }
