@@ -198,7 +198,12 @@ open class UserAPI: APIBase {
   },
   "publicationId" : "aeiou",
   "deviceId" : "aeiou",
-  "properties" : { },
+  "properties" : {
+    "default" : {
+      "value" : "aeiou",
+      "key" : "aeiou"
+    }
+  },
   "timestamp" : 123456789
 }}]
      

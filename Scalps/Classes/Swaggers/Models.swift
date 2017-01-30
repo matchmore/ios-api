@@ -208,10 +208,24 @@ class Decoders {
         }
         // Decoder for Properties
         Decoders.addDecoder(clazz: Properties.self) { (source: AnyObject) -> Properties in
-            if let source = source as? Any {
-                return source
-            }
-            fatalError("Source \(source) is not convertible to typealias Properties: Maybe swagger file is insufficient")
+            let sourceDictionary = source as! [AnyHashable: Any]
+            let instance = Properties()
+            instance._default = Decoders.decodeOptional(clazz: PropertyItem.self, source: sourceDictionary["default"] as AnyObject?)
+            return instance
+        }
+
+
+        // Decoder for [PropertyItem]
+        Decoders.addDecoder(clazz: [PropertyItem].self) { (source: AnyObject) -> [PropertyItem] in
+            return Decoders.decode(clazz: [PropertyItem].self, source: source)
+        }
+        // Decoder for PropertyItem
+        Decoders.addDecoder(clazz: PropertyItem.self) { (source: AnyObject) -> PropertyItem in
+            let sourceDictionary = source as! [AnyHashable: Any]
+            let instance = PropertyItem()
+            instance.key = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["key"] as AnyObject?)
+            instance.value = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["value"] as AnyObject?)
+            return instance
         }
 
 
