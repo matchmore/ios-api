@@ -50,10 +50,7 @@ open class PublicationAPI: APIBase {
   "publicationId" : "aeiou",
   "deviceId" : "aeiou",
   "properties" : {
-    "default" : {
-      "value" : "aeiou",
-      "key" : "aeiou"
-    }
+    "default" : "aeiou"
   },
   "timestamp" : 123456789
 }}]

@@ -44,6 +44,15 @@ class Decoders {
         decoders[key] = { decoder($0) as AnyObject }
     }
 
+    static func decode<T>(clazz: T.Type, discriminator: String, source: AnyObject) -> T {
+        let key = discriminator;
+        if let decoder = decoders[key] {
+            return decoder(source) as! T
+        } else {
+            fatalError("Source \(source) is not convertible to type \(clazz): Maybe swagger file is insufficient")
+        }
+    }
+
     static func decode<T>(clazz: [T].Type, source: AnyObject) -> [T] {
         let array = source as! [AnyObject]
         return array.map { Decoders.decode(clazz: T.self, source: $0) }
@@ -117,7 +126,8 @@ class Decoders {
             "yyyy-MM-dd'T'HH:mm:ssZZZZZ",
             "yyyy-MM-dd'T'HH:mm:ss.SSSZZZZZ",
             "yyyy-MM-dd'T'HH:mm:ss'Z'",
-            "yyyy-MM-dd'T'HH:mm:ss.SSS"
+            "yyyy-MM-dd'T'HH:mm:ss.SSS",
+            "yyyy-MM-dd HH:mm:ss"
         ].map { (format: String) -> DateFormatter in
             let formatter = DateFormatter()
             formatter.dateFormat = format
@@ -132,12 +142,12 @@ class Decoders {
                     }
                 }
             }
-            if let sourceInt = source as? Int {
+            if let sourceInt = source as? Int64 {
                 // treat as a java date
                 return Date(timeIntervalSince1970: Double(sourceInt / 1000) )
             }
             fatalError("formatter failed to parse \(source)")
-        } 
+        }
 
         // Decoder for [APIError]
         Decoders.addDecoder(clazz: [APIError].self) { (source: AnyObject) -> [APIError] in
@@ -146,6 +156,7 @@ class Decoders {
         // Decoder for APIError
         Decoders.addDecoder(clazz: APIError.self) { (source: AnyObject) -> APIError in
             let sourceDictionary = source as! [AnyHashable: Any]
+
             let instance = APIError()
             instance.code = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["code"] as AnyObject?)
             instance.message = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["message"] as AnyObject?)
@@ -160,6 +171,7 @@ class Decoders {
         // Decoder for Device
         Decoders.addDecoder(clazz: Device.self) { (source: AnyObject) -> Device in
             let sourceDictionary = source as! [AnyHashable: Any]
+
             let instance = Device()
             instance.deviceId = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["deviceId"] as AnyObject?)
             instance.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
@@ -177,6 +189,7 @@ class Decoders {
         // Decoder for DeviceLocation
         Decoders.addDecoder(clazz: DeviceLocation.self) { (source: AnyObject) -> DeviceLocation in
             let sourceDictionary = source as! [AnyHashable: Any]
+
             let instance = DeviceLocation()
             instance.deviceId = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["deviceId"] as AnyObject?)
             instance.location = Decoders.decodeOptional(clazz: Location.self, source: sourceDictionary["location"] as AnyObject?)
@@ -191,6 +204,7 @@ class Decoders {
         // Decoder for Location
         Decoders.addDecoder(clazz: Location.self) { (source: AnyObject) -> Location in
             let sourceDictionary = source as! [AnyHashable: Any]
+
             let instance = Location()
             instance.timestamp = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["timestamp"] as AnyObject?)
             instance.latitude = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["latitude"] as AnyObject?)
@@ -202,6 +216,7 @@ class Decoders {
         }
 
 
+/*
         // Decoder for [Properties]
         Decoders.addDecoder(clazz: [Properties].self) { (source: AnyObject) -> [Properties] in
             return Decoders.decode(clazz: [Properties].self, source: source)
@@ -209,22 +224,22 @@ class Decoders {
         // Decoder for Properties
         Decoders.addDecoder(clazz: Properties.self) { (source: AnyObject) -> Properties in
             let sourceDictionary = source as! [AnyHashable: Any]
+
             let instance = Properties()
-            instance._default = Decoders.decodeOptional(clazz: PropertyItem.self, source: sourceDictionary["default"] as AnyObject?)
+            instance._default = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["default"] as AnyObject?)
             return instance
         }
+        */
 
-
-        // Decoder for [PropertyItem]
-        Decoders.addDecoder(clazz: [PropertyItem].self) { (source: AnyObject) -> [PropertyItem] in
-            return Decoders.decode(clazz: [PropertyItem].self, source: source)
+        // Decoder for [Properties]
+        Decoders.addDecoder(clazz: [Properties].self) { (source: AnyObject) -> [Properties] in
+            return Decoders.decode(clazz: [Properties].self, source: source)
         }
-        // Decoder for PropertyItem
-        Decoders.addDecoder(clazz: PropertyItem.self) { (source: AnyObject) -> PropertyItem in
+
+        // Decoder for Properties
+        Decoders.addDecoder(clazz: Properties.self) { (source: AnyObject) -> Properties in
             let sourceDictionary = source as! [AnyHashable: Any]
-            let instance = PropertyItem()
-            instance.key = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["key"] as AnyObject?)
-            instance.value = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["value"] as AnyObject?)
+            let instance = Properties()
             return instance
         }
 
@@ -236,6 +251,7 @@ class Decoders {
         // Decoder for Publication
         Decoders.addDecoder(clazz: Publication.self) { (source: AnyObject) -> Publication in
             let sourceDictionary = source as! [AnyHashable: Any]
+
             let instance = Publication()
             instance.timestamp = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["timestamp"] as AnyObject?)
             instance.publicationId = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["publicationId"] as AnyObject?)
@@ -257,6 +273,7 @@ class Decoders {
         // Decoder for Subscription
         Decoders.addDecoder(clazz: Subscription.self) { (source: AnyObject) -> Subscription in
             let sourceDictionary = source as! [AnyHashable: Any]
+
             let instance = Subscription()
             instance.timestamp = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["timestamp"] as AnyObject?)
             instance.subscriptionId = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["subscriptionId"] as AnyObject?)
@@ -278,6 +295,7 @@ class Decoders {
         // Decoder for User
         Decoders.addDecoder(clazz: User.self) { (source: AnyObject) -> User in
             let sourceDictionary = source as! [AnyHashable: Any]
+
             let instance = User()
             instance.userId = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["userId"] as AnyObject?)
             instance.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)

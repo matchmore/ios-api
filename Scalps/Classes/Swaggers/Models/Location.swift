@@ -25,7 +25,7 @@ open class Location: JSONEncodable {
     public init() {}
 
     // MARK: JSONEncodable
-    func encodeToJSON() -> Any {
+    open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()
         nillableDictionary["timestamp"] = self.timestamp?.encodeToJSON()
         nillableDictionary["latitude"] = self.latitude

@@ -7,18 +7,41 @@
 
 import Foundation
 
-
-/** a (key, MapItem) map. &#x60;default&#x60;is an example key */
 open class Properties: JSONEncodable {
-    public var _default: PropertyItem?
+    public var dictionary = [String:String]()
 
     public init() {}
 
+    public init(dictionary: [String: String]) {
+        self.dictionary = dictionary
+    }
+
     // MARK: JSONEncodable
-    func encodeToJSON() -> Any {
+    internal func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()
-        nillableDictionary["default"] = self._default?.encodeToJSON()
+
+        for (key, value) in self.dictionary {
+            nillableDictionary[key] = value
+        }
+
+        return APIHelper.rejectNil(nillableDictionary) ?? [:]
+    }
+}
+
+// This is the Swagger generated code which doesn't compile
+// https://github.com/swagger-api/swagger-codegen/issues/3805
+/*
+open class Properties: [String:String] {
+    public var _default: String?
+
+
+
+    // MARK: JSONEncodable
+    override open func encodeToJSON() -> Any {
+        var nillableDictionary = super.encodeToJSON() as? [String:Any?] ?? [String:Any?]()
+        nillableDictionary["default"] = self._default
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }
 }
+*/

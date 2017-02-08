@@ -16,7 +16,7 @@ open class DeviceLocation: JSONEncodable {
     public init() {}
 
     // MARK: JSONEncodable
-    func encodeToJSON() -> Any {
+    open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()
         nillableDictionary["deviceId"] = self.deviceId
         nillableDictionary["location"] = self.location?.encodeToJSON()

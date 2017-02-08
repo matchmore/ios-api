@@ -29,7 +29,7 @@ open class Publication: JSONEncodable {
     public init() {}
 
     // MARK: JSONEncodable
-    func encodeToJSON() -> Any {
+    open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()
         nillableDictionary["timestamp"] = self.timestamp?.encodeToJSON()
         nillableDictionary["publicationId"] = self.publicationId
