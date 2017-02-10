@@ -7,15 +7,21 @@
 
 import Foundation
 
+public typealias Properties = [String: String]
+
+/*
 open class Properties: JSONEncodable {
-    public var dictionary = [String:String]()
+    public var dictionary: [String:String]
 
-    public init() {}
+    public init() {
+        dictionary = [:]
+    }
 
-    public init(dictionary: [String: String]) {
+    public init(_ dictionary: [String: String]) {
         self.dictionary = dictionary
     }
 
+    /*
     // MARK: JSONEncodable
     internal func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()
@@ -26,7 +32,17 @@ open class Properties: JSONEncodable {
 
         return APIHelper.rejectNil(nillableDictionary) ?? [:]
     }
+ */
+    // MARK: JSONEncodable
+    internal func encodeToJSON() -> Any {
+        var nillableDictionary = dictionary.encodeToJSON() as? [String:Any?] ?? [String:Any?]()
+        let newDictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
+
+        return newDictionary
+    }
 }
+
+*/
 
 // This is the Swagger generated code which doesn't compile
 // https://github.com/swagger-api/swagger-codegen/issues/3805

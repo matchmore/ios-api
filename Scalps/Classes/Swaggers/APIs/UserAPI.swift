@@ -20,11 +20,11 @@ open class UserAPI: APIBase {
      - parameter latitude: (form) The latitude of the device.
      - parameter longitude: (form) The longitude of the device.
      - parameter altitude: (form) The altitude of the device.
-     - parameter horizontalAccuracy: (form)  The horizontal accuracy of the location, measured on a scale from &#39;0.0&#39; to &#39;1.0&#39;, &#39;1.0&#39; being the most accurate. If this value is not specified then the default value of &#39;1.0&#39; is used  (optional, default to 5)
-     - parameter verticalAccuracy: (form)  The vertical accuracy of the location, measured on a scale from &#39;0.0&#39; to &#39;1.0&#39;, &#39;1.0&#39; being the most accurate. If this value is not specified then the default value of &#39;1.0&#39; is used  (optional, default to 5)
+     - parameter horizontalAccuracy: (form)  The horizontal accuracy of the location, measured on a scale from &#39;0.0&#39; to &#39;1.0&#39;, &#39;1.0&#39; being the most accurate. If this value is not specified then the default value of &#39;1.0&#39; is used  (optional, default to 5.0)
+     - parameter verticalAccuracy: (form)  The vertical accuracy of the location, measured on a scale from &#39;0.0&#39; to &#39;1.0&#39;, &#39;1.0&#39; being the most accurate. If this value is not specified then the default value of &#39;1.0&#39; is used  (optional, default to 5.0)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func createDevice(userId: String, name: String, platform: String, deviceToken: String, latitude: Double, longitude: Double, altitude: Double, horizontalAccuracy: Double? = 5.0, verticalAccuracy: Double? = 5.0, completion: @escaping ((_ data: Device?,_ error: Error?) -> Void)) {
+    open class func createDevice(userId: String, name: String, platform: String, deviceToken: String, latitude: Double, longitude: Double, altitude: Double, horizontalAccuracy: Double? = nil, verticalAccuracy: Double? = nil, completion: @escaping ((_ data: Device?,_ error: Error?) -> Void)) {
         createDeviceWithRequestBuilder(userId: userId, name: name, platform: platform, deviceToken: deviceToken, latitude: latitude, longitude: longitude, altitude: altitude, horizontalAccuracy: horizontalAccuracy, verticalAccuracy: verticalAccuracy).execute { (response, error) -> Void in
             completion(response?.body, error);
         }
@@ -59,12 +59,12 @@ open class UserAPI: APIBase {
      - parameter latitude: (form) The latitude of the device.
      - parameter longitude: (form) The longitude of the device.
      - parameter altitude: (form) The altitude of the device.
-     - parameter horizontalAccuracy: (form)  The horizontal accuracy of the location, measured on a scale from &#39;0.0&#39; to &#39;1.0&#39;, &#39;1.0&#39; being the most accurate. If this value is not specified then the default value of &#39;1.0&#39; is used  (optional, default to 5)
-     - parameter verticalAccuracy: (form)  The vertical accuracy of the location, measured on a scale from &#39;0.0&#39; to &#39;1.0&#39;, &#39;1.0&#39; being the most accurate. If this value is not specified then the default value of &#39;1.0&#39; is used  (optional, default to 5)
+     - parameter horizontalAccuracy: (form)  The horizontal accuracy of the location, measured on a scale from &#39;0.0&#39; to &#39;1.0&#39;, &#39;1.0&#39; being the most accurate. If this value is not specified then the default value of &#39;1.0&#39; is used  (optional, default to 5.0)
+     - parameter verticalAccuracy: (form)  The vertical accuracy of the location, measured on a scale from &#39;0.0&#39; to &#39;1.0&#39;, &#39;1.0&#39; being the most accurate. If this value is not specified then the default value of &#39;1.0&#39; is used  (optional, default to 5.0)
 
      - returns: RequestBuilder<Device>
      */
-    open class func createDeviceWithRequestBuilder(userId: String, name: String, platform: String, deviceToken: String, latitude: Double, longitude: Double, altitude: Double, horizontalAccuracy: Double? = 5.0, verticalAccuracy: Double? = 5.0) -> RequestBuilder<Device> {
+    open class func createDeviceWithRequestBuilder(userId: String, name: String, platform: String, deviceToken: String, latitude: Double, longitude: Double, altitude: Double, horizontalAccuracy: Double? = nil, verticalAccuracy: Double? = nil) -> RequestBuilder<Device> {
         var path = "/users/{userId}/devices"
         path = path.replacingOccurrences(of: "{userId}", with: "\(userId)", options: .literal, range: nil)
         let URLString = ScalpsAPI.basePath + path
@@ -86,7 +86,7 @@ open class UserAPI: APIBase {
 
         let requestBuilder: RequestBuilder<Device>.Type = ScalpsAPI.requestBuilderFactory.getBuilder()
 
-        return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: false)
+        return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: true)
     }
 
     /**
@@ -170,7 +170,7 @@ open class UserAPI: APIBase {
      - parameter properties: (form)  A string representing a map of (key, value) pairs in JSON format:  &#x60;{\&quot;key1\&quot;: \&quot;value1\&quot;, \&quot;key2\&quot;: \&quot;value2\&quot;}&#x60;
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func createPublication(userId: String, deviceId: String, topic: String, range: Double, duration: Double, properties: String, completion: @escaping ((_ data: Publication?,_ error: Error?) -> Void)) {
+    open class func createPublication(userId: String, deviceId: String, topic: String, range: Double, duration: Double, properties: Properties, completion: @escaping ((_ data: Publication?,_ error: Error?) -> Void)) {
         createPublicationWithRequestBuilder(userId: userId, deviceId: deviceId, topic: topic, range: range, duration: duration, properties: properties).execute { (response, error) -> Void in
             completion(response?.body, error);
         }
@@ -213,7 +213,7 @@ open class UserAPI: APIBase {
 
      - returns: RequestBuilder<Publication>
      */
-    open class func createPublicationWithRequestBuilder(userId: String, deviceId: String, topic: String, range: Double, duration: Double, properties: String) -> RequestBuilder<Publication> {
+    open class func createPublicationWithRequestBuilder(userId: String, deviceId: String, topic: String, range: Double, duration: Double, properties: Properties) -> RequestBuilder<Publication> {
         var path = "/users/{userId}/devices/{deviceId}/publications"
         path = path.replacingOccurrences(of: "{userId}", with: "\(userId)", options: .literal, range: nil)
         path = path.replacingOccurrences(of: "{deviceId}", with: "\(deviceId)", options: .literal, range: nil)
