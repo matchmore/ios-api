@@ -86,7 +86,7 @@ open class DeviceAPI: APIBase {
 
         let requestBuilder: RequestBuilder<Device>.Type = ScalpsAPI.requestBuilderFactory.getBuilder()
 
-        return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: false)
+        return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: true)
     }
 
     /**
@@ -156,7 +156,7 @@ open class DeviceAPI: APIBase {
 
         let requestBuilder: RequestBuilder<DeviceLocation>.Type = ScalpsAPI.requestBuilderFactory.getBuilder()
 
-        return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: false)
+        return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: true)
     }
 
     /**
@@ -198,9 +198,7 @@ open class DeviceAPI: APIBase {
   },
   "publicationId" : "aeiou",
   "deviceId" : "aeiou",
-  "properties" : {
-    "default" : "aeiou"
-  },
+  "properties" : "aeiou",
   "timestamp" : 123456789
 }}]
 
@@ -306,7 +304,7 @@ open class DeviceAPI: APIBase {
 
         let requestBuilder: RequestBuilder<Subscription>.Type = ScalpsAPI.requestBuilderFactory.getBuilder()
 
-        return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: false)
+        return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: true)
     }
 
     /**
