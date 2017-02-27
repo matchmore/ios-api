@@ -49,9 +49,7 @@ open class PublicationAPI: APIBase {
   },
   "publicationId" : "aeiou",
   "deviceId" : "aeiou",
-  "properties" : {
-    "default" : "aeiou"
-  },
+  "properties" : "aeiou",
   "timestamp" : 123456789
 }}]
 
@@ -83,7 +81,7 @@ open class PublicationAPI: APIBase {
 
         let requestBuilder: RequestBuilder<Publication>.Type = ScalpsAPI.requestBuilderFactory.getBuilder()
 
-        return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: false)
+        return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: true)
     }
 
 }

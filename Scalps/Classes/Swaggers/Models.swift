@@ -215,32 +215,31 @@ class Decoders {
             return instance
         }
 
-
-/*
-        // Decoder for [Properties]
-        Decoders.addDecoder(clazz: [Properties].self) { (source: AnyObject) -> [Properties] in
-            return Decoders.decode(clazz: [Properties].self, source: source)
+        // Decoder for [Match]
+        Decoders.addDecoder(clazz: [Match].self) { (source: AnyObject) -> [Match] in
+            return Decoders.decode(clazz: [Match].self, source: source)
         }
-        // Decoder for Properties
-        Decoders.addDecoder(clazz: Properties.self) { (source: AnyObject) -> Properties in
+        // Decoder for Match
+        Decoders.addDecoder(clazz: Match.self) { (source: AnyObject) -> Match in
             let sourceDictionary = source as! [AnyHashable: Any]
 
-            let instance = Properties()
-            instance._default = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["default"] as AnyObject?)
+            let instance = Match()
+            instance.matchId = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["matchId"] as AnyObject?)
+            instance.timestamp = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["timestamp"] as AnyObject?)
+            instance.publication = Decoders.decodeOptional(clazz: Publication.self, source: sourceDictionary["publication"] as AnyObject?)
+            instance.subscription = Decoders.decodeOptional(clazz: Subscription.self, source: sourceDictionary["subscription"] as AnyObject?)
             return instance
         }
-        */
 
-        // Decoder for [Properties]
-        Decoders.addDecoder(clazz: [Properties].self) { (source: AnyObject) -> [Properties] in
-            return Decoders.decode(clazz: [Properties].self, source: source)
+
+        // Decoder for [Matches]
+        Decoders.addDecoder(clazz: [Matches].self) { (source: AnyObject) -> [Matches] in
+            return Decoders.decode(clazz: [Matches].self, source: source)
         }
-
-        // Decoder for Properties
-        Decoders.addDecoder(clazz: Properties.self) { (source: AnyObject) -> Properties in
-            let sourceDictionary = source as! [AnyHashable: Any]
-            let instance = Properties()
-            return instance
+        // Decoder for Matches
+        Decoders.addDecoder(clazz: Matches.self) { (source: AnyObject) -> Matches in
+            let sourceArray = source as! [AnyObject]
+            return sourceArray.map({ Decoders.decode(clazz: Match.self, source: $0) })
         }
 
 
@@ -261,6 +260,7 @@ class Decoders {
             instance.range = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["range"] as AnyObject?)
             instance.duration = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["duration"] as AnyObject?)
             instance.properties = Decoders.decodeOptional(clazz: Properties.self, source: sourceDictionary["properties"] as AnyObject?)
+            // instance.properties = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["properties"] as AnyObject?)
             instance.op = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["op"] as AnyObject?)
             return instance
         }
