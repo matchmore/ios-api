@@ -84,4 +84,48 @@ open class SubscriptionAPI: APIBase {
         return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: false)
     }
 
+    /**
+     Get all subscriptions for a device
+     
+     - parameter userId: (path) The id (UUID) of the user 
+     - parameter deviceId: (path) The id (UUID) of the device 
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    open class func getSubscriptions(userId: String, deviceId: String, completion: @escaping ((_ data: Subscriptions?,_ error: Error?) -> Void)) {
+        getSubscriptionsWithRequestBuilder(userId: userId, deviceId: deviceId).execute { (response, error) -> Void in
+            completion(response?.body, error);
+        }
+    }
+
+
+    /**
+     Get all subscriptions for a device
+     - GET /users/{userId}/devices/{deviceId}/subscriptions
+     - API Key:
+       - type: apiKey api-key 
+       - name: api-key
+     - examples: [{contentType=application/json, example=""}]
+     
+     - parameter userId: (path) The id (UUID) of the user 
+     - parameter deviceId: (path) The id (UUID) of the device 
+
+     - returns: RequestBuilder<Subscriptions> 
+     */
+    open class func getSubscriptionsWithRequestBuilder(userId: String, deviceId: String) -> RequestBuilder<Subscriptions> {
+        var path = "/users/{userId}/devices/{deviceId}/subscriptions"
+        path = path.replacingOccurrences(of: "{userId}", with: "\(userId)", options: .literal, range: nil)
+        path = path.replacingOccurrences(of: "{deviceId}", with: "\(deviceId)", options: .literal, range: nil)
+        let URLString = ScalpsAPI.basePath + path
+
+        let nillableParameters: [String:Any?] = [:]
+ 
+        let parameters = APIHelper.rejectNil(nillableParameters)
+ 
+        let convertedParameters = APIHelper.convertBoolToString(parameters)
+ 
+        let requestBuilder: RequestBuilder<Subscriptions>.Type = ScalpsAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "GET", URLString: URLString, parameters: convertedParameters, isBody: true)
+    }
+
 }
