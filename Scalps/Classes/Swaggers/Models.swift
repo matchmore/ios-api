@@ -259,10 +259,20 @@ class Decoders {
             instance.location = Decoders.decodeOptional(clazz: Location.self, source: sourceDictionary["location"] as AnyObject?)
             instance.range = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["range"] as AnyObject?)
             instance.duration = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["duration"] as AnyObject?)
-            instance.properties = Decoders.decodeOptional(clazz: Properties.self, source: sourceDictionary["properties"] as AnyObject?)
-            // instance.properties = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["properties"] as AnyObject?)
+            instance.properties = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["properties"] as AnyObject?)
             instance.op = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["op"] as AnyObject?)
             return instance
+        }
+
+
+        // Decoder for [Publications]
+        Decoders.addDecoder(clazz: [Publications].self) { (source: AnyObject) -> [Publications] in
+            return Decoders.decode(clazz: [Publications].self, source: source)
+        }
+        // Decoder for Publications
+        Decoders.addDecoder(clazz: Publications.self) { (source: AnyObject) -> Publications in
+            let sourceArray = source as! [AnyObject]
+            return sourceArray.map({ Decoders.decode(clazz: Publication.self, source: $0) })
         }
 
 
@@ -285,6 +295,17 @@ class Decoders {
             instance.duration = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["duration"] as AnyObject?)
             instance.op = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["op"] as AnyObject?)
             return instance
+        }
+
+
+        // Decoder for [Subscriptions]
+        Decoders.addDecoder(clazz: [Subscriptions].self) { (source: AnyObject) -> [Subscriptions] in
+            return Decoders.decode(clazz: [Subscriptions].self, source: source)
+        }
+        // Decoder for Subscriptions
+        Decoders.addDecoder(clazz: Subscriptions.self) { (source: AnyObject) -> Subscriptions in
+            let sourceArray = source as! [AnyObject]
+            return sourceArray.map({ Decoders.decode(clazz: Subscription.self, source: $0) })
         }
 
 
