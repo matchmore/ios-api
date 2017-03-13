@@ -7,7 +7,7 @@
 import Foundation
 
 open class ScalpsAPI {
-    open static var basePath = "http://localhost:9000/"
+    open static var basePath = "http://api.adjago.io/v02"
     open static var credential: URLCredential?
     open static var customHeaders: [String:String] = [:]
     static var requestBuilderFactory: RequestBuilderFactory = AlamofireRequestBuilderFactory()
