@@ -32,7 +32,7 @@ open class PublicationAPI: APIBase {
      Create a publication for a device for a user
      - POST /users/{userId}/devices/{deviceId}/publications
      - API Key:
-       - type: apiKey api-key
+       - type: apiKey api-key 
        - name: api-key
      - examples: [{contentType=application/json, example={
   "duration" : 1.3579000000000001069366817318950779736042022705078125,
@@ -74,14 +74,58 @@ open class PublicationAPI: APIBase {
             "duration": duration,
             "properties": properties
         ]
-
+ 
         let parameters = APIHelper.rejectNil(nillableParameters)
-
+ 
         let convertedParameters = APIHelper.convertBoolToString(parameters)
-
+ 
         let requestBuilder: RequestBuilder<Publication>.Type = ScalpsAPI.requestBuilderFactory.getBuilder()
 
-        return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: true)
+        return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: false)
+    }
+
+    /**
+     Get all publications for a device
+     
+     - parameter userId: (path) The id (UUID) of the user 
+     - parameter deviceId: (path) The id (UUID) of the device 
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    open class func getPublications(userId: String, deviceId: String, completion: @escaping ((_ data: Publications?,_ error: Error?) -> Void)) {
+        getPublicationsWithRequestBuilder(userId: userId, deviceId: deviceId).execute { (response, error) -> Void in
+            completion(response?.body, error);
+        }
+    }
+
+
+    /**
+     Get all publications for a device
+     - GET /users/{userId}/devices/{deviceId}/publications
+     - API Key:
+       - type: apiKey api-key 
+       - name: api-key
+     - examples: [{contentType=application/json, example=""}]
+     
+     - parameter userId: (path) The id (UUID) of the user 
+     - parameter deviceId: (path) The id (UUID) of the device 
+
+     - returns: RequestBuilder<Publications> 
+     */
+    open class func getPublicationsWithRequestBuilder(userId: String, deviceId: String) -> RequestBuilder<Publications> {
+        var path = "/users/{userId}/devices/{deviceId}/publications"
+        path = path.replacingOccurrences(of: "{userId}", with: "\(userId)", options: .literal, range: nil)
+        path = path.replacingOccurrences(of: "{deviceId}", with: "\(deviceId)", options: .literal, range: nil)
+        let URLString = ScalpsAPI.basePath + path
+
+        let nillableParameters: [String:Any?] = [:]
+ 
+        let parameters = APIHelper.rejectNil(nillableParameters)
+ 
+        let convertedParameters = APIHelper.convertBoolToString(parameters)
+ 
+        let requestBuilder: RequestBuilder<Publications>.Type = ScalpsAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "GET", URLString: URLString, parameters: convertedParameters, isBody: true)
     }
 
 }
