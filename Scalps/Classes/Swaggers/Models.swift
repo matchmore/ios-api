@@ -44,6 +44,15 @@ class Decoders {
         decoders[key] = { decoder($0) as AnyObject }
     }
 
+    static func decode<T>(clazz: T.Type, discriminator: String, source: AnyObject) -> T {
+        let key = discriminator;
+        if let decoder = decoders[key] {
+            return decoder(source) as! T
+        } else {
+            fatalError("Source \(source) is not convertible to type \(clazz): Maybe swagger file is insufficient")
+        }
+    }
+
     static func decode<T>(clazz: [T].Type, source: AnyObject) -> [T] {
         let array = source as! [AnyObject]
         return array.map { Decoders.decode(clazz: T.self, source: $0) }
@@ -117,7 +126,8 @@ class Decoders {
             "yyyy-MM-dd'T'HH:mm:ssZZZZZ",
             "yyyy-MM-dd'T'HH:mm:ss.SSSZZZZZ",
             "yyyy-MM-dd'T'HH:mm:ss'Z'",
-            "yyyy-MM-dd'T'HH:mm:ss.SSS"
+            "yyyy-MM-dd'T'HH:mm:ss.SSS",
+            "yyyy-MM-dd HH:mm:ss"
         ].map { (format: String) -> DateFormatter in
             let formatter = DateFormatter()
             formatter.dateFormat = format
@@ -132,7 +142,7 @@ class Decoders {
                     }
                 }
             }
-            if let sourceInt = source as? Int {
+            if let sourceInt = source as? Int64 {
                 // treat as a java date
                 return Date(timeIntervalSince1970: Double(sourceInt / 1000) )
             }
@@ -146,6 +156,7 @@ class Decoders {
         // Decoder for APIError
         Decoders.addDecoder(clazz: APIError.self) { (source: AnyObject) -> APIError in
             let sourceDictionary = source as! [AnyHashable: Any]
+
             let instance = APIError()
             instance.code = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["code"] as AnyObject?)
             instance.message = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["message"] as AnyObject?)
@@ -160,11 +171,13 @@ class Decoders {
         // Decoder for Device
         Decoders.addDecoder(clazz: Device.self) { (source: AnyObject) -> Device in
             let sourceDictionary = source as! [AnyHashable: Any]
+
             let instance = Device()
             instance.deviceId = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["deviceId"] as AnyObject?)
             instance.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
             instance.platform = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["platform"] as AnyObject?)
             instance.deviceToken = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["deviceToken"] as AnyObject?)
+            instance.location = Decoders.decodeOptional(clazz: Location.self, source: sourceDictionary["location"] as AnyObject?)
             return instance
         }
 
@@ -176,8 +189,23 @@ class Decoders {
         // Decoder for DeviceLocation
         Decoders.addDecoder(clazz: DeviceLocation.self) { (source: AnyObject) -> DeviceLocation in
             let sourceDictionary = source as! [AnyHashable: Any]
+
             let instance = DeviceLocation()
             instance.deviceId = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["deviceId"] as AnyObject?)
+            instance.location = Decoders.decodeOptional(clazz: Location.self, source: sourceDictionary["location"] as AnyObject?)
+            return instance
+        }
+
+
+        // Decoder for [Location]
+        Decoders.addDecoder(clazz: [Location].self) { (source: AnyObject) -> [Location] in
+            return Decoders.decode(clazz: [Location].self, source: source)
+        }
+        // Decoder for Location
+        Decoders.addDecoder(clazz: Location.self) { (source: AnyObject) -> Location in
+            let sourceDictionary = source as! [AnyHashable: Any]
+
+            let instance = Location()
             instance.timestamp = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["timestamp"] as AnyObject?)
             instance.latitude = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["latitude"] as AnyObject?)
             instance.longitude = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["longitude"] as AnyObject?)
@@ -187,16 +215,33 @@ class Decoders {
             return instance
         }
 
-        // Decoder for [Payload]
-        Decoders.addDecoder(clazz: [Payload].self) { (source: AnyObject) -> [Payload] in
-            return Decoders.decode(clazz: [Payload].self, source: source)
+        // Decoder for [Match]
+        Decoders.addDecoder(clazz: [Match].self) { (source: AnyObject) -> [Match] in
+            return Decoders.decode(clazz: [Match].self, source: source)
         }
-        // Decoder for Payload
-        Decoders.addDecoder(clazz: Payload.self) { (source: AnyObject) -> Payload in
+        // Decoder for Match
+        Decoders.addDecoder(clazz: Match.self) { (source: AnyObject) -> Match in
             let sourceDictionary = source as! [AnyHashable: Any]
-            let instance = Payload()
+
+            let instance = Match()
+            instance.matchId = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["matchId"] as AnyObject?)
+            instance.timestamp = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["timestamp"] as AnyObject?)
+            instance.publication = Decoders.decodeOptional(clazz: Publication.self, source: sourceDictionary["publication"] as AnyObject?)
+            instance.subscription = Decoders.decodeOptional(clazz: Subscription.self, source: sourceDictionary["subscription"] as AnyObject?)
             return instance
         }
+
+
+        // Decoder for [Matches]
+        Decoders.addDecoder(clazz: [Matches].self) { (source: AnyObject) -> [Matches] in
+            return Decoders.decode(clazz: [Matches].self, source: source)
+        }
+        // Decoder for Matches
+        Decoders.addDecoder(clazz: Matches.self) { (source: AnyObject) -> Matches in
+            let sourceArray = source as! [AnyObject]
+            return sourceArray.map({ Decoders.decode(clazz: Match.self, source: $0) })
+        }
+
 
         // Decoder for [Publication]
         Decoders.addDecoder(clazz: [Publication].self) { (source: AnyObject) -> [Publication] in
@@ -205,17 +250,29 @@ class Decoders {
         // Decoder for Publication
         Decoders.addDecoder(clazz: Publication.self) { (source: AnyObject) -> Publication in
             let sourceDictionary = source as! [AnyHashable: Any]
+
             let instance = Publication()
             instance.timestamp = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["timestamp"] as AnyObject?)
             instance.publicationId = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["publicationId"] as AnyObject?)
             instance.deviceId = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["deviceId"] as AnyObject?)
             instance.topic = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["topic"] as AnyObject?)
-            instance.location = Decoders.decodeOptional(clazz: DeviceLocation.self, source: sourceDictionary["location"] as AnyObject?)
+            instance.location = Decoders.decodeOptional(clazz: Location.self, source: sourceDictionary["location"] as AnyObject?)
             instance.range = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["range"] as AnyObject?)
             instance.duration = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["duration"] as AnyObject?)
-            instance.payload = Decoders.decodeOptional(clazz: Payload.self, source: sourceDictionary["payload"] as AnyObject?)
+            instance.properties = Decoders.decodeOptional(clazz: Properties.self, source: sourceDictionary["properties"] as AnyObject?)
             instance.op = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["op"] as AnyObject?)
             return instance
+        }
+
+
+        // Decoder for [Publications]
+        Decoders.addDecoder(clazz: [Publications].self) { (source: AnyObject) -> [Publications] in
+            return Decoders.decode(clazz: [Publications].self, source: source)
+        }
+        // Decoder for Publications
+        Decoders.addDecoder(clazz: Publications.self) { (source: AnyObject) -> Publications in
+            let sourceArray = source as! [AnyObject]
+            return sourceArray.map({ Decoders.decode(clazz: Publication.self, source: $0) })
         }
 
 
@@ -226,17 +283,29 @@ class Decoders {
         // Decoder for Subscription
         Decoders.addDecoder(clazz: Subscription.self) { (source: AnyObject) -> Subscription in
             let sourceDictionary = source as! [AnyHashable: Any]
+
             let instance = Subscription()
             instance.timestamp = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["timestamp"] as AnyObject?)
             instance.subscriptionId = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["subscriptionId"] as AnyObject?)
             instance.deviceId = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["deviceId"] as AnyObject?)
             instance.topic = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["topic"] as AnyObject?)
             instance.selector = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["selector"] as AnyObject?)
-            instance.location = Decoders.decodeOptional(clazz: DeviceLocation.self, source: sourceDictionary["location"] as AnyObject?)
+            instance.location = Decoders.decodeOptional(clazz: Location.self, source: sourceDictionary["location"] as AnyObject?)
             instance.range = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["range"] as AnyObject?)
             instance.duration = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["duration"] as AnyObject?)
             instance.op = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["op"] as AnyObject?)
             return instance
+        }
+
+
+        // Decoder for [Subscriptions]
+        Decoders.addDecoder(clazz: [Subscriptions].self) { (source: AnyObject) -> [Subscriptions] in
+            return Decoders.decode(clazz: [Subscriptions].self, source: source)
+        }
+        // Decoder for Subscriptions
+        Decoders.addDecoder(clazz: Subscriptions.self) { (source: AnyObject) -> Subscriptions in
+            let sourceArray = source as! [AnyObject]
+            return sourceArray.map({ Decoders.decode(clazz: Subscription.self, source: $0) })
         }
 
 
@@ -247,6 +316,7 @@ class Decoders {
         // Decoder for User
         Decoders.addDecoder(clazz: User.self) { (source: AnyObject) -> User in
             let sourceDictionary = source as! [AnyHashable: Any]
+
             let instance = User()
             instance.userId = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["userId"] as AnyObject?)
             instance.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)

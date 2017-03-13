@@ -17,7 +17,7 @@ open class User: JSONEncodable {
     public init() {}
 
     // MARK: JSONEncodable
-    func encodeToJSON() -> Any {
+    open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()
         nillableDictionary["userId"] = self.userId
         nillableDictionary["name"] = self.name

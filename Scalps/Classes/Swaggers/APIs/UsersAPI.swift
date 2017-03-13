@@ -13,11 +13,11 @@ open class UsersAPI: APIBase {
     /**
      Create a user
      
-     - parameter user: (body) The skeleton object of the user to be created 
+     - parameter name: (form) The name of the user to be created 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func createUser(user: User, completion: @escaping ((_ data: User?,_ error: Error?) -> Void)) {
-        createUserWithRequestBuilder(user: user).execute { (response, error) -> Void in
+    open class func createUser(name: String, completion: @escaping ((_ data: User?,_ error: Error?) -> Void)) {
+        createUserWithRequestBuilder(name: name).execute { (response, error) -> Void in
             completion(response?.body, error);
         }
     }
@@ -27,27 +27,32 @@ open class UsersAPI: APIBase {
      Create a user
      - POST /users
      - API Key:
-       - type: apiKey dev-key 
-       - name: dev-key
+       - type: apiKey api-key 
+       - name: api-key
      - examples: [{contentType=application/json, example={
   "name" : "aeiou",
   "userId" : "aeiou"
 }}]
      
-     - parameter user: (body) The skeleton object of the user to be created 
+     - parameter name: (form) The name of the user to be created 
 
      - returns: RequestBuilder<User> 
      */
-    open class func createUserWithRequestBuilder(user: User) -> RequestBuilder<User> {
+    open class func createUserWithRequestBuilder(name: String) -> RequestBuilder<User> {
         let path = "/users"
         let URLString = ScalpsAPI.basePath + path
-        let parameters = user.encodeToJSON() as? [String:AnyObject]
+
+        let nillableParameters: [String:Any?] = [
+            "name": name
+        ]
+ 
+        let parameters = APIHelper.rejectNil(nillableParameters)
  
         let convertedParameters = APIHelper.convertBoolToString(parameters)
  
         let requestBuilder: RequestBuilder<User>.Type = ScalpsAPI.requestBuilderFactory.getBuilder()
 
-        return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: true)
+        return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: false)
     }
 
     /**
@@ -67,8 +72,8 @@ open class UsersAPI: APIBase {
      List all users
      - GET /users
      - API Key:
-       - type: apiKey dev-key 
-       - name: dev-key
+       - type: apiKey api-key 
+       - name: api-key
      - examples: [{contentType=application/json, example=""}]
      
      - parameter limit: (query) How many items to return at one time (1-100, default 100) (optional)
