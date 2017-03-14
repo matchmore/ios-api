@@ -12,7 +12,7 @@ Scalps iOS API pod is available through [[http://cocoapods.org][CocoaPods]]. To 
 simply add the following line to your Podfile:
 
 #+BEGIN_SRC ruby
-  pod "Scalps", :git => 'https://bitbucket.org/scalps/ios-api.git, :tag => 'v0.0.1'
+  pod "Scalps", :git => 'https://bitbucket.org/scalps/ios-api.git, :tag => 'v0.0.2'
 #+END_SRC
 
 ** Authors
