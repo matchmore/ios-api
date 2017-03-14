@@ -12,14 +12,17 @@ import Alamofire
 open class SubscriptionAPI: APIBase {
     /**
      Create a subscription for a device for a user
-     
-     - parameter userId: (path) The id (UUID) of the user to create a device for 
-     - parameter deviceId: (path) The id (UUID) of the user device 
-     - parameter subscription: (body) Subscription to create on a device.  
+
+     - parameter userId: (path)  The id (UUID) of the user to create a device for
+     - parameter deviceId: (path)  The id (UUID) of the user device
+     - parameter topic: (form)  The topic of the subscription. This will act as a first match filter. For a subscription to be able to match a publication they must have the exact same topic
+     - parameter selector: (form)  This is an expression to filter the publications. For instance &#39;job&#x3D;&#39;developer&#39;&#39; will allow matching only with publications containing a &#39;job&#39; key with a value of &#39;developer&#39;
+     - parameter range: (form)  The range of the subscription in meters. This is the range around the device holding the subscription in which matches with publications can be triggered
+     - parameter duration: (form)  The duration of the subscription in seconds. If set to &#39;-1&#39; the subscription will live forever and if set to &#39;0&#39; it will be instant at the time of subscription.
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func createSubscription(userId: String, deviceId: String, subscription: Subscription, completion: @escaping ((_ data: Subscription?,_ error: Error?) -> Void)) {
-        createSubscriptionWithRequestBuilder(userId: userId, deviceId: deviceId, subscription: subscription).execute { (response, error) -> Void in
+    open class func createSubscription(userId: String, deviceId: String, topic: String, selector: String, range: Double, duration: Double, completion: @escaping ((_ data: Subscription?,_ error: Error?) -> Void)) {
+        createSubscriptionWithRequestBuilder(userId: userId, deviceId: deviceId, topic: topic, selector: selector, range: range, duration: duration).execute { (response, error) -> Void in
             completion(response?.body, error);
         }
     }
@@ -29,8 +32,8 @@ open class SubscriptionAPI: APIBase {
      Create a subscription for a device for a user
      - POST /users/{userId}/devices/{deviceId}/subscriptions
      - API Key:
-       - type: apiKey dev-key 
-       - name: dev-key
+       - type: apiKey api-key
+       - name: api-key
      - examples: [{contentType=application/json, example={
   "duration" : 1.3579000000000001069366817318950779736042022705078125,
   "op" : "aeiou",
@@ -42,7 +45,6 @@ open class SubscriptionAPI: APIBase {
     "verticalAccuracy" : 1.3579000000000001069366817318950779736042022705078125,
     "latitude" : 1.3579000000000001069366817318950779736042022705078125,
     "horizontalAccuracy" : 1.3579000000000001069366817318950779736042022705078125,
-    "deviceId" : "aeiou",
     "timestamp" : 123456789,
     "longitude" : 1.3579000000000001069366817318950779736042022705078125
   },
@@ -50,25 +52,80 @@ open class SubscriptionAPI: APIBase {
   "deviceId" : "aeiou",
   "timestamp" : 123456789
 }}]
-     
-     - parameter userId: (path) The id (UUID) of the user to create a device for 
-     - parameter deviceId: (path) The id (UUID) of the user device 
-     - parameter subscription: (body) Subscription to create on a device.  
 
-     - returns: RequestBuilder<Subscription> 
+     - parameter userId: (path)  The id (UUID) of the user to create a device for
+     - parameter deviceId: (path)  The id (UUID) of the user device
+     - parameter topic: (form)  The topic of the subscription. This will act as a first match filter. For a subscription to be able to match a publication they must have the exact same topic
+     - parameter selector: (form)  This is an expression to filter the publications. For instance &#39;job&#x3D;&#39;developer&#39;&#39; will allow matching only with publications containing a &#39;job&#39; key with a value of &#39;developer&#39;
+     - parameter range: (form)  The range of the subscription in meters. This is the range around the device holding the subscription in which matches with publications can be triggered
+     - parameter duration: (form)  The duration of the subscription in seconds. If set to &#39;-1&#39; the subscription will live forever and if set to &#39;0&#39; it will be instant at the time of subscription.
+
+     - returns: RequestBuilder<Subscription>
      */
-    open class func createSubscriptionWithRequestBuilder(userId: String, deviceId: String, subscription: Subscription) -> RequestBuilder<Subscription> {
+    open class func createSubscriptionWithRequestBuilder(userId: String, deviceId: String, topic: String, selector: String, range: Double, duration: Double) -> RequestBuilder<Subscription> {
         var path = "/users/{userId}/devices/{deviceId}/subscriptions"
         path = path.replacingOccurrences(of: "{userId}", with: "\(userId)", options: .literal, range: nil)
         path = path.replacingOccurrences(of: "{deviceId}", with: "\(deviceId)", options: .literal, range: nil)
         let URLString = ScalpsAPI.basePath + path
-        let parameters = subscription.encodeToJSON() as? [String:AnyObject]
- 
+
+        let nillableParameters: [String:Any?] = [
+            "topic": topic,
+            "selector": selector,
+            "range": range,
+            "duration": duration
+        ]
+
+        let parameters = APIHelper.rejectNil(nillableParameters)
+
         let convertedParameters = APIHelper.convertBoolToString(parameters)
- 
+
         let requestBuilder: RequestBuilder<Subscription>.Type = ScalpsAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: true)
+    }
+
+    /**
+     Get all subscriptions for a device
+
+     - parameter userId: (path) The id (UUID) of the user
+     - parameter deviceId: (path) The id (UUID) of the device
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    open class func getSubscriptions(userId: String, deviceId: String, completion: @escaping ((_ data: Subscriptions?,_ error: Error?) -> Void)) {
+        getSubscriptionsWithRequestBuilder(userId: userId, deviceId: deviceId).execute { (response, error) -> Void in
+            completion(response?.body, error);
+        }
+    }
+
+
+    /**
+     Get all subscriptions for a device
+     - GET /users/{userId}/devices/{deviceId}/subscriptions
+     - API Key:
+       - type: apiKey api-key
+       - name: api-key
+     - examples: [{contentType=application/json, example=""}]
+
+     - parameter userId: (path) The id (UUID) of the user
+     - parameter deviceId: (path) The id (UUID) of the device
+
+     - returns: RequestBuilder<Subscriptions>
+     */
+    open class func getSubscriptionsWithRequestBuilder(userId: String, deviceId: String) -> RequestBuilder<Subscriptions> {
+        var path = "/users/{userId}/devices/{deviceId}/subscriptions"
+        path = path.replacingOccurrences(of: "{userId}", with: "\(userId)", options: .literal, range: nil)
+        path = path.replacingOccurrences(of: "{deviceId}", with: "\(deviceId)", options: .literal, range: nil)
+        let URLString = ScalpsAPI.basePath + path
+
+        let nillableParameters: [String:Any?] = [:]
+
+        let parameters = APIHelper.rejectNil(nillableParameters)
+
+        let convertedParameters = APIHelper.convertBoolToString(parameters)
+
+        let requestBuilder: RequestBuilder<Subscriptions>.Type = ScalpsAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "GET", URLString: URLString, parameters: convertedParameters, isBody: true)
     }
 
 }

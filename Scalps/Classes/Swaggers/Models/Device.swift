@@ -13,20 +13,22 @@ open class Device: JSONEncodable {
     public var deviceId: String?
     /** The name of the device */
     public var name: String?
-    /** The platform of the device, this can be any string representing the platform type, for instance &#39;iOS&#39; */
+    /**  The platform of the device, this can be any string representing the platform type, for instance &#39;iOS&#39;  */
     public var platform: String?
-    /** The deviceToken is the device &#39;real&#39; id. For instance, each phone has it&#39;s own identifer that can be set here. Please note that this particular id is independant from the object id */
+    /**  The deviceToken is the device push notification token given to this device by the OS, either iOS or Android for identifying the device with push notification services.  */
     public var deviceToken: String?
+    public var location: Location?
 
     public init() {}
 
     // MARK: JSONEncodable
-    func encodeToJSON() -> Any {
+    open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()
         nillableDictionary["deviceId"] = self.deviceId
         nillableDictionary["name"] = self.name
         nillableDictionary["platform"] = self.platform
         nillableDictionary["deviceToken"] = self.deviceToken
+        nillableDictionary["location"] = self.location?.encodeToJSON()
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }
