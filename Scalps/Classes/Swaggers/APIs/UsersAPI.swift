@@ -12,8 +12,8 @@ import Alamofire
 open class UsersAPI: APIBase {
     /**
      Create a user
-     
-     - parameter name: (form) The name of the user to be created 
+
+     - parameter name: (form) The name of the user to be created
      - parameter completion: completion handler to receive the data and the error objects
      */
     open class func createUser(name: String, completion: @escaping ((_ data: User?,_ error: Error?) -> Void)) {
@@ -27,37 +27,37 @@ open class UsersAPI: APIBase {
      Create a user
      - POST /users
      - API Key:
-       - type: apiKey api-key 
+       - type: apiKey api-key
        - name: api-key
      - examples: [{contentType=application/json, example={
   "name" : "aeiou",
   "userId" : "aeiou"
 }}]
-     
-     - parameter name: (form) The name of the user to be created 
 
-     - returns: RequestBuilder<User> 
+     - parameter name: (form) The name of the user to be created
+
+     - returns: RequestBuilder<User>
      */
     open class func createUserWithRequestBuilder(name: String) -> RequestBuilder<User> {
         let path = "/users"
-        let URLString = ScalpsAPI.basePath + path
+        let URLString = AlpsAPI.basePath + path
 
         let nillableParameters: [String:Any?] = [
             "name": name
         ]
- 
+
         let parameters = APIHelper.rejectNil(nillableParameters)
- 
+
         let convertedParameters = APIHelper.convertBoolToString(parameters)
- 
-        let requestBuilder: RequestBuilder<User>.Type = ScalpsAPI.requestBuilderFactory.getBuilder()
+
+        let requestBuilder: RequestBuilder<User>.Type = AlpsAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: false)
     }
 
     /**
      List all users
-     
+
      - parameter limit: (query) How many items to return at one time (1-100, default 100) (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
@@ -72,27 +72,27 @@ open class UsersAPI: APIBase {
      List all users
      - GET /users
      - API Key:
-       - type: apiKey api-key 
+       - type: apiKey api-key
        - name: api-key
      - examples: [{contentType=application/json, example=""}]
-     
+
      - parameter limit: (query) How many items to return at one time (1-100, default 100) (optional)
 
-     - returns: RequestBuilder<Users> 
+     - returns: RequestBuilder<Users>
      */
     open class func listUsersWithRequestBuilder(limit: Int32? = nil) -> RequestBuilder<Users> {
         let path = "/users"
-        let URLString = ScalpsAPI.basePath + path
+        let URLString = AlpsAPI.basePath + path
 
         let nillableParameters: [String:Any?] = [
             "limit": limit?.encodeToJSON()
         ]
- 
+
         let parameters = APIHelper.rejectNil(nillableParameters)
- 
+
         let convertedParameters = APIHelper.convertBoolToString(parameters)
- 
-        let requestBuilder: RequestBuilder<Users>.Type = ScalpsAPI.requestBuilderFactory.getBuilder()
+
+        let requestBuilder: RequestBuilder<Users>.Type = AlpsAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: URLString, parameters: convertedParameters, isBody: false)
     }

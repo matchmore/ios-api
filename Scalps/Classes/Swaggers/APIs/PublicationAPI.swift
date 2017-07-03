@@ -66,7 +66,7 @@ open class PublicationAPI: APIBase {
         var path = "/users/{userId}/devices/{deviceId}/publications"
         path = path.replacingOccurrences(of: "{userId}", with: "\(userId)", options: .literal, range: nil)
         path = path.replacingOccurrences(of: "{deviceId}", with: "\(deviceId)", options: .literal, range: nil)
-        let URLString = ScalpsAPI.basePath + path
+        let URLString = AlpsAPI.basePath + path
 
         let nillableParameters: [String:Any?] = [
             "topic": topic,
@@ -79,7 +79,7 @@ open class PublicationAPI: APIBase {
 
         let convertedParameters = APIHelper.convertBoolToString(parameters)
 
-        let requestBuilder: RequestBuilder<Publication>.Type = ScalpsAPI.requestBuilderFactory.getBuilder()
+        let requestBuilder: RequestBuilder<Publication>.Type = AlpsAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: true)
     }
@@ -115,7 +115,7 @@ open class PublicationAPI: APIBase {
         var path = "/users/{userId}/devices/{deviceId}/publications"
         path = path.replacingOccurrences(of: "{userId}", with: "\(userId)", options: .literal, range: nil)
         path = path.replacingOccurrences(of: "{deviceId}", with: "\(deviceId)", options: .literal, range: nil)
-        let URLString = ScalpsAPI.basePath + path
+        let URLString = AlpsAPI.basePath + path
 
         let nillableParameters: [String:Any?] = [:]
 
@@ -123,7 +123,7 @@ open class PublicationAPI: APIBase {
 
         let convertedParameters = APIHelper.convertBoolToString(parameters)
 
-        let requestBuilder: RequestBuilder<Publications>.Type = ScalpsAPI.requestBuilderFactory.getBuilder()
+        let requestBuilder: RequestBuilder<Publications>.Type = AlpsAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: URLString, parameters: convertedParameters, isBody: true)
     }

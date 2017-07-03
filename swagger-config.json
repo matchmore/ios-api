@@ -1,11 +1,11 @@
 {
-  "projectName": "Scalps",
-  "podSource": "{:git => 'git@bitbucket.org:scalps/scalps-client-ios-api.git', :tag => 'v0.0.1'}",
+  "projectName": "Alps",
+  "podSource": "{:git => 'git@bitbucket.org:alps/alps-client-ios-api.git', :tag => 'v0.0.1'}",
   "podVersion": "0.0.1",
-  "podAuthors": "Scalps Team",
+  "podAuthors": "Alps Team",
   "podLicense": "'Apache License, Version 2.0'",
-  "podHomepage": "http://scalps.io",
-  "podSummary": "Scalps RESTful API in Swift",
-  "podDescription": "This is Scalps pod descriptrion",
-  "swiftUseApiNamespace": "Scalps"
+  "podHomepage": "http://alps.io",
+  "podSummary": "Alps RESTful API in Swift",
+  "podDescription": "This is Alps pod descriptrion",
+  "swiftUseApiNamespace": "Alps"
 }

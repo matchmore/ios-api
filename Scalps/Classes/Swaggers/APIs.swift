@@ -6,7 +6,7 @@
 
 import Foundation
 
-open class ScalpsAPI {
+open class AlpsAPI {
     open static var basePath = "https://api.adjago.io/v02"
     open static var credential: URLCredential?
     open static var customHeaders: [String:String] = [:]
@@ -46,7 +46,7 @@ open class RequestBuilder<T> {
         self.parameters = parameters
         self.isBody = isBody
 
-        addHeaders(ScalpsAPI.customHeaders)
+        addHeaders(AlpsAPI.customHeaders)
     }
 
     open func addHeaders(_ aHeaders:[String:String]) {
@@ -65,7 +65,7 @@ open class RequestBuilder<T> {
     }
 
     open func addCredential() -> Self {
-        self.credential = ScalpsAPI.credential
+        self.credential = AlpsAPI.credential
         return self
     }
 }
