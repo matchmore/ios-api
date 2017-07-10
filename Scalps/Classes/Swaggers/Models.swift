@@ -147,7 +147,7 @@ class Decoders {
                 return Date(timeIntervalSince1970: Double(sourceInt / 1000) )
             }
             fatalError("formatter failed to parse \(source)")
-        }
+        } 
 
         // Decoder for [APIError]
         Decoders.addDecoder(clazz: [APIError].self) { (source: AnyObject) -> [APIError] in
@@ -197,6 +197,17 @@ class Decoders {
         }
 
 
+        // Decoder for [Devices]
+        Decoders.addDecoder(clazz: [Devices].self) { (source: AnyObject) -> [Devices] in
+            return Decoders.decode(clazz: [Devices].self, source: source)
+        }
+        // Decoder for Devices
+        Decoders.addDecoder(clazz: Devices.self) { (source: AnyObject) -> Devices in
+            let sourceArray = source as! [AnyObject]
+            return sourceArray.map({ Decoders.decode(clazz: Device.self, source: $0) })
+        }
+
+
         // Decoder for [Location]
         Decoders.addDecoder(clazz: [Location].self) { (source: AnyObject) -> [Location] in
             return Decoders.decode(clazz: [Location].self, source: source)
@@ -214,6 +225,7 @@ class Decoders {
             instance.verticalAccuracy = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["verticalAccuracy"] as AnyObject?)
             return instance
         }
+
 
         // Decoder for [Match]
         Decoders.addDecoder(clazz: [Match].self) { (source: AnyObject) -> [Match] in

@@ -62,8 +62,7 @@ open class LocationAPI: APIBase {
         path = path.replacingOccurrences(of: "{userId}", with: "\(userId)", options: .literal, range: nil)
         path = path.replacingOccurrences(of: "{deviceId}", with: "\(deviceId)", options: .literal, range: nil)
         let URLString = AlpsAPI.basePath + path
-
-        let nillableParameters: [String:Any?] = [
+        let formParams: [String:Any?] = [
             "latitude": latitude,
             "longitude": longitude,
             "altitude": altitude,
@@ -71,13 +70,15 @@ open class LocationAPI: APIBase {
             "verticalAccuracy": verticalAccuracy
         ]
 
-        let parameters = APIHelper.rejectNil(nillableParameters)
+        let nonNullParameters = APIHelper.rejectNil(formParams)
+        let parameters = APIHelper.convertBoolToString(nonNullParameters)
 
-        let convertedParameters = APIHelper.convertBoolToString(parameters)
+        let url = NSURLComponents(string: URLString)
+
 
         let requestBuilder: RequestBuilder<DeviceLocation>.Type = AlpsAPI.requestBuilderFactory.getBuilder()
 
-        return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: false)
+        return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
     }
 
 }

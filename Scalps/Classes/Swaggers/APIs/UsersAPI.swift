@@ -41,18 +41,19 @@ open class UsersAPI: APIBase {
     open class func createUserWithRequestBuilder(name: String) -> RequestBuilder<User> {
         let path = "/users"
         let URLString = AlpsAPI.basePath + path
-
-        let nillableParameters: [String:Any?] = [
+        let formParams: [String:Any?] = [
             "name": name
         ]
 
-        let parameters = APIHelper.rejectNil(nillableParameters)
+        let nonNullParameters = APIHelper.rejectNil(formParams)
+        let parameters = APIHelper.convertBoolToString(nonNullParameters)
 
-        let convertedParameters = APIHelper.convertBoolToString(parameters)
+        let url = NSURLComponents(string: URLString)
+
 
         let requestBuilder: RequestBuilder<User>.Type = AlpsAPI.requestBuilderFactory.getBuilder()
 
-        return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: false)
+        return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
     }
 
     /**
@@ -61,8 +62,8 @@ open class UsersAPI: APIBase {
      - parameter limit: (query) How many items to return at one time (1-100, default 100) (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func listUsers(limit: Int32? = nil, completion: @escaping ((_ data: Users?,_ error: Error?) -> Void)) {
-        listUsersWithRequestBuilder(limit: limit).execute { (response, error) -> Void in
+    open class func getUsers(limit: Int32? = nil, completion: @escaping ((_ data: Users?,_ error: Error?) -> Void)) {
+        getUsersWithRequestBuilder(limit: limit).execute { (response, error) -> Void in
             completion(response?.body, error);
         }
     }
@@ -80,21 +81,20 @@ open class UsersAPI: APIBase {
 
      - returns: RequestBuilder<Users>
      */
-    open class func listUsersWithRequestBuilder(limit: Int32? = nil) -> RequestBuilder<Users> {
+    open class func getUsersWithRequestBuilder(limit: Int32? = nil) -> RequestBuilder<Users> {
         let path = "/users"
         let URLString = AlpsAPI.basePath + path
+        let parameters: [String:Any]? = nil
 
-        let nillableParameters: [String:Any?] = [
+        let url = NSURLComponents(string: URLString)
+        url?.queryItems = APIHelper.mapValuesToQueryItems(values:[
             "limit": limit?.encodeToJSON()
-        ]
-
-        let parameters = APIHelper.rejectNil(nillableParameters)
-
-        let convertedParameters = APIHelper.convertBoolToString(parameters)
+        ])
+        
 
         let requestBuilder: RequestBuilder<Users>.Type = AlpsAPI.requestBuilderFactory.getBuilder()
 
-        return requestBuilder.init(method: "GET", URLString: URLString, parameters: convertedParameters, isBody: false)
+        return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
     }
 
 }
