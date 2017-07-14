@@ -40,7 +40,7 @@ open class UsersAPI: APIBase {
      */
     open class func createUserWithRequestBuilder(name: String) -> RequestBuilder<User> {
         let path = "/users"
-        let URLString = ALPSAPI.basePath + path
+        let URLString = AlpsAPI.basePath + path
         let formParams: [String:Any?] = [
             "name": name
         ]
@@ -51,7 +51,7 @@ open class UsersAPI: APIBase {
         let url = NSURLComponents(string: URLString)
 
 
-        let requestBuilder: RequestBuilder<User>.Type = ALPSAPI.requestBuilderFactory.getBuilder()
+        let requestBuilder: RequestBuilder<User>.Type = AlpsAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
     }
@@ -83,7 +83,7 @@ open class UsersAPI: APIBase {
      */
     open class func listUsersWithRequestBuilder(limit: Int32? = nil) -> RequestBuilder<Users> {
         let path = "/users"
-        let URLString = ALPSAPI.basePath + path
+        let URLString = AlpsAPI.basePath + path
         let parameters: [String:Any]? = nil
 
         let url = NSURLComponents(string: URLString)
@@ -92,7 +92,7 @@ open class UsersAPI: APIBase {
         ])
         
 
-        let requestBuilder: RequestBuilder<Users>.Type = ALPSAPI.requestBuilderFactory.getBuilder()
+        let requestBuilder: RequestBuilder<Users>.Type = AlpsAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
     }

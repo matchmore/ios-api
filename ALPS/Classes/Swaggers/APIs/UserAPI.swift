@@ -67,7 +67,7 @@ open class UserAPI: APIBase {
     open class func createDeviceWithRequestBuilder(userId: String, name: String, platform: String, deviceToken: String, latitude: Double, longitude: Double, altitude: Double, horizontalAccuracy: Double? = nil, verticalAccuracy: Double? = nil) -> RequestBuilder<Device> {
         var path = "/users/{userId}/devices"
         path = path.replacingOccurrences(of: "{userId}", with: "\(userId)", options: .literal, range: nil)
-        let URLString = ALPSAPI.basePath + path
+        let URLString = AlpsAPI.basePath + path
         let formParams: [String:Any?] = [
             "name": name,
             "platform": platform,
@@ -85,7 +85,7 @@ open class UserAPI: APIBase {
         let url = NSURLComponents(string: URLString)
 
 
-        let requestBuilder: RequestBuilder<Device>.Type = ALPSAPI.requestBuilderFactory.getBuilder()
+        let requestBuilder: RequestBuilder<Device>.Type = AlpsAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
     }
@@ -141,7 +141,7 @@ open class UserAPI: APIBase {
         var path = "/users/{userId}/devices/{deviceId}/locations"
         path = path.replacingOccurrences(of: "{userId}", with: "\(userId)", options: .literal, range: nil)
         path = path.replacingOccurrences(of: "{deviceId}", with: "\(deviceId)", options: .literal, range: nil)
-        let URLString = ALPSAPI.basePath + path
+        let URLString = AlpsAPI.basePath + path
         let formParams: [String:Any?] = [
             "latitude": latitude,
             "longitude": longitude,
@@ -156,7 +156,7 @@ open class UserAPI: APIBase {
         let url = NSURLComponents(string: URLString)
 
 
-        let requestBuilder: RequestBuilder<DeviceLocation>.Type = ALPSAPI.requestBuilderFactory.getBuilder()
+        let requestBuilder: RequestBuilder<DeviceLocation>.Type = AlpsAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
     }
@@ -217,7 +217,7 @@ open class UserAPI: APIBase {
         var path = "/users/{userId}/devices/{deviceId}/publications"
         path = path.replacingOccurrences(of: "{userId}", with: "\(userId)", options: .literal, range: nil)
         path = path.replacingOccurrences(of: "{deviceId}", with: "\(deviceId)", options: .literal, range: nil)
-        let URLString = ALPSAPI.basePath + path
+        let URLString = AlpsAPI.basePath + path
         let formParams: [String:Any?] = [
             "topic": topic,
             "range": range,
@@ -231,7 +231,7 @@ open class UserAPI: APIBase {
         let url = NSURLComponents(string: URLString)
 
 
-        let requestBuilder: RequestBuilder<Publication>.Type = ALPSAPI.requestBuilderFactory.getBuilder()
+        let requestBuilder: RequestBuilder<Publication>.Type = AlpsAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
     }
@@ -292,7 +292,7 @@ open class UserAPI: APIBase {
         var path = "/users/{userId}/devices/{deviceId}/subscriptions"
         path = path.replacingOccurrences(of: "{userId}", with: "\(userId)", options: .literal, range: nil)
         path = path.replacingOccurrences(of: "{deviceId}", with: "\(deviceId)", options: .literal, range: nil)
-        let URLString = ALPSAPI.basePath + path
+        let URLString = AlpsAPI.basePath + path
         let formParams: [String:Any?] = [
             "topic": topic,
             "selector": selector,
@@ -306,7 +306,7 @@ open class UserAPI: APIBase {
         let url = NSURLComponents(string: URLString)
 
 
-        let requestBuilder: RequestBuilder<Subscription>.Type = ALPSAPI.requestBuilderFactory.getBuilder()
+        let requestBuilder: RequestBuilder<Subscription>.Type = AlpsAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
     }
@@ -355,13 +355,13 @@ open class UserAPI: APIBase {
         var path = "/users/{userId}/devices/{deviceId}"
         path = path.replacingOccurrences(of: "{userId}", with: "\(userId)", options: .literal, range: nil)
         path = path.replacingOccurrences(of: "{deviceId}", with: "\(deviceId)", options: .literal, range: nil)
-        let URLString = ALPSAPI.basePath + path
+        let URLString = AlpsAPI.basePath + path
         let parameters: [String:Any]? = nil
 
         let url = NSURLComponents(string: URLString)
 
 
-        let requestBuilder: RequestBuilder<Device>.Type = ALPSAPI.requestBuilderFactory.getBuilder()
+        let requestBuilder: RequestBuilder<Device>.Type = AlpsAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
     }
@@ -397,13 +397,13 @@ open class UserAPI: APIBase {
         var path = "/users/{userId}/devices/{deviceId}/publications"
         path = path.replacingOccurrences(of: "{userId}", with: "\(userId)", options: .literal, range: nil)
         path = path.replacingOccurrences(of: "{deviceId}", with: "\(deviceId)", options: .literal, range: nil)
-        let URLString = ALPSAPI.basePath + path
+        let URLString = AlpsAPI.basePath + path
         let parameters: [String:Any]? = nil
 
         let url = NSURLComponents(string: URLString)
 
 
-        let requestBuilder: RequestBuilder<Publications>.Type = ALPSAPI.requestBuilderFactory.getBuilder()
+        let requestBuilder: RequestBuilder<Publications>.Type = AlpsAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
     }
@@ -439,13 +439,13 @@ open class UserAPI: APIBase {
         var path = "/users/{userId}/devices/{deviceId}/subscriptions"
         path = path.replacingOccurrences(of: "{userId}", with: "\(userId)", options: .literal, range: nil)
         path = path.replacingOccurrences(of: "{deviceId}", with: "\(deviceId)", options: .literal, range: nil)
-        let URLString = ALPSAPI.basePath + path
+        let URLString = AlpsAPI.basePath + path
         let parameters: [String:Any]? = nil
 
         let url = NSURLComponents(string: URLString)
 
 
-        let requestBuilder: RequestBuilder<Subscriptions>.Type = ALPSAPI.requestBuilderFactory.getBuilder()
+        let requestBuilder: RequestBuilder<Subscriptions>.Type = AlpsAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
     }
@@ -478,13 +478,13 @@ open class UserAPI: APIBase {
     open class func showUserByIdWithRequestBuilder(userId: String) -> RequestBuilder<Users> {
         var path = "/users/{userId}"
         path = path.replacingOccurrences(of: "{userId}", with: "\(userId)", options: .literal, range: nil)
-        let URLString = ALPSAPI.basePath + path
+        let URLString = AlpsAPI.basePath + path
         let parameters: [String:Any]? = nil
 
         let url = NSURLComponents(string: URLString)
 
 
-        let requestBuilder: RequestBuilder<Users>.Type = ALPSAPI.requestBuilderFactory.getBuilder()
+        let requestBuilder: RequestBuilder<Users>.Type = AlpsAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
     }

@@ -41,13 +41,13 @@ open class MatchesAPI: APIBase {
         var path = "/users/{userId}/devices/{deviceId}/matches"
         path = path.replacingOccurrences(of: "{userId}", with: "\(userId)", options: .literal, range: nil)
         path = path.replacingOccurrences(of: "{deviceId}", with: "\(deviceId)", options: .literal, range: nil)
-        let URLString = ALPSAPI.basePath + path
+        let URLString = AlpsAPI.basePath + path
         let parameters: [String:Any]? = nil
 
         let url = NSURLComponents(string: URLString)
 
 
-        let requestBuilder: RequestBuilder<Matches>.Type = ALPSAPI.requestBuilderFactory.getBuilder()
+        let requestBuilder: RequestBuilder<Matches>.Type = AlpsAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
     }

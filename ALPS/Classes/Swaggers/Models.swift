@@ -260,7 +260,7 @@ class Decoders {
             instance.location = Decoders.decodeOptional(clazz: Location.self, source: sourceDictionary["location"] as AnyObject?)
             instance.range = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["range"] as AnyObject?)
             instance.duration = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["duration"] as AnyObject?)
-            instance.properties = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["properties"] as AnyObject?)
+            instance.properties = Decoders.decodeOptional(clazz: Properties.self, source: sourceDictionary["properties"] as AnyObject?)
             instance.op = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["op"] as AnyObject?)
             return instance
         }

@@ -61,7 +61,7 @@ open class LocationAPI: APIBase {
         var path = "/users/{userId}/devices/{deviceId}/locations"
         path = path.replacingOccurrences(of: "{userId}", with: "\(userId)", options: .literal, range: nil)
         path = path.replacingOccurrences(of: "{deviceId}", with: "\(deviceId)", options: .literal, range: nil)
-        let URLString = ALPSAPI.basePath + path
+        let URLString = AlpsAPI.basePath + path
         let formParams: [String:Any?] = [
             "latitude": latitude,
             "longitude": longitude,
@@ -76,7 +76,7 @@ open class LocationAPI: APIBase {
         let url = NSURLComponents(string: URLString)
 
 
-        let requestBuilder: RequestBuilder<DeviceLocation>.Type = ALPSAPI.requestBuilderFactory.getBuilder()
+        let requestBuilder: RequestBuilder<DeviceLocation>.Type = AlpsAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
     }

@@ -6,7 +6,7 @@
 
 import Foundation
 
-open class ALPSAPI {
+open class AlpsAPI {
     open static var basePath = "http://api.matchmore.io/v02"
     open static var credential: URLCredential?
     open static var customHeaders: [String:String] = [:]
@@ -47,7 +47,7 @@ open class RequestBuilder<T> {
         self.isBody = isBody
         self.headers = headers
         
-        addHeaders(ALPSAPI.customHeaders)
+        addHeaders(AlpsAPI.customHeaders)
     }
     
     open func addHeaders(_ aHeaders:[String:String]) {
@@ -66,7 +66,7 @@ open class RequestBuilder<T> {
     }
     
     open func addCredential() -> Self {
-        self.credential = ALPSAPI.credential
+        self.credential = AlpsAPI.credential
         return self
     }
 }

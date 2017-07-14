@@ -66,7 +66,7 @@ open class PublicationAPI: APIBase {
         var path = "/users/{userId}/devices/{deviceId}/publications"
         path = path.replacingOccurrences(of: "{userId}", with: "\(userId)", options: .literal, range: nil)
         path = path.replacingOccurrences(of: "{deviceId}", with: "\(deviceId)", options: .literal, range: nil)
-        let URLString = ALPSAPI.basePath + path
+        let URLString = AlpsAPI.basePath + path
         let formParams: [String:Any?] = [
             "topic": topic,
             "range": range,
@@ -80,7 +80,7 @@ open class PublicationAPI: APIBase {
         let url = NSURLComponents(string: URLString)
 
 
-        let requestBuilder: RequestBuilder<Publication>.Type = ALPSAPI.requestBuilderFactory.getBuilder()
+        let requestBuilder: RequestBuilder<Publication>.Type = AlpsAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
     }
@@ -116,13 +116,13 @@ open class PublicationAPI: APIBase {
         var path = "/users/{userId}/devices/{deviceId}/publications"
         path = path.replacingOccurrences(of: "{userId}", with: "\(userId)", options: .literal, range: nil)
         path = path.replacingOccurrences(of: "{deviceId}", with: "\(deviceId)", options: .literal, range: nil)
-        let URLString = ALPSAPI.basePath + path
+        let URLString = AlpsAPI.basePath + path
         let parameters: [String:Any]? = nil
 
         let url = NSURLComponents(string: URLString)
 
 
-        let requestBuilder: RequestBuilder<Publications>.Type = ALPSAPI.requestBuilderFactory.getBuilder()
+        let requestBuilder: RequestBuilder<Publications>.Type = AlpsAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
     }
