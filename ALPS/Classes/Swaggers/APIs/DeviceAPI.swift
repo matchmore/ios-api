@@ -20,8 +20,8 @@ open class DeviceAPI: APIBase {
      - parameter latitude: (form) The latitude of the device.
      - parameter longitude: (form) The longitude of the device.
      - parameter altitude: (form) The altitude of the device.
-     - parameter horizontalAccuracy: (form)  The horizontal accuracy of the location, measured on a scale from &#39;0.0&#39; to &#39;1.0&#39;, &#39;1.0&#39; being the most accurate. If this value is not specified then the default value of &#39;1.0&#39; is used  (optional, default to 5.0)
-     - parameter verticalAccuracy: (form)  The vertical accuracy of the location, measured on a scale from &#39;0.0&#39; to &#39;1.0&#39;, &#39;1.0&#39; being the most accurate. If this value is not specified then the default value of &#39;1.0&#39; is used  (optional, default to 5.0)
+     - parameter horizontalAccuracy: (form)  The horizontal accuracy of the location, measured on a scale from &#39;0.0&#39; to &#39;1.0&#39;, &#39;1.0&#39; being the most accurate. If this value is not specified then the default value of &#39;1.0&#39; is used  (optional, default to 5)
+     - parameter verticalAccuracy: (form)  The vertical accuracy of the location, measured on a scale from &#39;0.0&#39; to &#39;1.0&#39;, &#39;1.0&#39; being the most accurate. If this value is not specified then the default value of &#39;1.0&#39; is used  (optional, default to 5)
      - parameter completion: completion handler to receive the data and the error objects
      */
     open class func createDevice(userId: String, name: String, platform: String, deviceToken: String, latitude: Double, longitude: Double, altitude: Double, horizontalAccuracy: Double? = nil, verticalAccuracy: Double? = nil, completion: @escaping ((_ data: Device?,_ error: Error?) -> Void)) {
@@ -59,8 +59,8 @@ open class DeviceAPI: APIBase {
      - parameter latitude: (form) The latitude of the device.
      - parameter longitude: (form) The longitude of the device.
      - parameter altitude: (form) The altitude of the device.
-     - parameter horizontalAccuracy: (form)  The horizontal accuracy of the location, measured on a scale from &#39;0.0&#39; to &#39;1.0&#39;, &#39;1.0&#39; being the most accurate. If this value is not specified then the default value of &#39;1.0&#39; is used  (optional, default to 5.0)
-     - parameter verticalAccuracy: (form)  The vertical accuracy of the location, measured on a scale from &#39;0.0&#39; to &#39;1.0&#39;, &#39;1.0&#39; being the most accurate. If this value is not specified then the default value of &#39;1.0&#39; is used  (optional, default to 5.0)
+     - parameter horizontalAccuracy: (form)  The horizontal accuracy of the location, measured on a scale from &#39;0.0&#39; to &#39;1.0&#39;, &#39;1.0&#39; being the most accurate. If this value is not specified then the default value of &#39;1.0&#39; is used  (optional, default to 5)
+     - parameter verticalAccuracy: (form)  The vertical accuracy of the location, measured on a scale from &#39;0.0&#39; to &#39;1.0&#39;, &#39;1.0&#39; being the most accurate. If this value is not specified then the default value of &#39;1.0&#39; is used  (optional, default to 5)
 
      - returns: RequestBuilder<Device>
      */
@@ -68,7 +68,8 @@ open class DeviceAPI: APIBase {
         var path = "/users/{userId}/devices"
         path = path.replacingOccurrences(of: "{userId}", with: "\(userId)", options: .literal, range: nil)
         let URLString = AlpsAPI.basePath + path
-        let formParams: [String:Any?] = [
+
+        let nillableParameters: [String:Any?] = [
             "name": name,
             "platform": platform,
             "deviceToken": deviceToken,
@@ -79,15 +80,13 @@ open class DeviceAPI: APIBase {
             "verticalAccuracy": verticalAccuracy
         ]
 
-        let nonNullParameters = APIHelper.rejectNil(formParams)
-        let parameters = APIHelper.convertBoolToString(nonNullParameters)
+        let parameters = APIHelper.rejectNil(nillableParameters)
 
-        let url = NSURLComponents(string: URLString)
-
+        let convertedParameters = APIHelper.convertBoolToString(parameters)
 
         let requestBuilder: RequestBuilder<Device>.Type = AlpsAPI.requestBuilderFactory.getBuilder()
 
-        return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
+        return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: true)
     }
 
     /**
@@ -142,7 +141,8 @@ open class DeviceAPI: APIBase {
         path = path.replacingOccurrences(of: "{userId}", with: "\(userId)", options: .literal, range: nil)
         path = path.replacingOccurrences(of: "{deviceId}", with: "\(deviceId)", options: .literal, range: nil)
         let URLString = AlpsAPI.basePath + path
-        let formParams: [String:Any?] = [
+
+        let nillableParameters: [String:Any?] = [
             "latitude": latitude,
             "longitude": longitude,
             "altitude": altitude,
@@ -150,15 +150,13 @@ open class DeviceAPI: APIBase {
             "verticalAccuracy": verticalAccuracy
         ]
 
-        let nonNullParameters = APIHelper.rejectNil(formParams)
-        let parameters = APIHelper.convertBoolToString(nonNullParameters)
+        let parameters = APIHelper.rejectNil(nillableParameters)
 
-        let url = NSURLComponents(string: URLString)
-
+        let convertedParameters = APIHelper.convertBoolToString(parameters)
 
         let requestBuilder: RequestBuilder<DeviceLocation>.Type = AlpsAPI.requestBuilderFactory.getBuilder()
 
-        return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
+        return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: true)
     }
 
     /**
@@ -218,22 +216,21 @@ open class DeviceAPI: APIBase {
         path = path.replacingOccurrences(of: "{userId}", with: "\(userId)", options: .literal, range: nil)
         path = path.replacingOccurrences(of: "{deviceId}", with: "\(deviceId)", options: .literal, range: nil)
         let URLString = AlpsAPI.basePath + path
-        let formParams: [String:Any?] = [
+
+        let nillableParameters: [String:Any?] = [
             "topic": topic,
             "range": range,
             "duration": duration,
             "properties": properties
         ]
 
-        let nonNullParameters = APIHelper.rejectNil(formParams)
-        let parameters = APIHelper.convertBoolToString(nonNullParameters)
+        let parameters = APIHelper.rejectNil(nillableParameters)
 
-        let url = NSURLComponents(string: URLString)
-
+        let convertedParameters = APIHelper.convertBoolToString(parameters)
 
         let requestBuilder: RequestBuilder<Publication>.Type = AlpsAPI.requestBuilderFactory.getBuilder()
 
-        return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
+        return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: true)
     }
 
     /**
@@ -293,22 +290,115 @@ open class DeviceAPI: APIBase {
         path = path.replacingOccurrences(of: "{userId}", with: "\(userId)", options: .literal, range: nil)
         path = path.replacingOccurrences(of: "{deviceId}", with: "\(deviceId)", options: .literal, range: nil)
         let URLString = AlpsAPI.basePath + path
-        let formParams: [String:Any?] = [
+
+        let nillableParameters: [String:Any?] = [
             "topic": topic,
             "selector": selector,
             "range": range,
             "duration": duration
         ]
 
-        let nonNullParameters = APIHelper.rejectNil(formParams)
-        let parameters = APIHelper.convertBoolToString(nonNullParameters)
+        let parameters = APIHelper.rejectNil(nillableParameters)
 
-        let url = NSURLComponents(string: URLString)
-
+        let convertedParameters = APIHelper.convertBoolToString(parameters)
 
         let requestBuilder: RequestBuilder<Subscription>.Type = AlpsAPI.requestBuilderFactory.getBuilder()
 
-        return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
+        return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: true)
+    }
+
+    /**
+     Delete a Publication
+
+     - parameter userId: (path) The id (UUID) of the user of the device
+     - parameter deviceId: (path) The id (UUID) of the user device
+     - parameter publicationId: (path) The id (UUID) of the subscription
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    open class func deletePublication(userId: String, deviceId: String, publicationId: String, completion: @escaping ((_ error: Error?) -> Void)) {
+        deletePublicationWithRequestBuilder(userId: userId, deviceId: deviceId, publicationId: publicationId).execute { (response, error) -> Void in
+            completion(error);
+        }
+    }
+
+
+    /**
+     Delete a Publication
+     - DELETE /users/{userId}/devices/{deviceId}/publications/{publicationId}
+     -
+     - API Key:
+       - type: apiKey api-key
+       - name: api-key
+
+     - parameter userId: (path) The id (UUID) of the user of the device
+     - parameter deviceId: (path) The id (UUID) of the user device
+     - parameter publicationId: (path) The id (UUID) of the subscription
+
+     - returns: RequestBuilder<Void>
+     */
+    open class func deletePublicationWithRequestBuilder(userId: String, deviceId: String, publicationId: String) -> RequestBuilder<Void> {
+        var path = "/users/{userId}/devices/{deviceId}/publications/{publicationId}"
+        path = path.replacingOccurrences(of: "{userId}", with: "\(userId)", options: .literal, range: nil)
+        path = path.replacingOccurrences(of: "{deviceId}", with: "\(deviceId)", options: .literal, range: nil)
+        path = path.replacingOccurrences(of: "{publicationId}", with: "\(publicationId)", options: .literal, range: nil)
+        let URLString = AlpsAPI.basePath + path
+
+        let nillableParameters: [String:Any?] = [:]
+
+        let parameters = APIHelper.rejectNil(nillableParameters)
+
+        let convertedParameters = APIHelper.convertBoolToString(parameters)
+
+        let requestBuilder: RequestBuilder<Void>.Type = AlpsAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "DELETE", URLString: URLString, parameters: convertedParameters, isBody: true)
+    }
+
+    /**
+     Delete a Subscription
+
+     - parameter userId: (path) The id (UUID) of the user of the device
+     - parameter deviceId: (path) The id (UUID) of the user device
+     - parameter subscriptionId: (path) The id (UUID) of the subscription
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    open class func deleteSubscription(userId: String, deviceId: String, subscriptionId: String, completion: @escaping ((_ error: Error?) -> Void)) {
+        deleteSubscriptionWithRequestBuilder(userId: userId, deviceId: deviceId, subscriptionId: subscriptionId).execute { (response, error) -> Void in
+            completion(error);
+        }
+    }
+
+
+    /**
+     Delete a Subscription
+     - DELETE /users/{userId}/devices/{deviceId}/subscriptions/{subscriptionId}
+     -
+     - API Key:
+       - type: apiKey api-key
+       - name: api-key
+
+     - parameter userId: (path) The id (UUID) of the user of the device
+     - parameter deviceId: (path) The id (UUID) of the user device
+     - parameter subscriptionId: (path) The id (UUID) of the subscription
+
+     - returns: RequestBuilder<Void>
+     */
+    open class func deleteSubscriptionWithRequestBuilder(userId: String, deviceId: String, subscriptionId: String) -> RequestBuilder<Void> {
+        var path = "/users/{userId}/devices/{deviceId}/subscriptions/{subscriptionId}"
+        path = path.replacingOccurrences(of: "{userId}", with: "\(userId)", options: .literal, range: nil)
+        path = path.replacingOccurrences(of: "{deviceId}", with: "\(deviceId)", options: .literal, range: nil)
+        path = path.replacingOccurrences(of: "{subscriptionId}", with: "\(subscriptionId)", options: .literal, range: nil)
+        let URLString = AlpsAPI.basePath + path
+
+        let nillableParameters: [String:Any?] = [:]
+
+        let parameters = APIHelper.rejectNil(nillableParameters)
+
+        let convertedParameters = APIHelper.convertBoolToString(parameters)
+
+        let requestBuilder: RequestBuilder<Void>.Type = AlpsAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "DELETE", URLString: URLString, parameters: convertedParameters, isBody: true)
     }
 
     /**
@@ -356,14 +446,57 @@ open class DeviceAPI: APIBase {
         path = path.replacingOccurrences(of: "{userId}", with: "\(userId)", options: .literal, range: nil)
         path = path.replacingOccurrences(of: "{deviceId}", with: "\(deviceId)", options: .literal, range: nil)
         let URLString = AlpsAPI.basePath + path
-        let parameters: [String:Any]? = nil
 
-        let url = NSURLComponents(string: URLString)
+        let nillableParameters: [String:Any?] = [:]
 
+        let parameters = APIHelper.rejectNil(nillableParameters)
+
+        let convertedParameters = APIHelper.convertBoolToString(parameters)
 
         let requestBuilder: RequestBuilder<Device>.Type = AlpsAPI.requestBuilderFactory.getBuilder()
 
-        return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
+        return requestBuilder.init(method: "GET", URLString: URLString, parameters: convertedParameters, isBody: true)
+    }
+
+    /**
+     Get all devices for a user
+
+     - parameter userId: (path) The id (UUID) of the user of the device
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    open class func getDevices(userId: String, completion: @escaping ((_ data: Devices?,_ error: Error?) -> Void)) {
+        getDevicesWithRequestBuilder(userId: userId).execute { (response, error) -> Void in
+            completion(response?.body, error);
+        }
+    }
+
+
+    /**
+     Get all devices for a user
+     - GET /users/{userId}/devices
+     - API Key:
+       - type: apiKey api-key
+       - name: api-key
+     - examples: [{contentType=application/json, example=""}]
+
+     - parameter userId: (path) The id (UUID) of the user of the device
+
+     - returns: RequestBuilder<Devices>
+     */
+    open class func getDevicesWithRequestBuilder(userId: String) -> RequestBuilder<Devices> {
+        var path = "/users/{userId}/devices"
+        path = path.replacingOccurrences(of: "{userId}", with: "\(userId)", options: .literal, range: nil)
+        let URLString = AlpsAPI.basePath + path
+
+        let nillableParameters: [String:Any?] = [:]
+
+        let parameters = APIHelper.rejectNil(nillableParameters)
+
+        let convertedParameters = APIHelper.convertBoolToString(parameters)
+
+        let requestBuilder: RequestBuilder<Devices>.Type = AlpsAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "GET", URLString: URLString, parameters: convertedParameters, isBody: true)
     }
 
     /**
@@ -398,14 +531,80 @@ open class DeviceAPI: APIBase {
         path = path.replacingOccurrences(of: "{userId}", with: "\(userId)", options: .literal, range: nil)
         path = path.replacingOccurrences(of: "{deviceId}", with: "\(deviceId)", options: .literal, range: nil)
         let URLString = AlpsAPI.basePath + path
-        let parameters: [String:Any]? = nil
 
-        let url = NSURLComponents(string: URLString)
+        let nillableParameters: [String:Any?] = [:]
 
+        let parameters = APIHelper.rejectNil(nillableParameters)
+
+        let convertedParameters = APIHelper.convertBoolToString(parameters)
 
         let requestBuilder: RequestBuilder<Matches>.Type = AlpsAPI.requestBuilderFactory.getBuilder()
 
-        return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
+        return requestBuilder.init(method: "GET", URLString: URLString, parameters: convertedParameters, isBody: true)
+    }
+
+    /**
+     Info about a publication on a device of a user
+
+     - parameter userId: (path) The id (UUID) of the user of the device
+     - parameter deviceId: (path) The id (UUID) of the user device
+     - parameter publicationId: (path) The id (UUID) of the publication
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    open class func getPublication(userId: String, deviceId: String, publicationId: String, completion: @escaping ((_ data: Publication?,_ error: Error?) -> Void)) {
+        getPublicationWithRequestBuilder(userId: userId, deviceId: deviceId, publicationId: publicationId).execute { (response, error) -> Void in
+            completion(response?.body, error);
+        }
+    }
+
+
+    /**
+     Info about a publication on a device of a user
+     - GET /users/{userId}/devices/{deviceId}/publications/{publicationId}
+     - API Key:
+       - type: apiKey api-key
+       - name: api-key
+     - examples: [{contentType=application/json, example={
+  "duration" : 1.3579000000000001069366817318950779736042022705078125,
+  "op" : "aeiou",
+  "topic" : "aeiou",
+  "range" : 1.3579000000000001069366817318950779736042022705078125,
+  "location" : {
+    "altitude" : 1.3579000000000001069366817318950779736042022705078125,
+    "verticalAccuracy" : 1.3579000000000001069366817318950779736042022705078125,
+    "latitude" : 1.3579000000000001069366817318950779736042022705078125,
+    "horizontalAccuracy" : 1.3579000000000001069366817318950779736042022705078125,
+    "timestamp" : 123456789,
+    "longitude" : 1.3579000000000001069366817318950779736042022705078125
+  },
+  "publicationId" : "aeiou",
+  "deviceId" : "aeiou",
+  "properties" : "aeiou",
+  "timestamp" : 123456789
+}}]
+
+     - parameter userId: (path) The id (UUID) of the user of the device
+     - parameter deviceId: (path) The id (UUID) of the user device
+     - parameter publicationId: (path) The id (UUID) of the publication
+
+     - returns: RequestBuilder<Publication>
+     */
+    open class func getPublicationWithRequestBuilder(userId: String, deviceId: String, publicationId: String) -> RequestBuilder<Publication> {
+        var path = "/users/{userId}/devices/{deviceId}/publications/{publicationId}"
+        path = path.replacingOccurrences(of: "{userId}", with: "\(userId)", options: .literal, range: nil)
+        path = path.replacingOccurrences(of: "{deviceId}", with: "\(deviceId)", options: .literal, range: nil)
+        path = path.replacingOccurrences(of: "{publicationId}", with: "\(publicationId)", options: .literal, range: nil)
+        let URLString = AlpsAPI.basePath + path
+
+        let nillableParameters: [String:Any?] = [:]
+
+        let parameters = APIHelper.rejectNil(nillableParameters)
+
+        let convertedParameters = APIHelper.convertBoolToString(parameters)
+
+        let requestBuilder: RequestBuilder<Publication>.Type = AlpsAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "GET", URLString: URLString, parameters: convertedParameters, isBody: true)
     }
 
     /**
@@ -440,14 +639,80 @@ open class DeviceAPI: APIBase {
         path = path.replacingOccurrences(of: "{userId}", with: "\(userId)", options: .literal, range: nil)
         path = path.replacingOccurrences(of: "{deviceId}", with: "\(deviceId)", options: .literal, range: nil)
         let URLString = AlpsAPI.basePath + path
-        let parameters: [String:Any]? = nil
 
-        let url = NSURLComponents(string: URLString)
+        let nillableParameters: [String:Any?] = [:]
 
+        let parameters = APIHelper.rejectNil(nillableParameters)
+
+        let convertedParameters = APIHelper.convertBoolToString(parameters)
 
         let requestBuilder: RequestBuilder<Publications>.Type = AlpsAPI.requestBuilderFactory.getBuilder()
 
-        return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
+        return requestBuilder.init(method: "GET", URLString: URLString, parameters: convertedParameters, isBody: true)
+    }
+
+    /**
+     Info about a subscription on a device of a user
+
+     - parameter userId: (path) The id (UUID) of the user of the device
+     - parameter deviceId: (path) The id (UUID) of the user device
+     - parameter subscriptionId: (path) The id (UUID) of the subscription
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    open class func getSubscription(userId: String, deviceId: String, subscriptionId: String, completion: @escaping ((_ data: Subscription?,_ error: Error?) -> Void)) {
+        getSubscriptionWithRequestBuilder(userId: userId, deviceId: deviceId, subscriptionId: subscriptionId).execute { (response, error) -> Void in
+            completion(response?.body, error);
+        }
+    }
+
+
+    /**
+     Info about a subscription on a device of a user
+     - GET /users/{userId}/devices/{deviceId}/subscriptions/{subscriptionId}
+     - API Key:
+       - type: apiKey api-key
+       - name: api-key
+     - examples: [{contentType=application/json, example={
+  "duration" : 1.3579000000000001069366817318950779736042022705078125,
+  "op" : "aeiou",
+  "topic" : "aeiou",
+  "range" : 1.3579000000000001069366817318950779736042022705078125,
+  "selector" : "aeiou",
+  "location" : {
+    "altitude" : 1.3579000000000001069366817318950779736042022705078125,
+    "verticalAccuracy" : 1.3579000000000001069366817318950779736042022705078125,
+    "latitude" : 1.3579000000000001069366817318950779736042022705078125,
+    "horizontalAccuracy" : 1.3579000000000001069366817318950779736042022705078125,
+    "timestamp" : 123456789,
+    "longitude" : 1.3579000000000001069366817318950779736042022705078125
+  },
+  "subscriptionId" : "aeiou",
+  "deviceId" : "aeiou",
+  "timestamp" : 123456789
+}}]
+
+     - parameter userId: (path) The id (UUID) of the user of the device
+     - parameter deviceId: (path) The id (UUID) of the user device
+     - parameter subscriptionId: (path) The id (UUID) of the subscription
+
+     - returns: RequestBuilder<Subscription>
+     */
+    open class func getSubscriptionWithRequestBuilder(userId: String, deviceId: String, subscriptionId: String) -> RequestBuilder<Subscription> {
+        var path = "/users/{userId}/devices/{deviceId}/subscriptions/{subscriptionId}"
+        path = path.replacingOccurrences(of: "{userId}", with: "\(userId)", options: .literal, range: nil)
+        path = path.replacingOccurrences(of: "{deviceId}", with: "\(deviceId)", options: .literal, range: nil)
+        path = path.replacingOccurrences(of: "{subscriptionId}", with: "\(subscriptionId)", options: .literal, range: nil)
+        let URLString = AlpsAPI.basePath + path
+
+        let nillableParameters: [String:Any?] = [:]
+
+        let parameters = APIHelper.rejectNil(nillableParameters)
+
+        let convertedParameters = APIHelper.convertBoolToString(parameters)
+
+        let requestBuilder: RequestBuilder<Subscription>.Type = AlpsAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "GET", URLString: URLString, parameters: convertedParameters, isBody: true)
     }
 
     /**
@@ -482,14 +747,16 @@ open class DeviceAPI: APIBase {
         path = path.replacingOccurrences(of: "{userId}", with: "\(userId)", options: .literal, range: nil)
         path = path.replacingOccurrences(of: "{deviceId}", with: "\(deviceId)", options: .literal, range: nil)
         let URLString = AlpsAPI.basePath + path
-        let parameters: [String:Any]? = nil
 
-        let url = NSURLComponents(string: URLString)
+        let nillableParameters: [String:Any?] = [:]
 
+        let parameters = APIHelper.rejectNil(nillableParameters)
+
+        let convertedParameters = APIHelper.convertBoolToString(parameters)
 
         let requestBuilder: RequestBuilder<Subscriptions>.Type = AlpsAPI.requestBuilderFactory.getBuilder()
 
-        return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
+        return requestBuilder.init(method: "GET", URLString: URLString, parameters: convertedParameters, isBody: true)
     }
 
 }

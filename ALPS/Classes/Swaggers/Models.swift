@@ -197,6 +197,17 @@ class Decoders {
         }
 
 
+        // Decoder for [Devices]
+        Decoders.addDecoder(clazz: [Devices].self) { (source: AnyObject) -> [Devices] in
+            return Decoders.decode(clazz: [Devices].self, source: source)
+        }
+        // Decoder for Devices
+        Decoders.addDecoder(clazz: Devices.self) { (source: AnyObject) -> Devices in
+            let sourceArray = source as! [AnyObject]
+            return sourceArray.map({ Decoders.decode(clazz: Device.self, source: $0) })
+        }
+
+
         // Decoder for [Location]
         Decoders.addDecoder(clazz: [Location].self) { (source: AnyObject) -> [Location] in
             return Decoders.decode(clazz: [Location].self, source: source)

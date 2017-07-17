@@ -1,11 +1,11 @@
 {
   "projectName": "Alps",
-  "podSource": "{:git => 'git@bitbucket.org:alps/alps-client-ios-api.git', :tag => 'v0.0.1'}",
-  "podVersion": "0.0.1",
-  "podAuthors": "Alps Team",
+  "podVersion": "0.0.3",
+  "podSource": "{:git => 'git@bitbucket.org:alps/alps-client-ios-api.git', :tag => s.version}",
+  "podAuthors": "Matchmore Alps SDK Team",
   "podLicense": "'Apache License, Version 2.0'",
   "podHomepage": "http://matchmore.io",
-  "podSummary": "Alps RESTful API",
+  "podSummary": "Matchmore Alps RESTful API",
   "podDescription": "This is Alps pod description",
   "swiftUseApiNamespace": "Alps"
 }
