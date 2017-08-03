@@ -7,7 +7,7 @@
 import Foundation
 
 open class AlpsAPI {
-    open static var basePath = "http://api.matchmore.io/v02"
+    open static var basePath = "http://api.matchmore.io/v03"
     open static var credential: URLCredential?
     open static var customHeaders: [String:String] = [:]
     static var requestBuilderFactory: RequestBuilderFactory = AlamofireRequestBuilderFactory()
