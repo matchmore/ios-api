@@ -8,6 +8,7 @@
 import Foundation
 
 
+/** A pin device is one that has geographical location associated with it but is not represented by any object in the physical world.  */
 open class PinDevice: Device {
 
     public var location: Location?

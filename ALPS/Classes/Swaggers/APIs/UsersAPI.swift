@@ -14,11 +14,11 @@ open class UsersAPI: APIBase {
     /**
      Create a user
      
-     - parameter name: (form) The name of the user to be created 
+     - parameter user: (body) The skeleton object of the user to be created. 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func createUser(name: String, completion: @escaping ((_ data: User?,_ error: Error?) -> Void)) {
-        createUserWithRequestBuilder(name: name).execute { (response, error) -> Void in
+    open class func createUser(user: User, completion: @escaping ((_ data: User?,_ error: Error?) -> Void)) {
+        createUserWithRequestBuilder(user: user).execute { (response, error) -> Void in
             completion(response?.body, error);
         }
     }
@@ -32,22 +32,17 @@ open class UsersAPI: APIBase {
        - name: api-key
      - examples: [{contentType=application/json, example={
   "name" : "aeiou",
-  "userId" : "aeiou"
+  "id" : "aeiou"
 }}]
      
-     - parameter name: (form) The name of the user to be created 
+     - parameter user: (body) The skeleton object of the user to be created. 
 
      - returns: RequestBuilder<User> 
      */
-    open class func createUserWithRequestBuilder(name: String) -> RequestBuilder<User> {
+    open class func createUserWithRequestBuilder(user: User) -> RequestBuilder<User> {
         let path = "/users"
         let URLString = AlpsAPI.basePath + path
-        let formParams: [String:Any?] = [
-            "name": name
-        ]
-
-        let nonNullParameters = APIHelper.rejectNil(formParams)
-        let parameters = APIHelper.convertBoolToString(nonNullParameters)
+        let parameters = user.encodeToJSON() as? [String:AnyObject]
 
         let url = NSURLComponents(string: URLString)
 
@@ -95,7 +90,7 @@ open class UsersAPI: APIBase {
 
         let requestBuilder: RequestBuilder<Users>.Type = AlpsAPI.requestBuilderFactory.getBuilder()
 
-        return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
+        return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
     }
 
 }

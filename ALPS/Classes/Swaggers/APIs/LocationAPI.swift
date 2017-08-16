@@ -14,9 +14,9 @@ open class LocationAPI: APIBase {
     /**
      Create a new location for a device
      
-     - parameter userId: (path) The id (UUID) of the user 
-     - parameter deviceId: (path) The id (UUID) of the device 
-     - parameter location: (body) The location that has to be create  
+     - parameter userId: (path) The id (UUID) of the user. 
+     - parameter deviceId: (path) The id (UUID) of the device. 
+     - parameter location: (body) Location to create for a device.  
      - parameter completion: completion handler to receive the data and the error objects
      */
     open class func createLocation(userId: String, deviceId: String, location: Location, completion: @escaping ((_ data: DeviceLocation?,_ error: Error?) -> Void)) {
@@ -44,9 +44,9 @@ open class LocationAPI: APIBase {
   "deviceId" : "aeiou"
 }}]
      
-     - parameter userId: (path) The id (UUID) of the user 
-     - parameter deviceId: (path) The id (UUID) of the device 
-     - parameter location: (body) The location that has to be create  
+     - parameter userId: (path) The id (UUID) of the user. 
+     - parameter deviceId: (path) The id (UUID) of the device. 
+     - parameter location: (body) Location to create for a device.  
 
      - returns: RequestBuilder<DeviceLocation> 
      */

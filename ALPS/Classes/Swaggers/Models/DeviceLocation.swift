@@ -10,7 +10,7 @@ import Foundation
 
 open class DeviceLocation: JSONEncodable {
 
-    /** The id (UUID) of the device to create a device location for  */
+    /** The id (UUID) of the device to create a device location for.  */
     public var deviceId: String?
     public var location: Location?
 

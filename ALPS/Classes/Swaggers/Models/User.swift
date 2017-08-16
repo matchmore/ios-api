@@ -8,11 +8,12 @@
 import Foundation
 
 
+/** A user represents an anonymous user of the ALPS middleware. He/she can be connected via its mobile device or a user can be just an owner of Pin- or Beacon devices. A user issues publications and subscriptions for one of his associated devices, i.e. the publications and subscriptions belong to the particular device.  */
 open class User: JSONEncodable {
 
-    /** The id (UUID) of the user */
-    public var userId: String?
-    /** The name of the user */
+    /** The id (UUID) of the user. */
+    public var id: String?
+    /** The name of the user. */
     public var name: String?
 
     public init() {}
@@ -20,7 +21,7 @@ open class User: JSONEncodable {
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()
-        nillableDictionary["userId"] = self.userId
+        nillableDictionary["id"] = self.id
         nillableDictionary["name"] = self.name
 
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]

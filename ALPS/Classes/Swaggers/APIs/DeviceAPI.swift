@@ -14,8 +14,8 @@ open class DeviceAPI: APIBase {
     /**
      Create device for a user
      
-     - parameter userId: (path) The id (UUID) of the user for which to create a device 
-     - parameter device: (body) The device that has to be create 
+     - parameter userId: (path) The id (UUID) of the user for which to create a device. 
+     - parameter device: (body) The device to be created for the user. 
      - parameter completion: completion handler to receive the data and the error objects
      */
     open class func createDevice(userId: String, device: Device, completion: @escaping ((_ data: Device?,_ error: Error?) -> Void)) {
@@ -34,11 +34,11 @@ open class DeviceAPI: APIBase {
      - examples: [{contentType=application/json, example={
   "deviceType" : { },
   "name" : "aeiou",
-  "deviceId" : "aeiou"
+  "id" : "aeiou"
 }}]
      
-     - parameter userId: (path) The id (UUID) of the user for which to create a device 
-     - parameter device: (body) The device that has to be create 
+     - parameter userId: (path) The id (UUID) of the user for which to create a device. 
+     - parameter device: (body) The device to be created for the user. 
 
      - returns: RequestBuilder<Device> 
      */
@@ -59,9 +59,9 @@ open class DeviceAPI: APIBase {
     /**
      Create a new location for a device
      
-     - parameter userId: (path) The id (UUID) of the user 
-     - parameter deviceId: (path) The id (UUID) of the device 
-     - parameter location: (body) The location that has to be create  
+     - parameter userId: (path) The id (UUID) of the user. 
+     - parameter deviceId: (path) The id (UUID) of the device. 
+     - parameter location: (body) Location to create for a device.  
      - parameter completion: completion handler to receive the data and the error objects
      */
     open class func createLocation(userId: String, deviceId: String, location: Location, completion: @escaping ((_ data: DeviceLocation?,_ error: Error?) -> Void)) {
@@ -89,9 +89,9 @@ open class DeviceAPI: APIBase {
   "deviceId" : "aeiou"
 }}]
      
-     - parameter userId: (path) The id (UUID) of the user 
-     - parameter deviceId: (path) The id (UUID) of the device 
-     - parameter location: (body) The location that has to be create  
+     - parameter userId: (path) The id (UUID) of the user. 
+     - parameter deviceId: (path) The id (UUID) of the device. 
+     - parameter location: (body) Location to create for a device.  
 
      - returns: RequestBuilder<DeviceLocation> 
      */
@@ -113,9 +113,9 @@ open class DeviceAPI: APIBase {
     /**
      Create a publication for a device for a user
      
-     - parameter userId: (path) The id (UUID) of the user to create a device for 
-     - parameter deviceId: (path) The id (UUID) of the user device 
-     - parameter publication: (body) The publication that has to be create  
+     - parameter userId: (path) The id (UUID) of the user to create a device for. 
+     - parameter deviceId: (path) The id (UUID) of the user device. 
+     - parameter publication: (body) Publication to create on a device.  
      - parameter completion: completion handler to receive the data and the error objects
      */
     open class func createPublication(userId: String, deviceId: String, publication: Publication, completion: @escaping ((_ data: Publication?,_ error: Error?) -> Void)) {
@@ -136,15 +136,15 @@ open class DeviceAPI: APIBase {
   "op" : "aeiou",
   "topic" : "aeiou",
   "range" : 6.027456183070403,
-  "publicationId" : "aeiou",
+  "id" : "aeiou",
   "deviceId" : "aeiou",
   "properties" : "aeiou",
   "timestamp" : 0
 }}]
      
-     - parameter userId: (path) The id (UUID) of the user to create a device for 
-     - parameter deviceId: (path) The id (UUID) of the user device 
-     - parameter publication: (body) The publication that has to be create  
+     - parameter userId: (path) The id (UUID) of the user to create a device for. 
+     - parameter deviceId: (path) The id (UUID) of the user device. 
+     - parameter publication: (body) Publication to create on a device.  
 
      - returns: RequestBuilder<Publication> 
      */
@@ -166,9 +166,9 @@ open class DeviceAPI: APIBase {
     /**
      Create a subscription for a device for a user
      
-     - parameter userId: (path) The id (UUID) of the user to create a device for  
-     - parameter deviceId: (path) The id (UUID) of the user device  
-     - parameter subscription: (body) The subscription that has to be create  
+     - parameter userId: (path) The id (UUID) of the user to create a device for.  
+     - parameter deviceId: (path) The id (UUID) of the user device.  
+     - parameter subscription: (body) Subscription to create on a device.  
      - parameter completion: completion handler to receive the data and the error objects
      */
     open class func createSubscription(userId: String, deviceId: String, subscription: Subscription, completion: @escaping ((_ data: Subscription?,_ error: Error?) -> Void)) {
@@ -190,14 +190,14 @@ open class DeviceAPI: APIBase {
   "topic" : "aeiou",
   "range" : 6.027456183070403,
   "selector" : "aeiou",
-  "subscriptionId" : "aeiou",
+  "id" : "aeiou",
   "deviceId" : "aeiou",
   "timestamp" : 0
 }}]
      
-     - parameter userId: (path) The id (UUID) of the user to create a device for  
-     - parameter deviceId: (path) The id (UUID) of the user device  
-     - parameter subscription: (body) The subscription that has to be create  
+     - parameter userId: (path) The id (UUID) of the user to create a device for.  
+     - parameter deviceId: (path) The id (UUID) of the user device.  
+     - parameter subscription: (body) Subscription to create on a device.  
 
      - returns: RequestBuilder<Subscription> 
      */
@@ -219,9 +219,9 @@ open class DeviceAPI: APIBase {
     /**
      Delete a Publication
      
-     - parameter userId: (path) The id (UUID) of the user of the device 
-     - parameter deviceId: (path) The id (UUID) of the user device 
-     - parameter publicationId: (path) The id (UUID) of the subscription 
+     - parameter userId: (path) The id (UUID) of the user of the device. 
+     - parameter deviceId: (path) The id (UUID) of the user device. 
+     - parameter publicationId: (path) The id (UUID) of the subscription. 
      - parameter completion: completion handler to receive the data and the error objects
      */
     open class func deletePublication(userId: String, deviceId: String, publicationId: String, completion: @escaping ((_ error: Error?) -> Void)) {
@@ -239,9 +239,9 @@ open class DeviceAPI: APIBase {
        - type: apiKey api-key 
        - name: api-key
      
-     - parameter userId: (path) The id (UUID) of the user of the device 
-     - parameter deviceId: (path) The id (UUID) of the user device 
-     - parameter publicationId: (path) The id (UUID) of the subscription 
+     - parameter userId: (path) The id (UUID) of the user of the device. 
+     - parameter deviceId: (path) The id (UUID) of the user device. 
+     - parameter publicationId: (path) The id (UUID) of the subscription. 
 
      - returns: RequestBuilder<Void> 
      */
@@ -264,9 +264,9 @@ open class DeviceAPI: APIBase {
     /**
      Delete a Subscription
      
-     - parameter userId: (path) The id (UUID) of the user of the device 
-     - parameter deviceId: (path) The id (UUID) of the user device 
-     - parameter subscriptionId: (path) The id (UUID) of the subscription 
+     - parameter userId: (path) The id (UUID) of the user of the device. 
+     - parameter deviceId: (path) The id (UUID) of the user device. 
+     - parameter subscriptionId: (path) The id (UUID) of the subscription. 
      - parameter completion: completion handler to receive the data and the error objects
      */
     open class func deleteSubscription(userId: String, deviceId: String, subscriptionId: String, completion: @escaping ((_ error: Error?) -> Void)) {
@@ -284,9 +284,9 @@ open class DeviceAPI: APIBase {
        - type: apiKey api-key 
        - name: api-key
      
-     - parameter userId: (path) The id (UUID) of the user of the device 
-     - parameter deviceId: (path) The id (UUID) of the user device 
-     - parameter subscriptionId: (path) The id (UUID) of the subscription 
+     - parameter userId: (path) The id (UUID) of the user of the device. 
+     - parameter deviceId: (path) The id (UUID) of the user device. 
+     - parameter subscriptionId: (path) The id (UUID) of the subscription. 
 
      - returns: RequestBuilder<Void> 
      */
@@ -309,8 +309,8 @@ open class DeviceAPI: APIBase {
     /**
      Info about a device of a user
      
-     - parameter userId: (path) The id (UUID) of the user of the device 
-     - parameter deviceId: (path) The id (UUID) of the user device 
+     - parameter userId: (path) The id (UUID) of the user of the device. 
+     - parameter deviceId: (path) The id (UUID) of the user device. 
      - parameter completion: completion handler to receive the data and the error objects
      */
     open class func getDevice(userId: String, deviceId: String, completion: @escaping ((_ data: Device?,_ error: Error?) -> Void)) {
@@ -329,11 +329,11 @@ open class DeviceAPI: APIBase {
      - examples: [{contentType=application/json, example={
   "deviceType" : { },
   "name" : "aeiou",
-  "deviceId" : "aeiou"
+  "id" : "aeiou"
 }}]
      
-     - parameter userId: (path) The id (UUID) of the user of the device 
-     - parameter deviceId: (path) The id (UUID) of the user device 
+     - parameter userId: (path) The id (UUID) of the user of the device. 
+     - parameter deviceId: (path) The id (UUID) of the user device. 
 
      - returns: RequestBuilder<Device> 
      */
@@ -349,13 +349,13 @@ open class DeviceAPI: APIBase {
 
         let requestBuilder: RequestBuilder<Device>.Type = AlpsAPI.requestBuilderFactory.getBuilder()
 
-        return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
+        return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
     }
 
     /**
      Get all devices for a user
      
-     - parameter userId: (path) The id (UUID) of the user of the device 
+     - parameter userId: (path) The id (UUID) of the user of the device. 
      - parameter completion: completion handler to receive the data and the error objects
      */
     open class func getDevices(userId: String, completion: @escaping ((_ data: Devices?,_ error: Error?) -> Void)) {
@@ -373,7 +373,7 @@ open class DeviceAPI: APIBase {
        - name: api-key
      - examples: [{contentType=application/json, example=""}]
      
-     - parameter userId: (path) The id (UUID) of the user of the device 
+     - parameter userId: (path) The id (UUID) of the user of the device. 
 
      - returns: RequestBuilder<Devices> 
      */
@@ -388,14 +388,14 @@ open class DeviceAPI: APIBase {
 
         let requestBuilder: RequestBuilder<Devices>.Type = AlpsAPI.requestBuilderFactory.getBuilder()
 
-        return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
+        return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
     }
 
     /**
      Get matches for the device
      
-     - parameter userId: (path) The id (UUID) of the user of the device 
-     - parameter deviceId: (path) The id (UUID) of the user device 
+     - parameter userId: (path) The id (UUID) of the user of the device. 
+     - parameter deviceId: (path) The id (UUID) of the user device. 
      - parameter completion: completion handler to receive the data and the error objects
      */
     open class func getMatches(userId: String, deviceId: String, completion: @escaping ((_ data: Matches?,_ error: Error?) -> Void)) {
@@ -413,8 +413,8 @@ open class DeviceAPI: APIBase {
        - name: api-key
      - examples: [{contentType=application/json, example=""}]
      
-     - parameter userId: (path) The id (UUID) of the user of the device 
-     - parameter deviceId: (path) The id (UUID) of the user device 
+     - parameter userId: (path) The id (UUID) of the user of the device. 
+     - parameter deviceId: (path) The id (UUID) of the user device. 
 
      - returns: RequestBuilder<Matches> 
      */
@@ -430,15 +430,15 @@ open class DeviceAPI: APIBase {
 
         let requestBuilder: RequestBuilder<Matches>.Type = AlpsAPI.requestBuilderFactory.getBuilder()
 
-        return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
+        return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
     }
 
     /**
      Info about a publication on a device of a user
      
-     - parameter userId: (path) The id (UUID) of the user of the device 
-     - parameter deviceId: (path) The id (UUID) of the user device 
-     - parameter publicationId: (path) The id (UUID) of the publication 
+     - parameter userId: (path) The id (UUID) of the user of the device. 
+     - parameter deviceId: (path) The id (UUID) of the user device. 
+     - parameter publicationId: (path) The id (UUID) of the publication. 
      - parameter completion: completion handler to receive the data and the error objects
      */
     open class func getPublication(userId: String, deviceId: String, publicationId: String, completion: @escaping ((_ data: Publication?,_ error: Error?) -> Void)) {
@@ -459,15 +459,15 @@ open class DeviceAPI: APIBase {
   "op" : "aeiou",
   "topic" : "aeiou",
   "range" : 6.027456183070403,
-  "publicationId" : "aeiou",
+  "id" : "aeiou",
   "deviceId" : "aeiou",
   "properties" : "aeiou",
   "timestamp" : 0
 }}]
      
-     - parameter userId: (path) The id (UUID) of the user of the device 
-     - parameter deviceId: (path) The id (UUID) of the user device 
-     - parameter publicationId: (path) The id (UUID) of the publication 
+     - parameter userId: (path) The id (UUID) of the user of the device. 
+     - parameter deviceId: (path) The id (UUID) of the user device. 
+     - parameter publicationId: (path) The id (UUID) of the publication. 
 
      - returns: RequestBuilder<Publication> 
      */
@@ -484,14 +484,14 @@ open class DeviceAPI: APIBase {
 
         let requestBuilder: RequestBuilder<Publication>.Type = AlpsAPI.requestBuilderFactory.getBuilder()
 
-        return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
+        return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
     }
 
     /**
      Get all publications for a device
      
-     - parameter userId: (path) The id (UUID) of the user 
-     - parameter deviceId: (path) The id (UUID) of the device 
+     - parameter userId: (path) The id (UUID) of the user. 
+     - parameter deviceId: (path) The id (UUID) of the device. 
      - parameter completion: completion handler to receive the data and the error objects
      */
     open class func getPublications(userId: String, deviceId: String, completion: @escaping ((_ data: Publications?,_ error: Error?) -> Void)) {
@@ -509,8 +509,8 @@ open class DeviceAPI: APIBase {
        - name: api-key
      - examples: [{contentType=application/json, example=""}]
      
-     - parameter userId: (path) The id (UUID) of the user 
-     - parameter deviceId: (path) The id (UUID) of the device 
+     - parameter userId: (path) The id (UUID) of the user. 
+     - parameter deviceId: (path) The id (UUID) of the device. 
 
      - returns: RequestBuilder<Publications> 
      */
@@ -526,15 +526,15 @@ open class DeviceAPI: APIBase {
 
         let requestBuilder: RequestBuilder<Publications>.Type = AlpsAPI.requestBuilderFactory.getBuilder()
 
-        return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
+        return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
     }
 
     /**
      Info about a subscription on a device of a user
      
-     - parameter userId: (path) The id (UUID) of the user of the device 
-     - parameter deviceId: (path) The id (UUID) of the user device 
-     - parameter subscriptionId: (path) The id (UUID) of the subscription 
+     - parameter userId: (path) The id (UUID) of the user of the device. 
+     - parameter deviceId: (path) The id (UUID) of the user device. 
+     - parameter subscriptionId: (path) The id (UUID) of the subscription. 
      - parameter completion: completion handler to receive the data and the error objects
      */
     open class func getSubscription(userId: String, deviceId: String, subscriptionId: String, completion: @escaping ((_ data: Subscription?,_ error: Error?) -> Void)) {
@@ -556,14 +556,14 @@ open class DeviceAPI: APIBase {
   "topic" : "aeiou",
   "range" : 6.027456183070403,
   "selector" : "aeiou",
-  "subscriptionId" : "aeiou",
+  "id" : "aeiou",
   "deviceId" : "aeiou",
   "timestamp" : 0
 }}]
      
-     - parameter userId: (path) The id (UUID) of the user of the device 
-     - parameter deviceId: (path) The id (UUID) of the user device 
-     - parameter subscriptionId: (path) The id (UUID) of the subscription 
+     - parameter userId: (path) The id (UUID) of the user of the device. 
+     - parameter deviceId: (path) The id (UUID) of the user device. 
+     - parameter subscriptionId: (path) The id (UUID) of the subscription. 
 
      - returns: RequestBuilder<Subscription> 
      */
@@ -580,14 +580,14 @@ open class DeviceAPI: APIBase {
 
         let requestBuilder: RequestBuilder<Subscription>.Type = AlpsAPI.requestBuilderFactory.getBuilder()
 
-        return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
+        return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
     }
 
     /**
      Get all subscriptions for a device
      
-     - parameter userId: (path) The id (UUID) of the user 
-     - parameter deviceId: (path) The id (UUID) of the device 
+     - parameter userId: (path) The id (UUID) of the user. 
+     - parameter deviceId: (path) The id (UUID) of the device. 
      - parameter completion: completion handler to receive the data and the error objects
      */
     open class func getSubscriptions(userId: String, deviceId: String, completion: @escaping ((_ data: Subscriptions?,_ error: Error?) -> Void)) {
@@ -605,8 +605,8 @@ open class DeviceAPI: APIBase {
        - name: api-key
      - examples: [{contentType=application/json, example=""}]
      
-     - parameter userId: (path) The id (UUID) of the user 
-     - parameter deviceId: (path) The id (UUID) of the device 
+     - parameter userId: (path) The id (UUID) of the user. 
+     - parameter deviceId: (path) The id (UUID) of the device. 
 
      - returns: RequestBuilder<Subscriptions> 
      */
@@ -622,7 +622,7 @@ open class DeviceAPI: APIBase {
 
         let requestBuilder: RequestBuilder<Subscriptions>.Type = AlpsAPI.requestBuilderFactory.getBuilder()
 
-        return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
+        return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
     }
 
 }

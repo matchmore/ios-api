@@ -10,17 +10,17 @@ import Foundation
 
 open class Location: JSONEncodable {
 
-    /** The timestamp in seconds since Jan 01 1970. (UTC). If no timestamp is provided upon creation then the system uses the moment of the call to the api as a timestamp  */
+    /** The timestamp in seconds since Jan 01 1970. (UTC). If no timestamp is provided upon creation then the system uses the moment of the call to the api as a timestamp.  */
     public var timestamp: Int64?
-    /** The latitude of the device in degrees, for instance &#39;46.5333&#39; (Lausanne, Switzerland)  */
+    /** The latitude of the device in degrees, for instance &#39;46.5333&#39; (Lausanne, Switzerland).  */
     public var latitude: Double?
-    /** The longitude of the device in degrees, for instance &#39;6.6667&#39; (Lausanne, Switzerland)  */
+    /** The longitude of the device in degrees, for instance &#39;6.6667&#39; (Lausanne, Switzerland).  */
     public var longitude: Double?
-    /** The altitude of the device in meters, for instance &#39;495.0&#39; (Lausanne, Switzerland)  */
+    /** The altitude of the device in meters, for instance &#39;495.0&#39; (Lausanne, Switzerland).  */
     public var altitude: Double?
-    /** The horizontal accuracy of the location, measured on a scale from &#39;0.0&#39; to &#39;1.0&#39;, &#39;1.0&#39; being the most accurate. If this value is not specified then the default value of &#39;1.0&#39; is used  */
+    /** The horizontal accuracy of the location, measured on a scale from &#39;0.0&#39; to &#39;1.0&#39;, &#39;1.0&#39; being the most accurate. If this value is not specified then the default value of &#39;1.0&#39; is used.  */
     public var horizontalAccuracy: Double?
-    /** The vertical accuracy of the location, measured on a scale from &#39;0.0&#39; to &#39;1.0&#39;, &#39;1.0&#39; being the most accurate. If this value is not specified then the default value of &#39;1.0&#39; is used  */
+    /** The vertical accuracy of the location, measured on a scale from &#39;0.0&#39; to &#39;1.0&#39;, &#39;1.0&#39; being the most accurate. If this value is not specified then the default value of &#39;1.0&#39; is used.  */
     public var verticalAccuracy: Double?
 
     public init() {}

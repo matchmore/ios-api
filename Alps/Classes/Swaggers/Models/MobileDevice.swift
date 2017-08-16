@@ -8,9 +8,10 @@
 import Foundation
 
 
+/** A mobile device is one that potentially moves together with its user and therefore has a geographical location associated with it.  */
 open class MobileDevice: Device {
 
-    /** The platform of the device, this can be any string representing the platform type, for instance &#39;iOS&#39;  */
+    /** The platform of the device, this can be any string representing the platform type, for instance &#39;iOS&#39;.  */
     public var platform: String?
     /** The deviceToken is the device push notification token given to this device by the OS, either iOS or Android for identifying the device with push notification services.  */
     public var deviceToken: String?

@@ -14,8 +14,8 @@ open class MatchesAPI: APIBase {
     /**
      Get matches for the device
      
-     - parameter userId: (path) The id (UUID) of the user of the device 
-     - parameter deviceId: (path) The id (UUID) of the user device 
+     - parameter userId: (path) The id (UUID) of the user of the device. 
+     - parameter deviceId: (path) The id (UUID) of the user device. 
      - parameter completion: completion handler to receive the data and the error objects
      */
     open class func getMatches(userId: String, deviceId: String, completion: @escaping ((_ data: Matches?,_ error: Error?) -> Void)) {
@@ -33,8 +33,8 @@ open class MatchesAPI: APIBase {
        - name: api-key
      - examples: [{contentType=application/json, example=""}]
      
-     - parameter userId: (path) The id (UUID) of the user of the device 
-     - parameter deviceId: (path) The id (UUID) of the user device 
+     - parameter userId: (path) The id (UUID) of the user of the device. 
+     - parameter deviceId: (path) The id (UUID) of the user device. 
 
      - returns: RequestBuilder<Matches> 
      */
@@ -50,7 +50,7 @@ open class MatchesAPI: APIBase {
 
         let requestBuilder: RequestBuilder<Matches>.Type = AlpsAPI.requestBuilderFactory.getBuilder()
 
-        return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
+        return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
     }
 
 }
