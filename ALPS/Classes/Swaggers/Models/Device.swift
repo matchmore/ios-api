@@ -9,15 +9,12 @@ import Foundation
 
 
 open class Device: JSONEncodable {
+
     /** The id (UUID) of the device */
     public var deviceId: String?
     /** The name of the device */
     public var name: String?
-    /**  The platform of the device, this can be any string representing the platform type, for instance &#39;iOS&#39;  */
-    public var platform: String?
-    /**  The deviceToken is the device push notification token given to this device by the OS, either iOS or Android for identifying the device with push notification services.  */
-    public var deviceToken: String?
-    public var location: Location?
+    public var deviceType: DeviceType?
 
     public init() {}
 
@@ -26,9 +23,8 @@ open class Device: JSONEncodable {
         var nillableDictionary = [String:Any?]()
         nillableDictionary["deviceId"] = self.deviceId
         nillableDictionary["name"] = self.name
-        nillableDictionary["platform"] = self.platform
-        nillableDictionary["deviceToken"] = self.deviceToken
-        nillableDictionary["location"] = self.location?.encodeToJSON()
+        nillableDictionary["deviceType"] = self.deviceType?.encodeToJSON()
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

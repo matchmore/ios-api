@@ -9,6 +9,7 @@ import Foundation
 
 
 open class Location: JSONEncodable {
+
     /** The timestamp in seconds since Jan 01 1970. (UTC). If no timestamp is provided upon creation then the system uses the moment of the call to the api as a timestamp  */
     public var timestamp: Int64?
     /** The latitude of the device in degrees, for instance &#39;46.5333&#39; (Lausanne, Switzerland)  */
@@ -33,6 +34,7 @@ open class Location: JSONEncodable {
         nillableDictionary["altitude"] = self.altitude
         nillableDictionary["horizontalAccuracy"] = self.horizontalAccuracy
         nillableDictionary["verticalAccuracy"] = self.verticalAccuracy
+
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

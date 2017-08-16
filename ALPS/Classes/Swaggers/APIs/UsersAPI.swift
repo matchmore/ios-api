@@ -5,6 +5,7 @@
 // https://github.com/swagger-api/swagger-codegen
 //
 
+import Foundation
 import Alamofire
 
 
@@ -41,18 +42,19 @@ open class UsersAPI: APIBase {
     open class func createUserWithRequestBuilder(name: String) -> RequestBuilder<User> {
         let path = "/users"
         let URLString = AlpsAPI.basePath + path
-
-        let nillableParameters: [String:Any?] = [
+        let formParams: [String:Any?] = [
             "name": name
         ]
- 
-        let parameters = APIHelper.rejectNil(nillableParameters)
- 
-        let convertedParameters = APIHelper.convertBoolToString(parameters)
- 
+
+        let nonNullParameters = APIHelper.rejectNil(formParams)
+        let parameters = APIHelper.convertBoolToString(nonNullParameters)
+
+        let url = NSURLComponents(string: URLString)
+
+
         let requestBuilder: RequestBuilder<User>.Type = AlpsAPI.requestBuilderFactory.getBuilder()
 
-        return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: false)
+        return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
     }
 
     /**
@@ -83,18 +85,17 @@ open class UsersAPI: APIBase {
     open class func getUsersWithRequestBuilder(limit: Int32? = nil) -> RequestBuilder<Users> {
         let path = "/users"
         let URLString = AlpsAPI.basePath + path
+        let parameters: [String:Any]? = nil
 
-        let nillableParameters: [String:Any?] = [
+        let url = NSURLComponents(string: URLString)
+        url?.queryItems = APIHelper.mapValuesToQueryItems(values:[
             "limit": limit?.encodeToJSON()
-        ]
- 
-        let parameters = APIHelper.rejectNil(nillableParameters)
- 
-        let convertedParameters = APIHelper.convertBoolToString(parameters)
- 
+        ])
+        
+
         let requestBuilder: RequestBuilder<Users>.Type = AlpsAPI.requestBuilderFactory.getBuilder()
 
-        return requestBuilder.init(method: "GET", URLString: URLString, parameters: convertedParameters, isBody: false)
+        return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
     }
 
 }
