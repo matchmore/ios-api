@@ -378,7 +378,7 @@ class Decoders {
             result.id = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["id"] as AnyObject?)
             result.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
             result.deviceType = Decoders.decodeOptional(clazz: DeviceType.self, source: sourceDictionary["deviceType"] as AnyObject?)
-            result.uuid = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uuid"] as AnyObject?)
+            result.proximityUUID = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["proximityUUID"] as AnyObject?)
             result.major = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["major"] as AnyObject?)
             result.minor = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["minor"] as AnyObject?)
             return result

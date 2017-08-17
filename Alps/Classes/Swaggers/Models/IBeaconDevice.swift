@@ -12,7 +12,7 @@ import Foundation
 open class IBeaconDevice: Device {
 
     /** The UUID of the beacon, the purpose is to distinguish iBeacons in your network, from all other beacons in networks outside your control.  */
-    public var uuid: String?
+    public var proximityUUID: String?
     /** Major values are intended to identify and distinguish a group.  */
     public var major: Int32?
     /** Minor values are intended to identify and distinguish an individual.  */
@@ -23,7 +23,7 @@ open class IBeaconDevice: Device {
     // MARK: JSONEncodable
     override open func encodeToJSON() -> Any {
         var nillableDictionary = super.encodeToJSON() as? [String:Any?] ?? [String:Any?]()
-        nillableDictionary["uuid"] = self.uuid
+        nillableDictionary["proximityUUID"] = self.proximityUUID
         nillableDictionary["major"] = self.major?.encodeToJSON()
         nillableDictionary["minor"] = self.minor?.encodeToJSON()
 
