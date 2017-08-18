@@ -28,9 +28,6 @@ open class UserAPI: APIBase {
     /**
      Create device for a user
      - POST /users/{userId}/devices
-     - API Key:
-       - type: apiKey api-key 
-       - name: api-key
      - examples: [{contentType=application/json, example={
   "deviceType" : { },
   "name" : "aeiou",
@@ -74,9 +71,6 @@ open class UserAPI: APIBase {
     /**
      Create a new location for a device
      - POST /users/{userId}/devices/{deviceId}/locations
-     - API Key:
-       - type: apiKey api-key 
-       - name: api-key
      - examples: [{contentType=application/json, example={
   "location" : {
     "altitude" : 5.962133916683182,
@@ -128,9 +122,6 @@ open class UserAPI: APIBase {
     /**
      Create a publication for a device for a user
      - POST /users/{userId}/devices/{deviceId}/publications
-     - API Key:
-       - type: apiKey api-key 
-       - name: api-key
      - examples: [{contentType=application/json, example={
   "duration" : 1.4658129805029452,
   "op" : "aeiou",
@@ -181,9 +172,6 @@ open class UserAPI: APIBase {
     /**
      Create a subscription for a device for a user
      - POST /users/{userId}/devices/{deviceId}/subscriptions
-     - API Key:
-       - type: apiKey api-key 
-       - name: api-key
      - examples: [{contentType=application/json, example={
   "duration" : 1.4658129805029452,
   "op" : "aeiou",
@@ -235,9 +223,6 @@ open class UserAPI: APIBase {
      Delete a Publication
      - DELETE /users/{userId}/devices/{deviceId}/publications/{publicationId}
      - 
-     - API Key:
-       - type: apiKey api-key 
-       - name: api-key
      
      - parameter userId: (path) The id (UUID) of the user of the device. 
      - parameter deviceId: (path) The id (UUID) of the user device. 
@@ -280,9 +265,6 @@ open class UserAPI: APIBase {
      Delete a Subscription
      - DELETE /users/{userId}/devices/{deviceId}/subscriptions/{subscriptionId}
      - 
-     - API Key:
-       - type: apiKey api-key 
-       - name: api-key
      
      - parameter userId: (path) The id (UUID) of the user of the device. 
      - parameter deviceId: (path) The id (UUID) of the user device. 
@@ -323,9 +305,6 @@ open class UserAPI: APIBase {
     /**
      Info about a device of a user
      - GET /users/{userId}/devices/{deviceId}
-     - API Key:
-       - type: apiKey api-key 
-       - name: api-key
      - examples: [{contentType=application/json, example={
   "deviceType" : { },
   "name" : "aeiou",
@@ -368,9 +347,6 @@ open class UserAPI: APIBase {
     /**
      Get all devices for a user
      - GET /users/{userId}/devices
-     - API Key:
-       - type: apiKey api-key 
-       - name: api-key
      - examples: [{contentType=application/json, example=""}]
      
      - parameter userId: (path) The id (UUID) of the user of the device. 
@@ -409,9 +385,6 @@ open class UserAPI: APIBase {
     /**
      Info about a publication on a device of a user
      - GET /users/{userId}/devices/{deviceId}/publications/{publicationId}
-     - API Key:
-       - type: apiKey api-key 
-       - name: api-key
      - examples: [{contentType=application/json, example={
   "duration" : 1.4658129805029452,
   "op" : "aeiou",
@@ -462,9 +435,6 @@ open class UserAPI: APIBase {
     /**
      Get all publications for a device
      - GET /users/{userId}/devices/{deviceId}/publications
-     - API Key:
-       - type: apiKey api-key 
-       - name: api-key
      - examples: [{contentType=application/json, example=""}]
      
      - parameter userId: (path) The id (UUID) of the user. 
@@ -505,9 +475,6 @@ open class UserAPI: APIBase {
     /**
      Info about a subscription on a device of a user
      - GET /users/{userId}/devices/{deviceId}/subscriptions/{subscriptionId}
-     - API Key:
-       - type: apiKey api-key 
-       - name: api-key
      - examples: [{contentType=application/json, example={
   "duration" : 1.4658129805029452,
   "op" : "aeiou",
@@ -558,9 +525,6 @@ open class UserAPI: APIBase {
     /**
      Get all subscriptions for a device
      - GET /users/{userId}/devices/{deviceId}/subscriptions
-     - API Key:
-       - type: apiKey api-key 
-       - name: api-key
      - examples: [{contentType=application/json, example=""}]
      
      - parameter userId: (path) The id (UUID) of the user. 
@@ -599,9 +563,6 @@ open class UserAPI: APIBase {
     /**
      Info about a user
      - GET /users/{userId}
-     - API Key:
-       - type: apiKey api-key 
-       - name: api-key
      - examples: [{contentType=application/json, example=""}]
      
      - parameter userId: (path) The id (UUID) of the user to retrieve. 

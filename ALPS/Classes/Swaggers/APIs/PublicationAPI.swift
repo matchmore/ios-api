@@ -29,9 +29,6 @@ open class PublicationAPI: APIBase {
     /**
      Create a publication for a device for a user
      - POST /users/{userId}/devices/{deviceId}/publications
-     - API Key:
-       - type: apiKey api-key 
-       - name: api-key
      - examples: [{contentType=application/json, example={
   "duration" : 1.4658129805029452,
   "op" : "aeiou",
@@ -83,9 +80,6 @@ open class PublicationAPI: APIBase {
      Delete a Publication
      - DELETE /users/{userId}/devices/{deviceId}/publications/{publicationId}
      - 
-     - API Key:
-       - type: apiKey api-key 
-       - name: api-key
      
      - parameter userId: (path) The id (UUID) of the user of the device. 
      - parameter deviceId: (path) The id (UUID) of the user device. 
@@ -127,9 +121,6 @@ open class PublicationAPI: APIBase {
     /**
      Info about a publication on a device of a user
      - GET /users/{userId}/devices/{deviceId}/publications/{publicationId}
-     - API Key:
-       - type: apiKey api-key 
-       - name: api-key
      - examples: [{contentType=application/json, example={
   "duration" : 1.4658129805029452,
   "op" : "aeiou",
@@ -180,9 +171,6 @@ open class PublicationAPI: APIBase {
     /**
      Get all publications for a device
      - GET /users/{userId}/devices/{deviceId}/publications
-     - API Key:
-       - type: apiKey api-key 
-       - name: api-key
      - examples: [{contentType=application/json, example=""}]
      
      - parameter userId: (path) The id (UUID) of the user. 

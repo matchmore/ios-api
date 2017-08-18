@@ -27,9 +27,6 @@ open class UsersAPI: APIBase {
     /**
      Create a user
      - POST /users
-     - API Key:
-       - type: apiKey api-key 
-       - name: api-key
      - examples: [{contentType=application/json, example={
   "name" : "aeiou",
   "id" : "aeiou"
@@ -68,9 +65,6 @@ open class UsersAPI: APIBase {
     /**
      List all users
      - GET /users
-     - API Key:
-       - type: apiKey api-key 
-       - name: api-key
      - examples: [{contentType=application/json, example=""}]
      
      - parameter limit: (query) How many items to return at one time (1-100, default 100) (optional)

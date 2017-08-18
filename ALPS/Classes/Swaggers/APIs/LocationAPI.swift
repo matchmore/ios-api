@@ -29,9 +29,6 @@ open class LocationAPI: APIBase {
     /**
      Create a new location for a device
      - POST /users/{userId}/devices/{deviceId}/locations
-     - API Key:
-       - type: apiKey api-key 
-       - name: api-key
      - examples: [{contentType=application/json, example={
   "location" : {
     "altitude" : 5.962133916683182,
