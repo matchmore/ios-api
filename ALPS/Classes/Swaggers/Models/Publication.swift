@@ -11,12 +11,12 @@ import Foundation
 /** A publication can be seen as a JavaMessagingService (JMS) publication extended with the notion of a geographical zone. The zone is defined as circle with a center at the given location and a range around that location.  */
 open class Publication: JSONEncodable {
 
-    /** The timestamp in seconds since Jan 01 1970. (UTC). If no timestamp is provided upon creation then the system uses the moment of the call to the api as a timestamp. */
-    public var timestamp: Int64?
     /** The id (UUID) of the publication. */
     public var id: String?
     /** The id (UUID) of the device to attach a publication to. */
     public var deviceId: String?
+    /** The timestamp in seconds since Jan 01 1970. (UTC). If no timestamp is provided upon creation then the system uses the moment of the call to the api as a timestamp. */
+    public var timestamp: Int64?
     /** The topic of the publication. This will act as a first match filter. For a subscription to be able to match a publication they must have the exact same topic. */
     public var topic: String?
     /** The range of the publication in meters. This is the range around the device holding the publication in which matches with subscriptions can be triggered. */
@@ -25,22 +25,19 @@ open class Publication: JSONEncodable {
     public var duration: Double?
     /** The dictionary of key, value pairs. */
     public var properties: Properties?
-    /** The internal operation resulting from the API call. For instance &#39;create&#39;. */
-    public var op: String?
 
     public init() {}
 
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()
-        nillableDictionary["timestamp"] = self.timestamp?.encodeToJSON()
         nillableDictionary["id"] = self.id
         nillableDictionary["deviceId"] = self.deviceId
+        nillableDictionary["timestamp"] = self.timestamp?.encodeToJSON()
         nillableDictionary["topic"] = self.topic
         nillableDictionary["range"] = self.range
         nillableDictionary["duration"] = self.duration
         nillableDictionary["properties"] = self.properties
-        nillableDictionary["op"] = self.op
 
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary

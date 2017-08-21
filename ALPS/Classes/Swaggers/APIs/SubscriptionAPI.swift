@@ -31,7 +31,6 @@ open class SubscriptionAPI: APIBase {
      - POST /users/{userId}/devices/{deviceId}/subscriptions
      - examples: [{contentType=application/json, example={
   "duration" : 1.4658129805029452,
-  "op" : "aeiou",
   "topic" : "aeiou",
   "range" : 6.027456183070403,
   "selector" : "aeiou",
@@ -123,7 +122,6 @@ open class SubscriptionAPI: APIBase {
      - GET /users/{userId}/devices/{deviceId}/subscriptions/{subscriptionId}
      - examples: [{contentType=application/json, example={
   "duration" : 1.4658129805029452,
-  "op" : "aeiou",
   "topic" : "aeiou",
   "range" : 6.027456183070403,
   "selector" : "aeiou",
