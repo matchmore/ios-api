@@ -11,8 +11,6 @@ import Foundation
 /** An iBeacon device represents an Apple conform iBeacon announcing its presence via Bluetooth advertising packets.  */
 open class IBeaconDevice: Device {
 
-    /** The iBeacon&#39;s brand */
-    public var vendor: String?
     /** The UUID of the beacon, the purpose is to distinguish iBeacons in your network, from all other beacons in networks outside your control.  */
     public var proximityUUID: String?
     /** Major values are intended to identify and distinguish a group.  */
@@ -25,7 +23,6 @@ open class IBeaconDevice: Device {
     // MARK: JSONEncodable
     override open func encodeToJSON() -> Any {
         var nillableDictionary = super.encodeToJSON() as? [String:Any?] ?? [String:Any?]()
-        nillableDictionary["vendor"] = self.vendor
         nillableDictionary["proximityUUID"] = self.proximityUUID
         nillableDictionary["major"] = self.major?.encodeToJSON()
         nillableDictionary["minor"] = self.minor?.encodeToJSON()

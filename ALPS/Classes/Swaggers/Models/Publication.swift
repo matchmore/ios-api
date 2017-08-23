@@ -13,18 +13,18 @@ open class Publication: JSONEncodable {
 
     /** The id (UUID) of the publication. */
     public var id: String?
+    /** The timestamp of the publication creation in seconds since Jan 01 1970 (UTC).  */
+    public var createdAt: Int64?
     /** The id (UUID) of the device to attach a publication to. */
     public var deviceId: String?
-    /** The timestamp in seconds since Jan 01 1970. (UTC). If no timestamp is provided upon creation then the system uses the moment of the call to the api as a timestamp. */
-    public var timestamp: Int64?
-    /** The topic of the publication. This will act as a first match filter. For a subscription to be able to match a publication they must have the exact same topic. */
+    /** The topic of the publication. This will act as a first match filter. For a subscription to be able to match a publication they must have the exact same topic.  */
     public var topic: String?
-    /** The range of the publication in meters. This is the range around the device holding the publication in which matches with subscriptions can be triggered. */
+    /** The range of the publication in meters. This is the range around the device holding the publication in which matches with subscriptions can be triggered.  */
     public var range: Double?
-    /** The duration of the publication in seconds. If set to &#39;-1&#39; the publication will live forever and if set to &#39;0&#39; it will be instant at the time of publication. */
+    /** The duration of the publication in seconds. If set to &#39;-1&#39; the publication will live forever and if set to &#39;0&#39; it will be instant at the time of publication.  */
     public var duration: Double?
     /** The dictionary of key, value pairs. */
-    public var properties: Properties?
+    public var properties: [String:String]?
 
     public init() {}
 
@@ -32,12 +32,12 @@ open class Publication: JSONEncodable {
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()
         nillableDictionary["id"] = self.id
+        nillableDictionary["createdAt"] = self.createdAt?.encodeToJSON()
         nillableDictionary["deviceId"] = self.deviceId
-        nillableDictionary["timestamp"] = self.timestamp?.encodeToJSON()
         nillableDictionary["topic"] = self.topic
         nillableDictionary["range"] = self.range
         nillableDictionary["duration"] = self.duration
-        nillableDictionary["properties"] = self.properties
+        nillableDictionary["properties"] = self.properties?.encodeToJSON()
 
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary

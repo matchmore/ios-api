@@ -19,7 +19,7 @@ open class LocationAPI: APIBase {
      - parameter location: (body) Location to create for a device.  
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func createLocation(userId: String, deviceId: String, location: Location, completion: @escaping ((_ data: DeviceLocation?,_ error: Error?) -> Void)) {
+    open class func createLocation(userId: String, deviceId: String, location: Location, completion: @escaping ((_ data: Location?,_ error: Error?) -> Void)) {
         createLocationWithRequestBuilder(userId: userId, deviceId: deviceId, location: location).execute { (response, error) -> Void in
             completion(response?.body, error);
         }
@@ -30,24 +30,21 @@ open class LocationAPI: APIBase {
      Create a new location for a device
      - POST /users/{userId}/devices/{deviceId}/locations
      - examples: [{contentType=application/json, example={
-  "location" : {
-    "altitude" : 5.962133916683182,
-    "verticalAccuracy" : 2.3021358869347655,
-    "latitude" : 6.027456183070403,
-    "horizontalAccuracy" : 5.637376656633329,
-    "timestamp" : 0,
-    "longitude" : 1.4658129805029452
-  },
-  "deviceId" : "aeiou"
+  "createdAt" : 0,
+  "altitude" : 5.962133916683182,
+  "verticalAccuracy" : 2.3021358869347655,
+  "latitude" : 6.027456183070403,
+  "horizontalAccuracy" : 5.637376656633329,
+  "longitude" : 1.4658129805029452
 }}]
      
      - parameter userId: (path) The id (UUID) of the user. 
      - parameter deviceId: (path) The id (UUID) of the device. 
      - parameter location: (body) Location to create for a device.  
 
-     - returns: RequestBuilder<DeviceLocation> 
+     - returns: RequestBuilder<Location> 
      */
-    open class func createLocationWithRequestBuilder(userId: String, deviceId: String, location: Location) -> RequestBuilder<DeviceLocation> {
+    open class func createLocationWithRequestBuilder(userId: String, deviceId: String, location: Location) -> RequestBuilder<Location> {
         var path = "/users/{userId}/devices/{deviceId}/locations"
         path = path.replacingOccurrences(of: "{userId}", with: "\(userId)", options: .literal, range: nil)
         path = path.replacingOccurrences(of: "{deviceId}", with: "\(deviceId)", options: .literal, range: nil)
@@ -57,7 +54,7 @@ open class LocationAPI: APIBase {
         let url = NSURLComponents(string: URLString)
 
 
-        let requestBuilder: RequestBuilder<DeviceLocation>.Type = AlpsAPI.requestBuilderFactory.getBuilder()
+        let requestBuilder: RequestBuilder<Location>.Type = AlpsAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
     }

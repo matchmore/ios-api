@@ -14,7 +14,7 @@ open class Match: JSONEncodable {
     /** The id (UUID) of the user. */
     public var id: String?
     /** The timestamp of the match in seconds since Jan 01 1970 (UTC). */
-    public var timestamp: Int64?
+    public var createdAt: Int64?
     public var publication: Publication?
     public var subscription: Subscription?
 
@@ -24,7 +24,7 @@ open class Match: JSONEncodable {
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()
         nillableDictionary["id"] = self.id
-        nillableDictionary["timestamp"] = self.timestamp?.encodeToJSON()
+        nillableDictionary["createdAt"] = self.createdAt?.encodeToJSON()
         nillableDictionary["publication"] = self.publication?.encodeToJSON()
         nillableDictionary["subscription"] = self.subscription?.encodeToJSON()
 

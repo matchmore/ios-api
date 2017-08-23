@@ -28,8 +28,10 @@ open class UsersAPI: APIBase {
      Create a user
      - POST /users
      - examples: [{contentType=application/json, example={
+  "createdAt" : 0,
   "name" : "aeiou",
-  "id" : "aeiou"
+  "id" : "aeiou",
+  "updatedAt" : 6
 }}]
      
      - parameter user: (body) The skeleton object of the user to be created. 

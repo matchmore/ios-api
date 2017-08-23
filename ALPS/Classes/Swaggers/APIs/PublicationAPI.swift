@@ -31,12 +31,14 @@ open class PublicationAPI: APIBase {
      - POST /users/{userId}/devices/{deviceId}/publications
      - examples: [{contentType=application/json, example={
   "duration" : 1.4658129805029452,
+  "createdAt" : 0,
   "topic" : "aeiou",
   "range" : 6.027456183070403,
   "id" : "aeiou",
   "deviceId" : "aeiou",
-  "properties" : "aeiou",
-  "timestamp" : 0
+  "properties" : {
+    "key" : "aeiou"
+  }
 }}]
      
      - parameter userId: (path) The id (UUID) of the user to create a device for. 
@@ -122,12 +124,14 @@ open class PublicationAPI: APIBase {
      - GET /users/{userId}/devices/{deviceId}/publications/{publicationId}
      - examples: [{contentType=application/json, example={
   "duration" : 1.4658129805029452,
+  "createdAt" : 0,
   "topic" : "aeiou",
   "range" : 6.027456183070403,
   "id" : "aeiou",
   "deviceId" : "aeiou",
-  "properties" : "aeiou",
-  "timestamp" : 0
+  "properties" : {
+    "key" : "aeiou"
+  }
 }}]
      
      - parameter userId: (path) The id (UUID) of the user of the device. 

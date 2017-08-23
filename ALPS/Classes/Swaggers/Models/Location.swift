@@ -10,8 +10,8 @@ import Foundation
 
 open class Location: JSONEncodable {
 
-    /** The timestamp in seconds since Jan 01 1970. (UTC). If no timestamp is provided upon creation then the system uses the moment of the call to the api as a timestamp.  */
-    public var timestamp: Int64?
+    /** The timestamp of the location creation in seconds since Jan 01 1970 (UTC).  */
+    public var createdAt: Int64?
     /** The latitude of the device in degrees, for instance &#39;46.5333&#39; (Lausanne, Switzerland).  */
     public var latitude: Double?
     /** The longitude of the device in degrees, for instance &#39;6.6667&#39; (Lausanne, Switzerland).  */
@@ -28,7 +28,7 @@ open class Location: JSONEncodable {
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()
-        nillableDictionary["timestamp"] = self.timestamp?.encodeToJSON()
+        nillableDictionary["createdAt"] = self.createdAt?.encodeToJSON()
         nillableDictionary["latitude"] = self.latitude
         nillableDictionary["longitude"] = self.longitude
         nillableDictionary["altitude"] = self.altitude

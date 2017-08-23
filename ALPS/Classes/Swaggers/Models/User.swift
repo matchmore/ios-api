@@ -13,6 +13,10 @@ open class User: JSONEncodable {
 
     /** The id (UUID) of the user. */
     public var id: String?
+    /** The timestamp of the user&#39;s creation in seconds since Jan 01 1970 (UTC).  */
+    public var createdAt: Int64?
+    /** The timestamp of the user&#39;s update in seconds since Jan 01 1970 (UTC).  */
+    public var updatedAt: Int64?
     /** The name of the user. */
     public var name: String?
 
@@ -22,6 +26,8 @@ open class User: JSONEncodable {
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()
         nillableDictionary["id"] = self.id
+        nillableDictionary["createdAt"] = self.createdAt?.encodeToJSON()
+        nillableDictionary["updatedAt"] = self.updatedAt?.encodeToJSON()
         nillableDictionary["name"] = self.name
 
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
