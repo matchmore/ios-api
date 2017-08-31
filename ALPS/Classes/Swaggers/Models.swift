@@ -260,6 +260,23 @@ class Decoders {
         }
 
 
+        // Decoder for [ProximityEvent]
+        Decoders.addDecoder(clazz: [ProximityEvent].self) { (source: AnyObject, instance: AnyObject?) -> [ProximityEvent] in
+            return Decoders.decode(clazz: [ProximityEvent].self, source: source)
+        }
+        // Decoder for ProximityEvent
+        Decoders.addDecoder(clazz: ProximityEvent.self) { (source: AnyObject, instance: AnyObject?) -> ProximityEvent in
+            let sourceDictionary = source as! [AnyHashable: Any]
+            let result = instance == nil ? ProximityEvent() : instance as! ProximityEvent
+            
+            result.id = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["id"] as AnyObject?)
+            result.createdAt = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["createdAt"] as AnyObject?)
+            result.deviceId = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["deviceId"] as AnyObject?)
+            result.distance = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["distance"] as AnyObject?)
+            return result
+        }
+
+
         // Decoder for [Publication]
         Decoders.addDecoder(clazz: [Publication].self) { (source: AnyObject, instance: AnyObject?) -> [Publication] in
             return Decoders.decode(clazz: [Publication].self, source: source)
