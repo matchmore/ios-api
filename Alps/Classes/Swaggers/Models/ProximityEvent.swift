@@ -13,7 +13,7 @@ open class ProximityEvent: JSONEncodable {
 
     /** The id (UUID) of the proximity event. */
     public var id: String?
-    /** The timestamp of the proximity event in seconds since Jan 01 1970 (UTC). */
+    /** The timestamp of the proximity event in seconds since Jan 01 1970 (UTC).  */
     public var createdAt: Int64?
     /** The id (UUID) of the iBeacon to trigger a proximity event to. */
     public var deviceId: String?
