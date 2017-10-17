@@ -14,12 +14,11 @@ open class MatchesAPI: APIBase {
     /**
      Get matches for the device
      
-     - parameter userId: (path) The id (UUID) of the user of the device. 
-     - parameter deviceId: (path) The id (UUID) of the user device. 
+     - parameter deviceId: (path) The id (UUID) of the device. 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getMatches(userId: String, deviceId: String, completion: @escaping ((_ data: Matches?,_ error: Error?) -> Void)) {
-        getMatchesWithRequestBuilder(userId: userId, deviceId: deviceId).execute { (response, error) -> Void in
+    open class func getMatches(deviceId: String, completion: @escaping ((_ data: Matches?,_ error: Error?) -> Void)) {
+        getMatchesWithRequestBuilder(deviceId: deviceId).execute { (response, error) -> Void in
             completion(response?.body, error);
         }
     }
@@ -27,17 +26,15 @@ open class MatchesAPI: APIBase {
 
     /**
      Get matches for the device
-     - GET /users/{userId}/devices/{deviceId}/matches
+     - GET /devices/{deviceId}/matches
      - examples: [{contentType=application/json, example=""}]
      
-     - parameter userId: (path) The id (UUID) of the user of the device. 
-     - parameter deviceId: (path) The id (UUID) of the user device. 
+     - parameter deviceId: (path) The id (UUID) of the device. 
 
      - returns: RequestBuilder<Matches> 
      */
-    open class func getMatchesWithRequestBuilder(userId: String, deviceId: String) -> RequestBuilder<Matches> {
-        var path = "/users/{userId}/devices/{deviceId}/matches"
-        path = path.replacingOccurrences(of: "{userId}", with: "\(userId)", options: .literal, range: nil)
+    open class func getMatchesWithRequestBuilder(deviceId: String) -> RequestBuilder<Matches> {
+        var path = "/devices/{deviceId}/matches"
         path = path.replacingOccurrences(of: "{deviceId}", with: "\(deviceId)", options: .literal, range: nil)
         let URLString = AlpsAPI.basePath + path
         let parameters: [String:Any]? = nil

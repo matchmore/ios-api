@@ -11,7 +11,7 @@ import Foundation
 /** An object representing a match between a subscription and a publication. */
 open class Match: JSONEncodable {
 
-    /** The id (UUID) of the user. */
+    /** The id (UUID) of the match. */
     public var id: String?
     /** The timestamp of the match in seconds since Jan 01 1970 (UTC). */
     public var createdAt: Int64?
