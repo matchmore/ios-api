@@ -195,7 +195,7 @@ class Decoders {
         // Decoder for DeviceIds
         Decoders.addDecoder(clazz: DeviceIds.self) { (source: AnyObject, instance: AnyObject?) -> DeviceIds in
             let sourceArray = source as! [AnyObject]
-            return sourceArray.map({ Decoders.decode(clazz: .self, source: $0, instance: nil) })
+            return sourceArray.map({ Decoders.decode(clazz: DeviceId.self, source: $0, instance: nil) })
         }
 
 
@@ -247,7 +247,7 @@ class Decoders {
         }
         // Decoder for IBeaconTriples
         Decoders.addDecoder(clazz: IBeaconTriples.self) { (source: AnyObject, instance: AnyObject?) -> IBeaconTriples in
-            if let source = source as? Any {
+            if let source = source as? IBeaconTriples {
                 return source
             }
             fatalError("Source \(source) is not convertible to typealias IBeaconTriples: Maybe swagger file is insufficient")

@@ -8,4 +8,5 @@
 import Foundation
 
 
-public typealias DeviceIds = []
+public typealias DeviceIds = [DeviceId]
+public typealias DeviceId = String
