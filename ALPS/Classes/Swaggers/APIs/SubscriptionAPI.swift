@@ -10,7 +10,7 @@ import Alamofire
 
 
 
-open class SubscriptionAPI: APIBase {
+open class SubscriptionAPI {
     /**
      Create a subscription for a device
      
@@ -49,7 +49,7 @@ open class SubscriptionAPI: APIBase {
         var path = "/devices/{deviceId}/subscriptions"
         path = path.replacingOccurrences(of: "{deviceId}", with: "\(deviceId)", options: .literal, range: nil)
         let URLString = AlpsAPI.basePath + path
-        let parameters = subscription.encodeToJSON() as? [String:AnyObject]
+        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: subscription)
 
         let url = NSURLComponents(string: URLString)
 
@@ -93,7 +93,7 @@ open class SubscriptionAPI: APIBase {
         let url = NSURLComponents(string: URLString)
 
 
-        let requestBuilder: RequestBuilder<Void>.Type = AlpsAPI.requestBuilderFactory.getBuilder()
+        let requestBuilder: RequestBuilder<Void>.Type = AlpsAPI.requestBuilderFactory.getNonDecodableBuilder()
 
         return requestBuilder.init(method: "DELETE", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
     }

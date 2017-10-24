@@ -10,5 +10,5 @@ fi
 wget $custom_url
 
 rm -fr ./ALPS
-swagger-codegen generate -c ./swagger-config.json -l swift3 -i ./alps-core.yaml
+swagger-codegen generate -c ./swagger-config.json -l swift4 -i ./alps-core.yaml
 rm -f alps-core.yaml

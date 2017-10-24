@@ -15,12 +15,4 @@ open class PinDevice: Device {
 
     
 
-    // MARK: JSONEncodable
-    override open func encodeToJSON() -> Any {
-        var nillableDictionary = super.encodeToJSON() as? [String:Any?] ?? [String:Any?]()
-        nillableDictionary["location"] = self.location?.encodeToJSON()
-
-        let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
-        return dictionary
-    }
 }

@@ -8,4 +8,4 @@
 import Foundation
 
 
-public typealias IBeaconTriples = Any
+public typealias IBeaconTriples = [IBeaconTriple]

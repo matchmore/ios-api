@@ -10,7 +10,7 @@ import Alamofire
 
 
 
-open class DeviceAPI: APIBase {
+open class DeviceAPI {
     /**
      Create a device
      
@@ -43,7 +43,7 @@ open class DeviceAPI: APIBase {
     open class func createDeviceWithRequestBuilder(device: Device) -> RequestBuilder<Device> {
         let path = "/devices"
         let URLString = AlpsAPI.basePath + path
-        let parameters = device.encodeToJSON() as? [String:AnyObject]
+        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: device)
 
         let url = NSURLComponents(string: URLString)
 
@@ -88,7 +88,7 @@ open class DeviceAPI: APIBase {
         var path = "/devices/{deviceId}/locations"
         path = path.replacingOccurrences(of: "{deviceId}", with: "\(deviceId)", options: .literal, range: nil)
         let URLString = AlpsAPI.basePath + path
-        let parameters = location.encodeToJSON() as? [String:AnyObject]
+        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: location)
 
         let url = NSURLComponents(string: URLString)
 
@@ -137,7 +137,7 @@ open class DeviceAPI: APIBase {
         var path = "/devices/{deviceId}/publications"
         path = path.replacingOccurrences(of: "{deviceId}", with: "\(deviceId)", options: .literal, range: nil)
         let URLString = AlpsAPI.basePath + path
-        let parameters = publication.encodeToJSON() as? [String:AnyObject]
+        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: publication)
 
         let url = NSURLComponents(string: URLString)
 
@@ -185,7 +185,7 @@ open class DeviceAPI: APIBase {
         var path = "/devices/{deviceId}/subscriptions"
         path = path.replacingOccurrences(of: "{deviceId}", with: "\(deviceId)", options: .literal, range: nil)
         let URLString = AlpsAPI.basePath + path
-        let parameters = subscription.encodeToJSON() as? [String:AnyObject]
+        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: subscription)
 
         let url = NSURLComponents(string: URLString)
 
@@ -225,42 +225,7 @@ open class DeviceAPI: APIBase {
         let url = NSURLComponents(string: URLString)
 
 
-        let requestBuilder: RequestBuilder<Void>.Type = AlpsAPI.requestBuilderFactory.getBuilder()
-
-        return requestBuilder.init(method: "DELETE", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
-    }
-
-    /**
-     Deletes all devices belonging to certain group
-     
-     - parameter group: (path) The group to return, grops are string that can be max 25 characters long and contains letters numbers or underscores 
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    open class func deleteDevicesByGroup(group: String, completion: @escaping ((_ error: Error?) -> Void)) {
-        deleteDevicesByGroupWithRequestBuilder(group: group).execute { (response, error) -> Void in
-            completion(error);
-        }
-    }
-
-
-    /**
-     Deletes all devices belonging to certain group
-     - DELETE /devices/groups/{group}
-     
-     - parameter group: (path) The group to return, grops are string that can be max 25 characters long and contains letters numbers or underscores 
-
-     - returns: RequestBuilder<Void> 
-     */
-    open class func deleteDevicesByGroupWithRequestBuilder(group: String) -> RequestBuilder<Void> {
-        var path = "/devices/groups/{group}"
-        path = path.replacingOccurrences(of: "{group}", with: "\(group)", options: .literal, range: nil)
-        let URLString = AlpsAPI.basePath + path
-        let parameters: [String:Any]? = nil
-
-        let url = NSURLComponents(string: URLString)
-
-
-        let requestBuilder: RequestBuilder<Void>.Type = AlpsAPI.requestBuilderFactory.getBuilder()
+        let requestBuilder: RequestBuilder<Void>.Type = AlpsAPI.requestBuilderFactory.getNonDecodableBuilder()
 
         return requestBuilder.init(method: "DELETE", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
     }
@@ -299,7 +264,7 @@ open class DeviceAPI: APIBase {
         let url = NSURLComponents(string: URLString)
 
 
-        let requestBuilder: RequestBuilder<Void>.Type = AlpsAPI.requestBuilderFactory.getBuilder()
+        let requestBuilder: RequestBuilder<Void>.Type = AlpsAPI.requestBuilderFactory.getNonDecodableBuilder()
 
         return requestBuilder.init(method: "DELETE", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
     }
@@ -338,7 +303,7 @@ open class DeviceAPI: APIBase {
         let url = NSURLComponents(string: URLString)
 
 
-        let requestBuilder: RequestBuilder<Void>.Type = AlpsAPI.requestBuilderFactory.getBuilder()
+        let requestBuilder: RequestBuilder<Void>.Type = AlpsAPI.requestBuilderFactory.getNonDecodableBuilder()
 
         return requestBuilder.init(method: "DELETE", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
     }
@@ -387,128 +352,6 @@ open class DeviceAPI: APIBase {
     }
 
     /**
-     Get all devices ids
-     
-     - parameter offset: (query) How many items to to skip when return (default 0) (optional)
-     - parameter limit: (query) How many items to return at one time (1-100, default 100) (optional)
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    open class func getDevices(offset: Int32? = nil, limit: Int32? = nil, completion: @escaping ((_ data: DeviceIds?,_ error: Error?) -> Void)) {
-        getDevicesWithRequestBuilder(offset: offset, limit: limit).execute { (response, error) -> Void in
-            completion(response?.body, error);
-        }
-    }
-
-
-    /**
-     Get all devices ids
-     - GET /devices
-     - examples: [{contentType=application/json, example=""}]
-     
-     - parameter offset: (query) How many items to to skip when return (default 0) (optional)
-     - parameter limit: (query) How many items to return at one time (1-100, default 100) (optional)
-
-     - returns: RequestBuilder<DeviceIds> 
-     */
-    open class func getDevicesWithRequestBuilder(offset: Int32? = nil, limit: Int32? = nil) -> RequestBuilder<DeviceIds> {
-        let path = "/devices"
-        let URLString = AlpsAPI.basePath + path
-        let parameters: [String:Any]? = nil
-
-        let url = NSURLComponents(string: URLString)
-        url?.queryItems = APIHelper.mapValuesToQueryItems(values:[
-            "offset": offset?.encodeToJSON(), 
-            "limit": limit?.encodeToJSON()
-        ])
-        
-
-        let requestBuilder: RequestBuilder<DeviceIds>.Type = AlpsAPI.requestBuilderFactory.getBuilder()
-
-        return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
-    }
-
-    /**
-     Get all device ids for devices that belongs to specific group
-     
-     - parameter group: (path) The group to return, grops are string that can be max 25 characters long and contains letters numbers or underscores 
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    open class func getDevicesByGroup(group: String, completion: @escaping ((_ data: DeviceIds?,_ error: Error?) -> Void)) {
-        getDevicesByGroupWithRequestBuilder(group: group).execute { (response, error) -> Void in
-            completion(response?.body, error);
-        }
-    }
-
-
-    /**
-     Get all device ids for devices that belongs to specific group
-     - GET /devices/groups/{group}
-     - examples: [{contentType=application/json, example=""}]
-     
-     - parameter group: (path) The group to return, grops are string that can be max 25 characters long and contains letters numbers or underscores 
-
-     - returns: RequestBuilder<DeviceIds> 
-     */
-    open class func getDevicesByGroupWithRequestBuilder(group: String) -> RequestBuilder<DeviceIds> {
-        var path = "/devices/groups/{group}"
-        path = path.replacingOccurrences(of: "{group}", with: "\(group)", options: .literal, range: nil)
-        let URLString = AlpsAPI.basePath + path
-        let parameters: [String:Any]? = nil
-
-        let url = NSURLComponents(string: URLString)
-
-
-        let requestBuilder: RequestBuilder<DeviceIds>.Type = AlpsAPI.requestBuilderFactory.getBuilder()
-
-        return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
-    }
-
-    /**
-     * enum for parameter deviceType
-     */
-    public enum DeviceType_getDevicesByType: String { 
-        case mobileDevice = "MobileDevice"
-        case pinDevice = "PinDevice"
-        case ibeacondevice = "IBeaconDevice"
-    }
-
-    /**
-     Get all device ids for devices of specified type
-     
-     - parameter deviceType: (path) The deviceType to return 
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    open class func getDevicesByType(deviceType: DeviceType_getDevicesByType, completion: @escaping ((_ data: DeviceIds?,_ error: Error?) -> Void)) {
-        getDevicesByTypeWithRequestBuilder(deviceType: deviceType).execute { (response, error) -> Void in
-            completion(response?.body, error);
-        }
-    }
-
-
-    /**
-     Get all device ids for devices of specified type
-     - GET /devices/types/{deviceType}
-     - examples: [{contentType=application/json, example=""}]
-     
-     - parameter deviceType: (path) The deviceType to return 
-
-     - returns: RequestBuilder<DeviceIds> 
-     */
-    open class func getDevicesByTypeWithRequestBuilder(deviceType: DeviceType_getDevicesByType) -> RequestBuilder<DeviceIds> {
-        var path = "/devices/types/{deviceType}"
-        path = path.replacingOccurrences(of: "{deviceType}", with: "\(deviceType.rawValue)", options: .literal, range: nil)
-        let URLString = AlpsAPI.basePath + path
-        let parameters: [String:Any]? = nil
-
-        let url = NSURLComponents(string: URLString)
-
-
-        let requestBuilder: RequestBuilder<DeviceIds>.Type = AlpsAPI.requestBuilderFactory.getBuilder()
-
-        return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
-    }
-
-    /**
      Get IBeacons triples for all registered devices
      
      - parameter completion: completion handler to receive the data and the error objects
@@ -524,7 +367,7 @@ open class DeviceAPI: APIBase {
      Get IBeacons triples for all registered devices
      - GET /devices/IBeaconTriples
      - Keys in map are device UUIDs and values are IBeacon triples. In model you can see example values \"property1\" \"property2\" \"property3\" instead of random UUIDs this is generated by OpenApi document browser
-     - examples: [{contentType=application/json, example={ }}]
+     - examples: [{contentType=application/json, example=""}]
 
      - returns: RequestBuilder<IBeaconTriples> 
      */
@@ -781,7 +624,7 @@ open class DeviceAPI: APIBase {
         var path = "/devices/{deviceId}/proximityEvents"
         path = path.replacingOccurrences(of: "{deviceId}", with: "\(deviceId)", options: .literal, range: nil)
         let URLString = AlpsAPI.basePath + path
-        let parameters = proximityEvent.encodeToJSON() as? [String:AnyObject]
+        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: proximityEvent)
 
         let url = NSURLComponents(string: URLString)
 

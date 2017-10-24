@@ -9,7 +9,7 @@ import Foundation
 
 
 /** A device might be either virtual like a pin device or physical like a mobile phone or iBeacon device.  */
-open class Device: JSONEncodable {
+open class Device: Codable {
 
     /** The id (UUID) of the device. */
     public var id: String?
@@ -25,17 +25,4 @@ open class Device: JSONEncodable {
 
     public init() {}
 
-    // MARK: JSONEncodable
-    open func encodeToJSON() -> Any {
-        var nillableDictionary = [String:Any?]()
-        nillableDictionary["id"] = self.id
-        nillableDictionary["createdAt"] = self.createdAt?.encodeToJSON()
-        nillableDictionary["updatedAt"] = self.updatedAt?.encodeToJSON()
-        nillableDictionary["group"] = self.group?.encodeToJSON()
-        nillableDictionary["name"] = self.name
-        nillableDictionary["deviceType"] = self.deviceType?.encodeToJSON()
-
-        let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
-        return dictionary
-    }
 }

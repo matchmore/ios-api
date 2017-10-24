@@ -8,8 +8,10 @@
 import Foundation
 
 
-open class IBeaconTriple: JSONEncodable {
+open class IBeaconTriple: Codable {
 
+    /** The deviceId of the beacon.  */
+    public var deviceId: String?
     /** The UUID of the beacon, the purpose is to distinguish iBeacons in your network, from all other beacons in networks outside your control.  */
     public var proximityUUID: String?
     /** Major values are intended to identify and distinguish a group.  */
@@ -19,14 +21,4 @@ open class IBeaconTriple: JSONEncodable {
 
     public init() {}
 
-    // MARK: JSONEncodable
-    open func encodeToJSON() -> Any {
-        var nillableDictionary = [String:Any?]()
-        nillableDictionary["proximityUUID"] = self.proximityUUID
-        nillableDictionary["major"] = self.major?.encodeToJSON()
-        nillableDictionary["minor"] = self.minor?.encodeToJSON()
-
-        let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
-        return dictionary
-    }
 }

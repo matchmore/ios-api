@@ -10,5 +10,5 @@ Pod::Spec.new do |s|
   s.summary = 'Matchmore Alps RESTful API'
   s.description = 'This is Alps pod description'
   s.source_files = 'Alps/Classes/Swaggers/**/*.swift'
-  s.dependency 'Alamofire', '~> 4.0'
+  s.dependency 'Alamofire', '~> 4.5'
 end
