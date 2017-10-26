@@ -10,7 +10,7 @@ import Alamofire
 
 
 
-open class PublicationAPI {
+open class PublicationAPI: APIBase {
     /**
      Create a publication for a device
      
@@ -50,7 +50,7 @@ open class PublicationAPI {
         var path = "/devices/{deviceId}/publications"
         path = path.replacingOccurrences(of: "{deviceId}", with: "\(deviceId)", options: .literal, range: nil)
         let URLString = AlpsAPI.basePath + path
-        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: publication)
+        let parameters = publication.encodeToJSON() as? [String:AnyObject]
 
         let url = NSURLComponents(string: URLString)
 
@@ -94,7 +94,7 @@ open class PublicationAPI {
         let url = NSURLComponents(string: URLString)
 
 
-        let requestBuilder: RequestBuilder<Void>.Type = AlpsAPI.requestBuilderFactory.getNonDecodableBuilder()
+        let requestBuilder: RequestBuilder<Void>.Type = AlpsAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "DELETE", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
     }

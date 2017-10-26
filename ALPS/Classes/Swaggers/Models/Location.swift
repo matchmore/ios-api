@@ -8,7 +8,7 @@
 import Foundation
 
 
-open class Location: Codable {
+open class Location: JSONEncodable {
 
     /** The timestamp of the location creation in seconds since Jan 01 1970 (UTC).  */
     public var createdAt: Int64?
@@ -25,4 +25,17 @@ open class Location: Codable {
 
     public init() {}
 
+    // MARK: JSONEncodable
+    open func encodeToJSON() -> Any {
+        var nillableDictionary = [String:Any?]()
+        nillableDictionary["createdAt"] = self.createdAt?.encodeToJSON()
+        nillableDictionary["latitude"] = self.latitude
+        nillableDictionary["longitude"] = self.longitude
+        nillableDictionary["altitude"] = self.altitude
+        nillableDictionary["horizontalAccuracy"] = self.horizontalAccuracy
+        nillableDictionary["verticalAccuracy"] = self.verticalAccuracy
+
+        let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
+        return dictionary
+    }
 }

@@ -10,7 +10,7 @@ import Alamofire
 
 
 
-open class LocationAPI {
+open class LocationAPI: APIBase {
     /**
      Create a new location for a device
      
@@ -46,7 +46,7 @@ open class LocationAPI {
         var path = "/devices/{deviceId}/locations"
         path = path.replacingOccurrences(of: "{deviceId}", with: "\(deviceId)", options: .literal, range: nil)
         let URLString = AlpsAPI.basePath + path
-        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: location)
+        let parameters = location.encodeToJSON() as? [String:AnyObject]
 
         let url = NSURLComponents(string: URLString)
 

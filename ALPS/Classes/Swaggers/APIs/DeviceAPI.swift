@@ -10,7 +10,7 @@ import Alamofire
 
 
 
-open class DeviceAPI {
+open class DeviceAPI: APIBase {
     /**
      Create a device
      
@@ -43,7 +43,7 @@ open class DeviceAPI {
     open class func createDeviceWithRequestBuilder(device: Device) -> RequestBuilder<Device> {
         let path = "/devices"
         let URLString = AlpsAPI.basePath + path
-        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: device)
+        let parameters = device.encodeToJSON() as? [String:AnyObject]
 
         let url = NSURLComponents(string: URLString)
 
@@ -88,7 +88,7 @@ open class DeviceAPI {
         var path = "/devices/{deviceId}/locations"
         path = path.replacingOccurrences(of: "{deviceId}", with: "\(deviceId)", options: .literal, range: nil)
         let URLString = AlpsAPI.basePath + path
-        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: location)
+        let parameters = location.encodeToJSON() as? [String:AnyObject]
 
         let url = NSURLComponents(string: URLString)
 
@@ -137,7 +137,7 @@ open class DeviceAPI {
         var path = "/devices/{deviceId}/publications"
         path = path.replacingOccurrences(of: "{deviceId}", with: "\(deviceId)", options: .literal, range: nil)
         let URLString = AlpsAPI.basePath + path
-        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: publication)
+        let parameters = publication.encodeToJSON() as? [String:AnyObject]
 
         let url = NSURLComponents(string: URLString)
 
@@ -185,7 +185,7 @@ open class DeviceAPI {
         var path = "/devices/{deviceId}/subscriptions"
         path = path.replacingOccurrences(of: "{deviceId}", with: "\(deviceId)", options: .literal, range: nil)
         let URLString = AlpsAPI.basePath + path
-        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: subscription)
+        let parameters = subscription.encodeToJSON() as? [String:AnyObject]
 
         let url = NSURLComponents(string: URLString)
 
@@ -225,7 +225,7 @@ open class DeviceAPI {
         let url = NSURLComponents(string: URLString)
 
 
-        let requestBuilder: RequestBuilder<Void>.Type = AlpsAPI.requestBuilderFactory.getNonDecodableBuilder()
+        let requestBuilder: RequestBuilder<Void>.Type = AlpsAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "DELETE", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
     }
@@ -264,7 +264,7 @@ open class DeviceAPI {
         let url = NSURLComponents(string: URLString)
 
 
-        let requestBuilder: RequestBuilder<Void>.Type = AlpsAPI.requestBuilderFactory.getNonDecodableBuilder()
+        let requestBuilder: RequestBuilder<Void>.Type = AlpsAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "DELETE", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
     }
@@ -303,7 +303,7 @@ open class DeviceAPI {
         let url = NSURLComponents(string: URLString)
 
 
-        let requestBuilder: RequestBuilder<Void>.Type = AlpsAPI.requestBuilderFactory.getNonDecodableBuilder()
+        let requestBuilder: RequestBuilder<Void>.Type = AlpsAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "DELETE", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
     }
@@ -624,7 +624,7 @@ open class DeviceAPI {
         var path = "/devices/{deviceId}/proximityEvents"
         path = path.replacingOccurrences(of: "{deviceId}", with: "\(deviceId)", options: .literal, range: nil)
         let URLString = AlpsAPI.basePath + path
-        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: proximityEvent)
+        let parameters = proximityEvent.encodeToJSON() as? [String:AnyObject]
 
         let url = NSURLComponents(string: URLString)
 

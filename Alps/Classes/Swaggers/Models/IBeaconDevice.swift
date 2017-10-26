@@ -20,4 +20,14 @@ open class IBeaconDevice: Device {
 
     
 
+    // MARK: JSONEncodable
+    override open func encodeToJSON() -> Any {
+        var nillableDictionary = super.encodeToJSON() as? [String:Any?] ?? [String:Any?]()
+        nillableDictionary["proximityUUID"] = self.proximityUUID
+        nillableDictionary["major"] = self.major?.encodeToJSON()
+        nillableDictionary["minor"] = self.minor?.encodeToJSON()
+
+        let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
+        return dictionary
+    }
 }

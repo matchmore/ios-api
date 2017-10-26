@@ -9,7 +9,7 @@ import Foundation
 
 
 /** A subscription can be seen as a JMS subscription extended with the notion of geographical zone. The zone again being defined as circle with a center at the given location and a range around that location.  */
-open class Subscription: Codable {
+open class Subscription: JSONEncodable {
 
     /** The id (UUID) of the subscription. */
     public var id: String?
@@ -32,4 +32,20 @@ open class Subscription: Codable {
 
     public init() {}
 
+    // MARK: JSONEncodable
+    open func encodeToJSON() -> Any {
+        var nillableDictionary = [String:Any?]()
+        nillableDictionary["id"] = self.id
+        nillableDictionary["createdAt"] = self.createdAt?.encodeToJSON()
+        nillableDictionary["worldId"] = self.worldId
+        nillableDictionary["deviceId"] = self.deviceId
+        nillableDictionary["topic"] = self.topic
+        nillableDictionary["selector"] = self.selector
+        nillableDictionary["range"] = self.range
+        nillableDictionary["duration"] = self.duration
+        nillableDictionary["pushers"] = self.pushers?.encodeToJSON()
+
+        let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
+        return dictionary
+    }
 }

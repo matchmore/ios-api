@@ -10,7 +10,7 @@ import Alamofire
 
 
 
-open class MatchesAPI {
+open class MatchesAPI: APIBase {
     /**
      Get matches for the device
      

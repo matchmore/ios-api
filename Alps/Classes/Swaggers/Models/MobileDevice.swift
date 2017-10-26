@@ -19,4 +19,14 @@ open class MobileDevice: Device {
 
     
 
+    // MARK: JSONEncodable
+    override open func encodeToJSON() -> Any {
+        var nillableDictionary = super.encodeToJSON() as? [String:Any?] ?? [String:Any?]()
+        nillableDictionary["platform"] = self.platform
+        nillableDictionary["deviceToken"] = self.deviceToken
+        nillableDictionary["location"] = self.location?.encodeToJSON()
+
+        let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
+        return dictionary
+    }
 }
