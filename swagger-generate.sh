@@ -13,5 +13,5 @@ rm -fr ./Alps
 swagger-codegen generate -c ./swagger-config.json -l swift3 -i ./alps-core.yaml
 rm -f alps-core.yaml
 
-cp AutoCodable.swift /Alps/Classes/Swaggers/Models
+cp .Templates/AutoCodable.swift /Alps/Classes/Swaggers/Models
 ./sourcery-generate.sh
