@@ -9,51 +9,38 @@ class Encodable{{ type.name }}: NSObject, NSCoding {
     }
     
     required init?(coder decoder: NSCoder) {
+        self.{{ type.name | lowerFirstWord }} = {{ type.name }}()
         {% for variable in type.storedVariables %}
-        {% if variable.typeName.name|hasPrefix:"[" %}
-
+        {% if variable.typeName.name|hasPrefix:"[String]?" or variable.typeName.name|hasPrefix:"[String:String]?"%}
+        self.{{ type.name | lowerFirstWord }}?.{{ variable.name }} = decoder.decodeObject(forKey: "{{ variable.name }}") as? {{ variable.unwrappedTypeName }}
+        {% elif variable.typeName.name|hasPrefix:"[" %}
         guard let encodable_{{ variable.name }} = decoder.decodeObject(forKey: "{{ variable.name }}") as? [Encodable{{ variable.typeName.name|replace:"[",""|replace:"]","" }}] else { return nil }
-        let {{ variable.name }} = encodable_{{ variable.name }}.flatMap({ $0.{{ variable.typeName.name|replace:"[",""|replace:"]",""| lowerFirstWord}} })
-
+        self.{{ type.name | lowerFirstWord }}?.{{ variable.name }} = encodable_{{ variable.name }}.flatMap({ $0.{{ variable.typeName.name|replace:"[",""|replace:"]",""| lowerFirstWord}} })
         {% elif variable.isOptional and variable.type.implements.AutoCodable %}
-
         let encodable_{{ variable.name }} = decoder.decodeObject(forKey: "{{ variable.name }}") as? Encodable{{ variable.unwrappedTypeName }}
-        let {{ variable.name }} = encodable_{{variable.name}}?.{{variable.name}}
-
+        self.{{ type.name | lowerFirstWord }}?.{{ variable.name }} = encodable_{{variable.name}}?.{{variable.name}}
         {% elif variable.isOptional and not variable.type.implements.AutoCodable %}
-        
-        let {{ variable.name }} = decoder.decodeObject(forKey: "{{ variable.name }}") as? {{ variable.unwrappedTypeName }}
-        
+        self.{{ type.name | lowerFirstWord }}?.{{ variable.name }} = decoder.decodeObject(forKey: "{{ variable.name }}") as? {{ variable.unwrappedTypeName }}
         {% elif variable.type.implements.AutoCodable %}
-
         guard let encodable_{{ variable.name }} = decoder.decodeObject(forKey: "{{ variable.name }}") as? Encodable{{ variable.typeName }},
-        let {{ variable.name }} = encodable_{{ variable.name }}.{{ variable.name }} else { return nil }
-
+        self.{{ type.name | lowerFirstWord }}?.{{ variable.name }} = encodable_{{ variable.name }}.{{ variable.name }} else { return nil }
         {% else %}
-        
-        guard let {{ variable.name }} = decoder.decodeObject(forKey: "{{ variable.name }}") as? {{ variable.typeName }} else { return nil }
-
+        guard let {{ variable.name }} = decoder!!.decodeObject(forKey: "{{ variable.name }}") as? {{ variable.typeName }} else { return nil }
         {% endif %}
-        
         {% endfor %}
-
     }      
             
     func encode(with encoder: NSCoder) {
         {% for variable in type.storedVariables %}
-        {% if variable.typeName.name|hasPrefix:"[" %}
-        
+        {% if variable.typeName.name|hasPrefix:"[String]?" or variable.typeName.name|hasPrefix:"[String:String]?"%}
+        encoder.encode({{ type.name | lowerFirstWord }}?.{{ variable.name }}, forKey: "{{ variable.name }}")
+        {% elif variable.typeName.name|hasPrefix:"[" %}
         let encoded_{{ variable.name }} = {{ type.name | lowerFirstWord }}?.{{ variable.name }}.map({ return Encodable{{ variable.typeName.name|replace:"[",""|replace:"]","" }}({{ variable.typeName.name|replace:"[",""|replace:"]",""| lowerFirstWord }}: $0) })
         encoder.encode(encoded_{{ variable.name }}, forKey: "{{ variable.name }}")
-
         {% elif variable.type.implements.AutoCodable %}
-        
         encoder.encode(Encodable{{ variable.unwrappedTypeName }}({{ variable.name | lowerFirstWord }}: {{ type.name | lowerFirstWord }}?.{{ variable.name }}), forKey: "{{ variable.name }}")
-        
         {% else %}
-        
         encoder.encode({{ type.name | lowerFirstWord }}?.{{ variable.name }}, forKey: "{{ variable.name }}")
-        
         {% endif %}
         {% endfor %}
     }

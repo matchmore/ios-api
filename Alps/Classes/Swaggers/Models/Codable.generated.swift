@@ -8,24 +8,19 @@ class EncodableDevice: NSObject, NSCoding {
         self.device = device
     }
     required init?(coder decoder: NSCoder) {
-        let id = decoder.decodeObject(forKey: "id") as? String
-        let createdAt = decoder.decodeObject(forKey: "createdAt") as? Int64
-        let updatedAt = decoder.decodeObject(forKey: "updatedAt") as? Int64
-
-        guard let encodable_group = decoder.decodeObject(forKey: "group") as? [EncodableString?] else { return nil }
-        let group = encodable_group.flatMap({ $0.string? })
-
-        let name = decoder.decodeObject(forKey: "name") as? String
-        let deviceType = decoder.decodeObject(forKey: "deviceType") as? DeviceType
-
+        self.device = Device()
+        self.device?.id = decoder.decodeObject(forKey: "id") as? String
+        self.device?.createdAt = decoder.decodeObject(forKey: "createdAt") as? Int64
+        self.device?.updatedAt = decoder.decodeObject(forKey: "updatedAt") as? Int64
+        self.device?.group = decoder.decodeObject(forKey: "group") as? [String]
+        self.device?.name = decoder.decodeObject(forKey: "name") as? String
+        self.device?.deviceType = decoder.decodeObject(forKey: "deviceType") as? DeviceType
     }      
     func encode(with encoder: NSCoder) {
         encoder.encode(device?.id, forKey: "id")
         encoder.encode(device?.createdAt, forKey: "createdAt")
         encoder.encode(device?.updatedAt, forKey: "updatedAt")
-        let encoded_group = device?.group.map({ return EncodableString?(string?: $0) })
-        encoder.encode(encoded_group, forKey: "group")
-
+        encoder.encode(device?.group, forKey: "group")
         encoder.encode(device?.name, forKey: "name")
         encoder.encode(device?.deviceType, forKey: "deviceType")
     }
@@ -37,10 +32,10 @@ class EncodableIBeaconDevice: NSObject, NSCoding {
         self.iBeaconDevice = iBeaconDevice
     }
     required init?(coder decoder: NSCoder) {
-        let proximityUUID = decoder.decodeObject(forKey: "proximityUUID") as? String
-        let major = decoder.decodeObject(forKey: "major") as? Int32
-        let minor = decoder.decodeObject(forKey: "minor") as? Int32
-
+        self.iBeaconDevice = IBeaconDevice()
+        self.iBeaconDevice?.proximityUUID = decoder.decodeObject(forKey: "proximityUUID") as? String
+        self.iBeaconDevice?.major = decoder.decodeObject(forKey: "major") as? Int32
+        self.iBeaconDevice?.minor = decoder.decodeObject(forKey: "minor") as? Int32
     }      
     func encode(with encoder: NSCoder) {
         encoder.encode(iBeaconDevice?.proximityUUID, forKey: "proximityUUID")
@@ -55,17 +50,13 @@ class EncodableMatch: NSObject, NSCoding {
         self.match = match
     }
     required init?(coder decoder: NSCoder) {
-        let id = decoder.decodeObject(forKey: "id") as? String
-        let createdAt = decoder.decodeObject(forKey: "createdAt") as? Int64
-
+        self.match = Match()
+        self.match?.id = decoder.decodeObject(forKey: "id") as? String
+        self.match?.createdAt = decoder.decodeObject(forKey: "createdAt") as? Int64
         let encodable_publication = decoder.decodeObject(forKey: "publication") as? EncodablePublication
-        let publication = encodable_publication?.publication
-
-
+        self.match?.publication = encodable_publication?.publication
         let encodable_subscription = decoder.decodeObject(forKey: "subscription") as? EncodableSubscription
-        let subscription = encodable_subscription?.subscription
-
-
+        self.match?.subscription = encodable_subscription?.subscription
     }      
     func encode(with encoder: NSCoder) {
         encoder.encode(match?.id, forKey: "id")
@@ -81,10 +72,10 @@ class EncodableMobileDevice: NSObject, NSCoding {
         self.mobileDevice = mobileDevice
     }
     required init?(coder decoder: NSCoder) {
-        let platform = decoder.decodeObject(forKey: "platform") as? String
-        let deviceToken = decoder.decodeObject(forKey: "deviceToken") as? String
-        let location = decoder.decodeObject(forKey: "location") as? Location
-
+        self.mobileDevice = MobileDevice()
+        self.mobileDevice?.platform = decoder.decodeObject(forKey: "platform") as? String
+        self.mobileDevice?.deviceToken = decoder.decodeObject(forKey: "deviceToken") as? String
+        self.mobileDevice?.location = decoder.decodeObject(forKey: "location") as? Location
     }      
     func encode(with encoder: NSCoder) {
         encoder.encode(mobileDevice?.platform, forKey: "platform")
@@ -99,8 +90,8 @@ class EncodablePinDevice: NSObject, NSCoding {
         self.pinDevice = pinDevice
     }
     required init?(coder decoder: NSCoder) {
-        let location = decoder.decodeObject(forKey: "location") as? Location
-
+        self.pinDevice = PinDevice()
+        self.pinDevice?.location = decoder.decodeObject(forKey: "location") as? Location
     }      
     func encode(with encoder: NSCoder) {
         encoder.encode(pinDevice?.location, forKey: "location")
@@ -113,18 +104,15 @@ class EncodablePublication: NSObject, NSCoding {
         self.publication = publication
     }
     required init?(coder decoder: NSCoder) {
-        let id = decoder.decodeObject(forKey: "id") as? String
-        let createdAt = decoder.decodeObject(forKey: "createdAt") as? Int64
-        let worldId = decoder.decodeObject(forKey: "worldId") as? String
-        let deviceId = decoder.decodeObject(forKey: "deviceId") as? String
-        let topic = decoder.decodeObject(forKey: "topic") as? String
-        let range = decoder.decodeObject(forKey: "range") as? Double
-        let duration = decoder.decodeObject(forKey: "duration") as? Double
-
-        guard let encodable_properties = decoder.decodeObject(forKey: "properties") as? [EncodableString:String?] else { return nil }
-        let properties = encodable_properties.flatMap({ $0.string:String? })
-
-
+        self.publication = Publication()
+        self.publication?.id = decoder.decodeObject(forKey: "id") as? String
+        self.publication?.createdAt = decoder.decodeObject(forKey: "createdAt") as? Int64
+        self.publication?.worldId = decoder.decodeObject(forKey: "worldId") as? String
+        self.publication?.deviceId = decoder.decodeObject(forKey: "deviceId") as? String
+        self.publication?.topic = decoder.decodeObject(forKey: "topic") as? String
+        self.publication?.range = decoder.decodeObject(forKey: "range") as? Double
+        self.publication?.duration = decoder.decodeObject(forKey: "duration") as? Double
+        self.publication?.properties = decoder.decodeObject(forKey: "properties") as? [String:String]
     }      
     func encode(with encoder: NSCoder) {
         encoder.encode(publication?.id, forKey: "id")
@@ -134,9 +122,7 @@ class EncodablePublication: NSObject, NSCoding {
         encoder.encode(publication?.topic, forKey: "topic")
         encoder.encode(publication?.range, forKey: "range")
         encoder.encode(publication?.duration, forKey: "duration")
-        let encoded_properties = publication?.properties.map({ return EncodableString:String?(string:String?: $0) })
-        encoder.encode(encoded_properties, forKey: "properties")
-
+        encoder.encode(publication?.properties, forKey: "properties")
     }
 }
 
@@ -146,19 +132,16 @@ class EncodableSubscription: NSObject, NSCoding {
         self.subscription = subscription
     }
     required init?(coder decoder: NSCoder) {
-        let id = decoder.decodeObject(forKey: "id") as? String
-        let createdAt = decoder.decodeObject(forKey: "createdAt") as? Int64
-        let worldId = decoder.decodeObject(forKey: "worldId") as? String
-        let deviceId = decoder.decodeObject(forKey: "deviceId") as? String
-        let topic = decoder.decodeObject(forKey: "topic") as? String
-        let selector = decoder.decodeObject(forKey: "selector") as? String
-        let range = decoder.decodeObject(forKey: "range") as? Double
-        let duration = decoder.decodeObject(forKey: "duration") as? Double
-
-        guard let encodable_pushers = decoder.decodeObject(forKey: "pushers") as? [EncodableString?] else { return nil }
-        let pushers = encodable_pushers.flatMap({ $0.string? })
-
-
+        self.subscription = Subscription()
+        self.subscription?.id = decoder.decodeObject(forKey: "id") as? String
+        self.subscription?.createdAt = decoder.decodeObject(forKey: "createdAt") as? Int64
+        self.subscription?.worldId = decoder.decodeObject(forKey: "worldId") as? String
+        self.subscription?.deviceId = decoder.decodeObject(forKey: "deviceId") as? String
+        self.subscription?.topic = decoder.decodeObject(forKey: "topic") as? String
+        self.subscription?.selector = decoder.decodeObject(forKey: "selector") as? String
+        self.subscription?.range = decoder.decodeObject(forKey: "range") as? Double
+        self.subscription?.duration = decoder.decodeObject(forKey: "duration") as? Double
+        self.subscription?.pushers = decoder.decodeObject(forKey: "pushers") as? [String]
     }      
     func encode(with encoder: NSCoder) {
         encoder.encode(subscription?.id, forKey: "id")
@@ -169,9 +152,7 @@ class EncodableSubscription: NSObject, NSCoding {
         encoder.encode(subscription?.selector, forKey: "selector")
         encoder.encode(subscription?.range, forKey: "range")
         encoder.encode(subscription?.duration, forKey: "duration")
-        let encoded_pushers = subscription?.pushers.map({ return EncodableString?(string?: $0) })
-        encoder.encode(encoded_pushers, forKey: "pushers")
-
+        encoder.encode(subscription?.pushers, forKey: "pushers")
     }
 }
 
