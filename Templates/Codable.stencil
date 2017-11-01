@@ -1,14 +1,14 @@
 {% for type in types.implementing.AutoCodable %}
 	
-class Encodable{{ type.name }}: NSObject, NSCoding {
+open class Encodable{{ type.name }}: NSObject, NSCoding {
     
-    var {{ type.name | lowerFirstWord }}: {{ type.name }}?
+    public var {{ type.name | lowerFirstWord }}: {{ type.name }}!
     
-    init({{ type.name | lowerFirstWord }}: {{ type.name }}?) {
+    public init({{ type.name | lowerFirstWord }}: {{ type.name }}?) {
         self.{{ type.name | lowerFirstWord }} = {{ type.name | lowerFirstWord }}
     }
     
-    required init?(coder decoder: NSCoder) {
+    required public init?(coder decoder: NSCoder) {
         self.{{ type.name | lowerFirstWord }} = {{ type.name }}()
         {% for variable in type.storedVariables %}
         {% if variable.typeName.name|hasPrefix:"[String]?" or variable.typeName.name|hasPrefix:"[String:String]?"%}
@@ -30,7 +30,7 @@ class Encodable{{ type.name }}: NSObject, NSCoding {
         {% endfor %}
     }      
             
-    func encode(with encoder: NSCoder) {
+    public func encode(with encoder: NSCoder) {
         {% for variable in type.storedVariables %}
         {% if variable.typeName.name|hasPrefix:"[String]?" or variable.typeName.name|hasPrefix:"[String:String]?"%}
         encoder.encode({{ type.name | lowerFirstWord }}?.{{ variable.name }}, forKey: "{{ variable.name }}")
