@@ -14,7 +14,7 @@ open class EncodableDevice: NSObject, NSCoding {
         self.device?.updatedAt = decoder.decodeObject(forKey: "updatedAt") as? Int64
         self.device?.group = decoder.decodeObject(forKey: "group") as? [String]
         self.device?.name = decoder.decodeObject(forKey: "name") as? String
-        self.device?.deviceType = decoder.decodeObject(forKey: "deviceType") as? DeviceType
+        self.device?.deviceType = DeviceType(rawValue: decoder.decodeObject(forKey: "deviceType") as! String)
     }      
     public func encode(with encoder: NSCoder) {
         encoder.encode(device?.id, forKey: "id")
@@ -22,7 +22,7 @@ open class EncodableDevice: NSObject, NSCoding {
         encoder.encode(device?.updatedAt, forKey: "updatedAt")
         encoder.encode(device?.group, forKey: "group")
         encoder.encode(device?.name, forKey: "name")
-        encoder.encode(device?.deviceType, forKey: "deviceType")
+        encoder.encode(device?.deviceType?.rawValue, forKey: "deviceType")
     }
 }
 
@@ -41,7 +41,7 @@ open class EncodableIBeaconDevice: NSObject, NSCoding {
         self.iBeaconDevice?.updatedAt = decoder.decodeObject(forKey: "updatedAt") as? Int64
         self.iBeaconDevice?.group = decoder.decodeObject(forKey: "group") as? [String]
         self.iBeaconDevice?.name = decoder.decodeObject(forKey: "name") as? String
-        self.iBeaconDevice?.deviceType = decoder.decodeObject(forKey: "deviceType") as? DeviceType
+        self.iBeaconDevice?.deviceType = DeviceType(rawValue: decoder.decodeObject(forKey: "deviceType") as! String)
     }      
     public func encode(with encoder: NSCoder) {
         encoder.encode(iBeaconDevice?.proximityUUID, forKey: "proximityUUID")
@@ -52,7 +52,7 @@ open class EncodableIBeaconDevice: NSObject, NSCoding {
         encoder.encode(iBeaconDevice?.updatedAt, forKey: "updatedAt")
         encoder.encode(iBeaconDevice?.group, forKey: "group")
         encoder.encode(iBeaconDevice?.name, forKey: "name")
-        encoder.encode(iBeaconDevice?.deviceType, forKey: "deviceType")
+        encoder.encode(iBeaconDevice?.deviceType?.rawValue, forKey: "deviceType")
     }
 }
 
@@ -93,7 +93,7 @@ open class EncodableMobileDevice: NSObject, NSCoding {
         self.mobileDevice?.updatedAt = decoder.decodeObject(forKey: "updatedAt") as? Int64
         self.mobileDevice?.group = decoder.decodeObject(forKey: "group") as? [String]
         self.mobileDevice?.name = decoder.decodeObject(forKey: "name") as? String
-        self.mobileDevice?.deviceType = decoder.decodeObject(forKey: "deviceType") as? DeviceType
+        self.mobileDevice?.deviceType = DeviceType(rawValue: decoder.decodeObject(forKey: "deviceType") as! String)
     }      
     public func encode(with encoder: NSCoder) {
         encoder.encode(mobileDevice?.platform, forKey: "platform")
@@ -104,7 +104,7 @@ open class EncodableMobileDevice: NSObject, NSCoding {
         encoder.encode(mobileDevice?.updatedAt, forKey: "updatedAt")
         encoder.encode(mobileDevice?.group, forKey: "group")
         encoder.encode(mobileDevice?.name, forKey: "name")
-        encoder.encode(mobileDevice?.deviceType, forKey: "deviceType")
+        encoder.encode(mobileDevice?.deviceType?.rawValue, forKey: "deviceType")
     }
 }
 
@@ -121,7 +121,7 @@ open class EncodablePinDevice: NSObject, NSCoding {
         self.pinDevice?.updatedAt = decoder.decodeObject(forKey: "updatedAt") as? Int64
         self.pinDevice?.group = decoder.decodeObject(forKey: "group") as? [String]
         self.pinDevice?.name = decoder.decodeObject(forKey: "name") as? String
-        self.pinDevice?.deviceType = decoder.decodeObject(forKey: "deviceType") as? DeviceType
+        self.pinDevice?.deviceType = DeviceType(rawValue: decoder.decodeObject(forKey: "deviceType") as! String)
     }      
     public func encode(with encoder: NSCoder) {
         encoder.encode(pinDevice?.location, forKey: "location")
@@ -130,7 +130,7 @@ open class EncodablePinDevice: NSObject, NSCoding {
         encoder.encode(pinDevice?.updatedAt, forKey: "updatedAt")
         encoder.encode(pinDevice?.group, forKey: "group")
         encoder.encode(pinDevice?.name, forKey: "name")
-        encoder.encode(pinDevice?.deviceType, forKey: "deviceType")
+        encoder.encode(pinDevice?.deviceType?.rawValue, forKey: "deviceType")
     }
 }
 

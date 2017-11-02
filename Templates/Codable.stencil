@@ -12,7 +12,9 @@ open class Encodable{{ type.name }}: NSObject, NSCoding {
     required public init?(coder decoder: NSCoder) {
         self.{{ type.name | lowerFirstWord }} = {{ type.name }}()
         {% for variable in type.allVariables %}
-        {% if variable.typeName.name|hasPrefix:"[String]?" or variable.typeName.name|hasPrefix:"[String:String]?"%}
+        {% if variable.typeName.name|hasPrefix:"DeviceType" %}
+        self.{{ type.name | lowerFirstWord }}?.{{ variable.name }} = DeviceType(rawValue: decoder.decodeObject(forKey: "{{ variable.name }}") as! String)
+        {% elif variable.typeName.name|hasPrefix:"[String]?" or variable.typeName.name|hasPrefix:"[String:String]?" %}
         self.{{ type.name | lowerFirstWord }}?.{{ variable.name }} = decoder.decodeObject(forKey: "{{ variable.name }}") as? {{ variable.unwrappedTypeName }}
         {% elif variable.typeName.name|hasPrefix:"[" %}
         guard let encodable_{{ variable.name }} = decoder.decodeObject(forKey: "{{ variable.name }}") as? [Encodable{{ variable.typeName.name|replace:"[",""|replace:"]","" }}] else { return nil }
@@ -33,7 +35,9 @@ open class Encodable{{ type.name }}: NSObject, NSCoding {
             
     public func encode(with encoder: NSCoder) {
         {% for variable in type.allVariables %}
-        {% if variable.typeName.name|hasPrefix:"[String]?" or variable.typeName.name|hasPrefix:"[String:String]?"%}
+        {% if variable.typeName.name|hasPrefix:"DeviceType" %}
+        encoder.encode({{ type.name | lowerFirstWord }}?.{{ variable.name }}?.rawValue, forKey: "{{ variable.name }}")
+        {% elif variable.typeName.name|hasPrefix:"[String]?" or variable.typeName.name|hasPrefix:"[String:String]?"%}
         encoder.encode({{ type.name | lowerFirstWord }}?.{{ variable.name }}, forKey: "{{ variable.name }}")
         {% elif variable.typeName.name|hasPrefix:"[" %}
         let encoded_{{ variable.name }} = {{ type.name | lowerFirstWord }}?.{{ variable.name }}.map({ return Encodable{{ variable.typeName.name|replace:"[",""|replace:"]","" }}({{ variable.typeName.name|replace:"[",""|replace:"]",""| lowerFirstWord }}: $0) })
