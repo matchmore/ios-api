@@ -56,6 +56,30 @@ open class EncodableIBeaconDevice: NSObject, NSCoding {
     }
 }
 
+open class EncodableLocation: NSObject, NSCoding {
+    public var location: Location!
+    public init(location: Location?) {
+        self.location = location
+    }
+    required public init?(coder decoder: NSCoder) {
+        self.location = Location()
+        self.location?.createdAt = decoder.decodeObject(forKey: "createdAt") as? Int64
+        self.location?.latitude = decoder.decodeObject(forKey: "latitude") as? Double
+        self.location?.longitude = decoder.decodeObject(forKey: "longitude") as? Double
+        self.location?.altitude = decoder.decodeObject(forKey: "altitude") as? Double
+        self.location?.horizontalAccuracy = decoder.decodeObject(forKey: "horizontalAccuracy") as? Double
+        self.location?.verticalAccuracy = decoder.decodeObject(forKey: "verticalAccuracy") as? Double
+    }      
+    public func encode(with encoder: NSCoder) {
+        encoder.encode(location?.createdAt, forKey: "createdAt")
+        encoder.encode(location?.latitude, forKey: "latitude")
+        encoder.encode(location?.longitude, forKey: "longitude")
+        encoder.encode(location?.altitude, forKey: "altitude")
+        encoder.encode(location?.horizontalAccuracy, forKey: "horizontalAccuracy")
+        encoder.encode(location?.verticalAccuracy, forKey: "verticalAccuracy")
+    }
+}
+
 open class EncodableMatch: NSObject, NSCoding {
     public var match: Match!
     public init(match: Match?) {
@@ -87,7 +111,8 @@ open class EncodableMobileDevice: NSObject, NSCoding {
         self.mobileDevice = MobileDevice()
         self.mobileDevice?.platform = decoder.decodeObject(forKey: "platform") as? String
         self.mobileDevice?.deviceToken = decoder.decodeObject(forKey: "deviceToken") as? String
-        self.mobileDevice?.location = decoder.decodeObject(forKey: "location") as? Location
+        let encodable_location = decoder.decodeObject(forKey: "location") as? EncodableLocation
+        self.mobileDevice?.location = encodable_location?.location
         self.mobileDevice?.id = decoder.decodeObject(forKey: "id") as? String
         self.mobileDevice?.createdAt = decoder.decodeObject(forKey: "createdAt") as? Int64
         self.mobileDevice?.updatedAt = decoder.decodeObject(forKey: "updatedAt") as? Int64
@@ -98,7 +123,7 @@ open class EncodableMobileDevice: NSObject, NSCoding {
     public func encode(with encoder: NSCoder) {
         encoder.encode(mobileDevice?.platform, forKey: "platform")
         encoder.encode(mobileDevice?.deviceToken, forKey: "deviceToken")
-        encoder.encode(mobileDevice?.location, forKey: "location")
+        encoder.encode(EncodableLocation(location: mobileDevice?.location), forKey: "location")
         encoder.encode(mobileDevice?.id, forKey: "id")
         encoder.encode(mobileDevice?.createdAt, forKey: "createdAt")
         encoder.encode(mobileDevice?.updatedAt, forKey: "updatedAt")
@@ -115,7 +140,8 @@ open class EncodablePinDevice: NSObject, NSCoding {
     }
     required public init?(coder decoder: NSCoder) {
         self.pinDevice = PinDevice()
-        self.pinDevice?.location = decoder.decodeObject(forKey: "location") as? Location
+        let encodable_location = decoder.decodeObject(forKey: "location") as? EncodableLocation
+        self.pinDevice?.location = encodable_location?.location
         self.pinDevice?.id = decoder.decodeObject(forKey: "id") as? String
         self.pinDevice?.createdAt = decoder.decodeObject(forKey: "createdAt") as? Int64
         self.pinDevice?.updatedAt = decoder.decodeObject(forKey: "updatedAt") as? Int64
@@ -124,7 +150,7 @@ open class EncodablePinDevice: NSObject, NSCoding {
         self.pinDevice?.deviceType = DeviceType(rawValue: decoder.decodeObject(forKey: "deviceType") as! String)
     }      
     public func encode(with encoder: NSCoder) {
-        encoder.encode(pinDevice?.location, forKey: "location")
+        encoder.encode(EncodableLocation(location: pinDevice?.location), forKey: "location")
         encoder.encode(pinDevice?.id, forKey: "id")
         encoder.encode(pinDevice?.createdAt, forKey: "createdAt")
         encoder.encode(pinDevice?.updatedAt, forKey: "updatedAt")
