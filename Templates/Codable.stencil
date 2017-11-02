@@ -1,6 +1,7 @@
 {% for type in types.implementing.AutoCodable %}
 	
 open class Encodable{{ type.name }}: NSObject, NSCoding {
+    {{  }}
     
     public var {{ type.name | lowerFirstWord }}: {{ type.name }}!
     
@@ -10,7 +11,7 @@ open class Encodable{{ type.name }}: NSObject, NSCoding {
     
     required public init?(coder decoder: NSCoder) {
         self.{{ type.name | lowerFirstWord }} = {{ type.name }}()
-        {% for variable in type.storedVariables %}
+        {% for variable in type.allVariables %}
         {% if variable.typeName.name|hasPrefix:"[String]?" or variable.typeName.name|hasPrefix:"[String:String]?"%}
         self.{{ type.name | lowerFirstWord }}?.{{ variable.name }} = decoder.decodeObject(forKey: "{{ variable.name }}") as? {{ variable.unwrappedTypeName }}
         {% elif variable.typeName.name|hasPrefix:"[" %}

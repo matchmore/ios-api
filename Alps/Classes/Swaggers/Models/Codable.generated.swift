@@ -36,6 +36,12 @@ open class EncodableIBeaconDevice: NSObject, NSCoding {
         self.iBeaconDevice?.proximityUUID = decoder.decodeObject(forKey: "proximityUUID") as? String
         self.iBeaconDevice?.major = decoder.decodeObject(forKey: "major") as? Int32
         self.iBeaconDevice?.minor = decoder.decodeObject(forKey: "minor") as? Int32
+        self.iBeaconDevice?.id = decoder.decodeObject(forKey: "id") as? String
+        self.iBeaconDevice?.createdAt = decoder.decodeObject(forKey: "createdAt") as? Int64
+        self.iBeaconDevice?.updatedAt = decoder.decodeObject(forKey: "updatedAt") as? Int64
+        self.iBeaconDevice?.group = decoder.decodeObject(forKey: "group") as? [String]
+        self.iBeaconDevice?.name = decoder.decodeObject(forKey: "name") as? String
+        self.iBeaconDevice?.deviceType = decoder.decodeObject(forKey: "deviceType") as? DeviceType
     }      
     public func encode(with encoder: NSCoder) {
         encoder.encode(iBeaconDevice?.proximityUUID, forKey: "proximityUUID")
@@ -76,6 +82,12 @@ open class EncodableMobileDevice: NSObject, NSCoding {
         self.mobileDevice?.platform = decoder.decodeObject(forKey: "platform") as? String
         self.mobileDevice?.deviceToken = decoder.decodeObject(forKey: "deviceToken") as? String
         self.mobileDevice?.location = decoder.decodeObject(forKey: "location") as? Location
+        self.mobileDevice?.id = decoder.decodeObject(forKey: "id") as? String
+        self.mobileDevice?.createdAt = decoder.decodeObject(forKey: "createdAt") as? Int64
+        self.mobileDevice?.updatedAt = decoder.decodeObject(forKey: "updatedAt") as? Int64
+        self.mobileDevice?.group = decoder.decodeObject(forKey: "group") as? [String]
+        self.mobileDevice?.name = decoder.decodeObject(forKey: "name") as? String
+        self.mobileDevice?.deviceType = decoder.decodeObject(forKey: "deviceType") as? DeviceType
     }      
     public func encode(with encoder: NSCoder) {
         encoder.encode(mobileDevice?.platform, forKey: "platform")
@@ -92,6 +104,12 @@ open class EncodablePinDevice: NSObject, NSCoding {
     required public init?(coder decoder: NSCoder) {
         self.pinDevice = PinDevice()
         self.pinDevice?.location = decoder.decodeObject(forKey: "location") as? Location
+        self.pinDevice?.id = decoder.decodeObject(forKey: "id") as? String
+        self.pinDevice?.createdAt = decoder.decodeObject(forKey: "createdAt") as? Int64
+        self.pinDevice?.updatedAt = decoder.decodeObject(forKey: "updatedAt") as? Int64
+        self.pinDevice?.group = decoder.decodeObject(forKey: "group") as? [String]
+        self.pinDevice?.name = decoder.decodeObject(forKey: "name") as? String
+        self.pinDevice?.deviceType = decoder.decodeObject(forKey: "deviceType") as? DeviceType
     }      
     public func encode(with encoder: NSCoder) {
         encoder.encode(pinDevice?.location, forKey: "location")
