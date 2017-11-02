@@ -32,7 +32,7 @@ open class Encodable{{ type.name }}: NSObject, NSCoding {
     }      
             
     public func encode(with encoder: NSCoder) {
-        {% for variable in type.storedVariables %}
+        {% for variable in type.allVariables %}
         {% if variable.typeName.name|hasPrefix:"[String]?" or variable.typeName.name|hasPrefix:"[String:String]?"%}
         encoder.encode({{ type.name | lowerFirstWord }}?.{{ variable.name }}, forKey: "{{ variable.name }}")
         {% elif variable.typeName.name|hasPrefix:"[" %}

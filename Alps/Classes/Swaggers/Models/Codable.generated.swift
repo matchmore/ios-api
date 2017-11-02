@@ -47,6 +47,12 @@ open class EncodableIBeaconDevice: NSObject, NSCoding {
         encoder.encode(iBeaconDevice?.proximityUUID, forKey: "proximityUUID")
         encoder.encode(iBeaconDevice?.major, forKey: "major")
         encoder.encode(iBeaconDevice?.minor, forKey: "minor")
+        encoder.encode(iBeaconDevice?.id, forKey: "id")
+        encoder.encode(iBeaconDevice?.createdAt, forKey: "createdAt")
+        encoder.encode(iBeaconDevice?.updatedAt, forKey: "updatedAt")
+        encoder.encode(iBeaconDevice?.group, forKey: "group")
+        encoder.encode(iBeaconDevice?.name, forKey: "name")
+        encoder.encode(iBeaconDevice?.deviceType, forKey: "deviceType")
     }
 }
 
@@ -93,6 +99,12 @@ open class EncodableMobileDevice: NSObject, NSCoding {
         encoder.encode(mobileDevice?.platform, forKey: "platform")
         encoder.encode(mobileDevice?.deviceToken, forKey: "deviceToken")
         encoder.encode(mobileDevice?.location, forKey: "location")
+        encoder.encode(mobileDevice?.id, forKey: "id")
+        encoder.encode(mobileDevice?.createdAt, forKey: "createdAt")
+        encoder.encode(mobileDevice?.updatedAt, forKey: "updatedAt")
+        encoder.encode(mobileDevice?.group, forKey: "group")
+        encoder.encode(mobileDevice?.name, forKey: "name")
+        encoder.encode(mobileDevice?.deviceType, forKey: "deviceType")
     }
 }
 
@@ -113,6 +125,12 @@ open class EncodablePinDevice: NSObject, NSCoding {
     }      
     public func encode(with encoder: NSCoder) {
         encoder.encode(pinDevice?.location, forKey: "location")
+        encoder.encode(pinDevice?.id, forKey: "id")
+        encoder.encode(pinDevice?.createdAt, forKey: "createdAt")
+        encoder.encode(pinDevice?.updatedAt, forKey: "updatedAt")
+        encoder.encode(pinDevice?.group, forKey: "group")
+        encoder.encode(pinDevice?.name, forKey: "name")
+        encoder.encode(pinDevice?.deviceType, forKey: "deviceType")
     }
 }
 
