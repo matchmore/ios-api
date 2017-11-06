@@ -71,6 +71,33 @@ open class EncodableIBeaconDevice: NSObject, NSCoding {
 }
 
 
+public extension IBeaconTriple {
+    var encodableIBeaconTriple: EncodableIBeaconTriple {
+        return EncodableIBeaconTriple(object: self)
+    }
+}
+
+open class EncodableIBeaconTriple: NSObject, NSCoding {
+    public let object: IBeaconTriple!
+    public init(object: IBeaconTriple?) {
+        self.object = object
+    }
+    required public init?(coder decoder: NSCoder) {
+        self.object = IBeaconTriple()
+        self.object?.deviceId = decoder.decodeObject(forKey: "deviceId") as? String
+        self.object?.proximityUUID = decoder.decodeObject(forKey: "proximityUUID") as? String
+        self.object?.major = decoder.decodeObject(forKey: "major") as? Int32
+        self.object?.minor = decoder.decodeObject(forKey: "minor") as? Int32
+    }      
+    public func encode(with encoder: NSCoder) {
+        encoder.encode(object?.deviceId, forKey: "deviceId")
+        encoder.encode(object?.proximityUUID, forKey: "proximityUUID")
+        encoder.encode(object?.major, forKey: "major")
+        encoder.encode(object?.minor, forKey: "minor")
+    }
+}
+
+
 public extension Location {
     var encodableLocation: EncodableLocation {
         return EncodableLocation(object: self)
