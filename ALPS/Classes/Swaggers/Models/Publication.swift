@@ -15,6 +15,8 @@ open class Publication: JSONEncodable {
     public var id: String?
     /** The timestamp of the publication creation in seconds since Jan 01 1970 (UTC).  */
     public var createdAt: Int64?
+    /** The id (UUID) of the world that contains device to attach a publication to. */
+    public var worldId: String?
     /** The id (UUID) of the device to attach a publication to. */
     public var deviceId: String?
     /** The topic of the publication. This will act as a first match filter. For a subscription to be able to match a publication they must have the exact same topic.  */
@@ -33,6 +35,7 @@ open class Publication: JSONEncodable {
         var nillableDictionary = [String:Any?]()
         nillableDictionary["id"] = self.id
         nillableDictionary["createdAt"] = self.createdAt?.encodeToJSON()
+        nillableDictionary["worldId"] = self.worldId
         nillableDictionary["deviceId"] = self.deviceId
         nillableDictionary["topic"] = self.topic
         nillableDictionary["range"] = self.range

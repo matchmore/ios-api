@@ -12,26 +12,26 @@ import Alamofire
 
 open class SubscriptionAPI: APIBase {
     /**
-     Create a subscription for a device for a user
+     Create a subscription for a device
      
-     - parameter userId: (path) The id (UUID) of the user to create a device for.  
-     - parameter deviceId: (path) The id (UUID) of the user device.  
+     - parameter deviceId: (path) The id (UUID) of the device.  
      - parameter subscription: (body) Subscription to create on a device.  
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func createSubscription(userId: String, deviceId: String, subscription: Subscription, completion: @escaping ((_ data: Subscription?,_ error: Error?) -> Void)) {
-        createSubscriptionWithRequestBuilder(userId: userId, deviceId: deviceId, subscription: subscription).execute { (response, error) -> Void in
+    open class func createSubscription(deviceId: String, subscription: Subscription, completion: @escaping ((_ data: Subscription?,_ error: Error?) -> Void)) {
+        createSubscriptionWithRequestBuilder(deviceId: deviceId, subscription: subscription).execute { (response, error) -> Void in
             completion(response?.body, error);
         }
     }
 
 
     /**
-     Create a subscription for a device for a user
-     - POST /users/{userId}/devices/{deviceId}/subscriptions
+     Create a subscription for a device
+     - POST /devices/{deviceId}/subscriptions
      - examples: [{contentType=application/json, example={
   "duration" : 1.4658129805029452,
   "createdAt" : 0,
+  "worldId" : "aeiou",
   "topic" : "aeiou",
   "range" : 6.027456183070403,
   "selector" : "aeiou",
@@ -40,15 +40,13 @@ open class SubscriptionAPI: APIBase {
   "deviceId" : "aeiou"
 }}]
      
-     - parameter userId: (path) The id (UUID) of the user to create a device for.  
-     - parameter deviceId: (path) The id (UUID) of the user device.  
+     - parameter deviceId: (path) The id (UUID) of the device.  
      - parameter subscription: (body) Subscription to create on a device.  
 
      - returns: RequestBuilder<Subscription> 
      */
-    open class func createSubscriptionWithRequestBuilder(userId: String, deviceId: String, subscription: Subscription) -> RequestBuilder<Subscription> {
-        var path = "/users/{userId}/devices/{deviceId}/subscriptions"
-        path = path.replacingOccurrences(of: "{userId}", with: "\(userId)", options: .literal, range: nil)
+    open class func createSubscriptionWithRequestBuilder(deviceId: String, subscription: Subscription) -> RequestBuilder<Subscription> {
+        var path = "/devices/{deviceId}/subscriptions"
         path = path.replacingOccurrences(of: "{deviceId}", with: "\(deviceId)", options: .literal, range: nil)
         let URLString = AlpsAPI.basePath + path
         let parameters = subscription.encodeToJSON() as? [String:AnyObject]
@@ -64,13 +62,12 @@ open class SubscriptionAPI: APIBase {
     /**
      Delete a Subscription
      
-     - parameter userId: (path) The id (UUID) of the user of the device. 
-     - parameter deviceId: (path) The id (UUID) of the user device. 
+     - parameter deviceId: (path) The id (UUID) of the device. 
      - parameter subscriptionId: (path) The id (UUID) of the subscription. 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func deleteSubscription(userId: String, deviceId: String, subscriptionId: String, completion: @escaping ((_ error: Error?) -> Void)) {
-        deleteSubscriptionWithRequestBuilder(userId: userId, deviceId: deviceId, subscriptionId: subscriptionId).execute { (response, error) -> Void in
+    open class func deleteSubscription(deviceId: String, subscriptionId: String, completion: @escaping ((_ error: Error?) -> Void)) {
+        deleteSubscriptionWithRequestBuilder(deviceId: deviceId, subscriptionId: subscriptionId).execute { (response, error) -> Void in
             completion(error);
         }
     }
@@ -78,18 +75,16 @@ open class SubscriptionAPI: APIBase {
 
     /**
      Delete a Subscription
-     - DELETE /users/{userId}/devices/{deviceId}/subscriptions/{subscriptionId}
+     - DELETE /devices/{deviceId}/subscriptions/{subscriptionId}
      - 
      
-     - parameter userId: (path) The id (UUID) of the user of the device. 
-     - parameter deviceId: (path) The id (UUID) of the user device. 
+     - parameter deviceId: (path) The id (UUID) of the device. 
      - parameter subscriptionId: (path) The id (UUID) of the subscription. 
 
      - returns: RequestBuilder<Void> 
      */
-    open class func deleteSubscriptionWithRequestBuilder(userId: String, deviceId: String, subscriptionId: String) -> RequestBuilder<Void> {
-        var path = "/users/{userId}/devices/{deviceId}/subscriptions/{subscriptionId}"
-        path = path.replacingOccurrences(of: "{userId}", with: "\(userId)", options: .literal, range: nil)
+    open class func deleteSubscriptionWithRequestBuilder(deviceId: String, subscriptionId: String) -> RequestBuilder<Void> {
+        var path = "/devices/{deviceId}/subscriptions/{subscriptionId}"
         path = path.replacingOccurrences(of: "{deviceId}", with: "\(deviceId)", options: .literal, range: nil)
         path = path.replacingOccurrences(of: "{subscriptionId}", with: "\(subscriptionId)", options: .literal, range: nil)
         let URLString = AlpsAPI.basePath + path
@@ -104,26 +99,26 @@ open class SubscriptionAPI: APIBase {
     }
 
     /**
-     Info about a subscription on a device of a user
+     Info about a subscription on a device
      
-     - parameter userId: (path) The id (UUID) of the user of the device. 
-     - parameter deviceId: (path) The id (UUID) of the user device. 
+     - parameter deviceId: (path) The id (UUID) of the device. 
      - parameter subscriptionId: (path) The id (UUID) of the subscription. 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getSubscription(userId: String, deviceId: String, subscriptionId: String, completion: @escaping ((_ data: Subscription?,_ error: Error?) -> Void)) {
-        getSubscriptionWithRequestBuilder(userId: userId, deviceId: deviceId, subscriptionId: subscriptionId).execute { (response, error) -> Void in
+    open class func getSubscription(deviceId: String, subscriptionId: String, completion: @escaping ((_ data: Subscription?,_ error: Error?) -> Void)) {
+        getSubscriptionWithRequestBuilder(deviceId: deviceId, subscriptionId: subscriptionId).execute { (response, error) -> Void in
             completion(response?.body, error);
         }
     }
 
 
     /**
-     Info about a subscription on a device of a user
-     - GET /users/{userId}/devices/{deviceId}/subscriptions/{subscriptionId}
+     Info about a subscription on a device
+     - GET /devices/{deviceId}/subscriptions/{subscriptionId}
      - examples: [{contentType=application/json, example={
   "duration" : 1.4658129805029452,
   "createdAt" : 0,
+  "worldId" : "aeiou",
   "topic" : "aeiou",
   "range" : 6.027456183070403,
   "selector" : "aeiou",
@@ -132,15 +127,13 @@ open class SubscriptionAPI: APIBase {
   "deviceId" : "aeiou"
 }}]
      
-     - parameter userId: (path) The id (UUID) of the user of the device. 
-     - parameter deviceId: (path) The id (UUID) of the user device. 
+     - parameter deviceId: (path) The id (UUID) of the device. 
      - parameter subscriptionId: (path) The id (UUID) of the subscription. 
 
      - returns: RequestBuilder<Subscription> 
      */
-    open class func getSubscriptionWithRequestBuilder(userId: String, deviceId: String, subscriptionId: String) -> RequestBuilder<Subscription> {
-        var path = "/users/{userId}/devices/{deviceId}/subscriptions/{subscriptionId}"
-        path = path.replacingOccurrences(of: "{userId}", with: "\(userId)", options: .literal, range: nil)
+    open class func getSubscriptionWithRequestBuilder(deviceId: String, subscriptionId: String) -> RequestBuilder<Subscription> {
+        var path = "/devices/{deviceId}/subscriptions/{subscriptionId}"
         path = path.replacingOccurrences(of: "{deviceId}", with: "\(deviceId)", options: .literal, range: nil)
         path = path.replacingOccurrences(of: "{subscriptionId}", with: "\(subscriptionId)", options: .literal, range: nil)
         let URLString = AlpsAPI.basePath + path
@@ -157,12 +150,11 @@ open class SubscriptionAPI: APIBase {
     /**
      Get all subscriptions for a device
      
-     - parameter userId: (path) The id (UUID) of the user. 
      - parameter deviceId: (path) The id (UUID) of the device. 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getSubscriptions(userId: String, deviceId: String, completion: @escaping ((_ data: Subscriptions?,_ error: Error?) -> Void)) {
-        getSubscriptionsWithRequestBuilder(userId: userId, deviceId: deviceId).execute { (response, error) -> Void in
+    open class func getSubscriptions(deviceId: String, completion: @escaping ((_ data: Subscriptions?,_ error: Error?) -> Void)) {
+        getSubscriptionsWithRequestBuilder(deviceId: deviceId).execute { (response, error) -> Void in
             completion(response?.body, error);
         }
     }
@@ -170,17 +162,15 @@ open class SubscriptionAPI: APIBase {
 
     /**
      Get all subscriptions for a device
-     - GET /users/{userId}/devices/{deviceId}/subscriptions
+     - GET /devices/{deviceId}/subscriptions
      - examples: [{contentType=application/json, example=""}]
      
-     - parameter userId: (path) The id (UUID) of the user. 
      - parameter deviceId: (path) The id (UUID) of the device. 
 
      - returns: RequestBuilder<Subscriptions> 
      */
-    open class func getSubscriptionsWithRequestBuilder(userId: String, deviceId: String) -> RequestBuilder<Subscriptions> {
-        var path = "/users/{userId}/devices/{deviceId}/subscriptions"
-        path = path.replacingOccurrences(of: "{userId}", with: "\(userId)", options: .literal, range: nil)
+    open class func getSubscriptionsWithRequestBuilder(deviceId: String) -> RequestBuilder<Subscriptions> {
+        var path = "/devices/{deviceId}/subscriptions"
         path = path.replacingOccurrences(of: "{deviceId}", with: "\(deviceId)", options: .literal, range: nil)
         let URLString = AlpsAPI.basePath + path
         let parameters: [String:Any]? = nil

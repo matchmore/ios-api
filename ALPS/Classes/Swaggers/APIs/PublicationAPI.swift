@@ -12,26 +12,26 @@ import Alamofire
 
 open class PublicationAPI: APIBase {
     /**
-     Create a publication for a device for a user
+     Create a publication for a device
      
-     - parameter userId: (path) The id (UUID) of the user to create a device for. 
-     - parameter deviceId: (path) The id (UUID) of the user device. 
+     - parameter deviceId: (path) The id (UUID) of the device. 
      - parameter publication: (body) Publication to create on a device.  
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func createPublication(userId: String, deviceId: String, publication: Publication, completion: @escaping ((_ data: Publication?,_ error: Error?) -> Void)) {
-        createPublicationWithRequestBuilder(userId: userId, deviceId: deviceId, publication: publication).execute { (response, error) -> Void in
+    open class func createPublication(deviceId: String, publication: Publication, completion: @escaping ((_ data: Publication?,_ error: Error?) -> Void)) {
+        createPublicationWithRequestBuilder(deviceId: deviceId, publication: publication).execute { (response, error) -> Void in
             completion(response?.body, error);
         }
     }
 
 
     /**
-     Create a publication for a device for a user
-     - POST /users/{userId}/devices/{deviceId}/publications
+     Create a publication for a device
+     - POST /devices/{deviceId}/publications
      - examples: [{contentType=application/json, example={
   "duration" : 1.4658129805029452,
   "createdAt" : 0,
+  "worldId" : "aeiou",
   "topic" : "aeiou",
   "range" : 6.027456183070403,
   "id" : "aeiou",
@@ -41,15 +41,13 @@ open class PublicationAPI: APIBase {
   }
 }}]
      
-     - parameter userId: (path) The id (UUID) of the user to create a device for. 
-     - parameter deviceId: (path) The id (UUID) of the user device. 
+     - parameter deviceId: (path) The id (UUID) of the device. 
      - parameter publication: (body) Publication to create on a device.  
 
      - returns: RequestBuilder<Publication> 
      */
-    open class func createPublicationWithRequestBuilder(userId: String, deviceId: String, publication: Publication) -> RequestBuilder<Publication> {
-        var path = "/users/{userId}/devices/{deviceId}/publications"
-        path = path.replacingOccurrences(of: "{userId}", with: "\(userId)", options: .literal, range: nil)
+    open class func createPublicationWithRequestBuilder(deviceId: String, publication: Publication) -> RequestBuilder<Publication> {
+        var path = "/devices/{deviceId}/publications"
         path = path.replacingOccurrences(of: "{deviceId}", with: "\(deviceId)", options: .literal, range: nil)
         let URLString = AlpsAPI.basePath + path
         let parameters = publication.encodeToJSON() as? [String:AnyObject]
@@ -65,13 +63,12 @@ open class PublicationAPI: APIBase {
     /**
      Delete a Publication
      
-     - parameter userId: (path) The id (UUID) of the user of the device. 
-     - parameter deviceId: (path) The id (UUID) of the user device. 
+     - parameter deviceId: (path) The id (UUID) of the device. 
      - parameter publicationId: (path) The id (UUID) of the subscription. 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func deletePublication(userId: String, deviceId: String, publicationId: String, completion: @escaping ((_ error: Error?) -> Void)) {
-        deletePublicationWithRequestBuilder(userId: userId, deviceId: deviceId, publicationId: publicationId).execute { (response, error) -> Void in
+    open class func deletePublication(deviceId: String, publicationId: String, completion: @escaping ((_ error: Error?) -> Void)) {
+        deletePublicationWithRequestBuilder(deviceId: deviceId, publicationId: publicationId).execute { (response, error) -> Void in
             completion(error);
         }
     }
@@ -79,18 +76,16 @@ open class PublicationAPI: APIBase {
 
     /**
      Delete a Publication
-     - DELETE /users/{userId}/devices/{deviceId}/publications/{publicationId}
+     - DELETE /devices/{deviceId}/publications/{publicationId}
      - 
      
-     - parameter userId: (path) The id (UUID) of the user of the device. 
-     - parameter deviceId: (path) The id (UUID) of the user device. 
+     - parameter deviceId: (path) The id (UUID) of the device. 
      - parameter publicationId: (path) The id (UUID) of the subscription. 
 
      - returns: RequestBuilder<Void> 
      */
-    open class func deletePublicationWithRequestBuilder(userId: String, deviceId: String, publicationId: String) -> RequestBuilder<Void> {
-        var path = "/users/{userId}/devices/{deviceId}/publications/{publicationId}"
-        path = path.replacingOccurrences(of: "{userId}", with: "\(userId)", options: .literal, range: nil)
+    open class func deletePublicationWithRequestBuilder(deviceId: String, publicationId: String) -> RequestBuilder<Void> {
+        var path = "/devices/{deviceId}/publications/{publicationId}"
         path = path.replacingOccurrences(of: "{deviceId}", with: "\(deviceId)", options: .literal, range: nil)
         path = path.replacingOccurrences(of: "{publicationId}", with: "\(publicationId)", options: .literal, range: nil)
         let URLString = AlpsAPI.basePath + path
@@ -105,26 +100,26 @@ open class PublicationAPI: APIBase {
     }
 
     /**
-     Info about a publication on a device of a user
+     Info about a publication on a device
      
-     - parameter userId: (path) The id (UUID) of the user of the device. 
-     - parameter deviceId: (path) The id (UUID) of the user device. 
+     - parameter deviceId: (path) The id (UUID) of the device. 
      - parameter publicationId: (path) The id (UUID) of the publication. 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getPublication(userId: String, deviceId: String, publicationId: String, completion: @escaping ((_ data: Publication?,_ error: Error?) -> Void)) {
-        getPublicationWithRequestBuilder(userId: userId, deviceId: deviceId, publicationId: publicationId).execute { (response, error) -> Void in
+    open class func getPublication(deviceId: String, publicationId: String, completion: @escaping ((_ data: Publication?,_ error: Error?) -> Void)) {
+        getPublicationWithRequestBuilder(deviceId: deviceId, publicationId: publicationId).execute { (response, error) -> Void in
             completion(response?.body, error);
         }
     }
 
 
     /**
-     Info about a publication on a device of a user
-     - GET /users/{userId}/devices/{deviceId}/publications/{publicationId}
+     Info about a publication on a device
+     - GET /devices/{deviceId}/publications/{publicationId}
      - examples: [{contentType=application/json, example={
   "duration" : 1.4658129805029452,
   "createdAt" : 0,
+  "worldId" : "aeiou",
   "topic" : "aeiou",
   "range" : 6.027456183070403,
   "id" : "aeiou",
@@ -134,15 +129,13 @@ open class PublicationAPI: APIBase {
   }
 }}]
      
-     - parameter userId: (path) The id (UUID) of the user of the device. 
-     - parameter deviceId: (path) The id (UUID) of the user device. 
+     - parameter deviceId: (path) The id (UUID) of the device. 
      - parameter publicationId: (path) The id (UUID) of the publication. 
 
      - returns: RequestBuilder<Publication> 
      */
-    open class func getPublicationWithRequestBuilder(userId: String, deviceId: String, publicationId: String) -> RequestBuilder<Publication> {
-        var path = "/users/{userId}/devices/{deviceId}/publications/{publicationId}"
-        path = path.replacingOccurrences(of: "{userId}", with: "\(userId)", options: .literal, range: nil)
+    open class func getPublicationWithRequestBuilder(deviceId: String, publicationId: String) -> RequestBuilder<Publication> {
+        var path = "/devices/{deviceId}/publications/{publicationId}"
         path = path.replacingOccurrences(of: "{deviceId}", with: "\(deviceId)", options: .literal, range: nil)
         path = path.replacingOccurrences(of: "{publicationId}", with: "\(publicationId)", options: .literal, range: nil)
         let URLString = AlpsAPI.basePath + path
@@ -159,12 +152,11 @@ open class PublicationAPI: APIBase {
     /**
      Get all publications for a device
      
-     - parameter userId: (path) The id (UUID) of the user. 
      - parameter deviceId: (path) The id (UUID) of the device. 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getPublications(userId: String, deviceId: String, completion: @escaping ((_ data: Publications?,_ error: Error?) -> Void)) {
-        getPublicationsWithRequestBuilder(userId: userId, deviceId: deviceId).execute { (response, error) -> Void in
+    open class func getPublications(deviceId: String, completion: @escaping ((_ data: Publications?,_ error: Error?) -> Void)) {
+        getPublicationsWithRequestBuilder(deviceId: deviceId).execute { (response, error) -> Void in
             completion(response?.body, error);
         }
     }
@@ -172,17 +164,15 @@ open class PublicationAPI: APIBase {
 
     /**
      Get all publications for a device
-     - GET /users/{userId}/devices/{deviceId}/publications
+     - GET /devices/{deviceId}/publications
      - examples: [{contentType=application/json, example=""}]
      
-     - parameter userId: (path) The id (UUID) of the user. 
      - parameter deviceId: (path) The id (UUID) of the device. 
 
      - returns: RequestBuilder<Publications> 
      */
-    open class func getPublicationsWithRequestBuilder(userId: String, deviceId: String) -> RequestBuilder<Publications> {
-        var path = "/users/{userId}/devices/{deviceId}/publications"
-        path = path.replacingOccurrences(of: "{userId}", with: "\(userId)", options: .literal, range: nil)
+    open class func getPublicationsWithRequestBuilder(deviceId: String) -> RequestBuilder<Publications> {
+        var path = "/devices/{deviceId}/publications"
         path = path.replacingOccurrences(of: "{deviceId}", with: "\(deviceId)", options: .literal, range: nil)
         let URLString = AlpsAPI.basePath + path
         let parameters: [String:Any]? = nil

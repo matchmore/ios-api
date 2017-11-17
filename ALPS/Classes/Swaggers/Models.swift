@@ -58,7 +58,7 @@ class Decoders {
         return array.map { Decoders.decode(clazz: T.self, source: $0, instance: nil) }
     }
 
-    static func decode<T, Key: Hashable>(clazz: [Key:T].Type, source: AnyObject) -> [Key:T] {
+    static func decode<T, Key>(clazz: [Key:T].Type, source: AnyObject) -> [Key:T] {
         let sourceDictionary = source as! [Key: AnyObject]
         var dictionary = [Key:T]()
         for (key, value) in sourceDictionary {
@@ -111,7 +111,7 @@ class Decoders {
         }
     }
 
-    static func decodeOptional<T, Key: Hashable>(clazz: [Key:T].Type, source: AnyObject?) -> [Key:T]? {
+    static func decodeOptional<T, Key>(clazz: [Key:T].Type, source: AnyObject?) -> [Key:T]? {
         if source is NSNull {
             return nil
         }
@@ -181,6 +181,7 @@ class Decoders {
             result.id = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["id"] as AnyObject?)
             result.createdAt = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["createdAt"] as AnyObject?)
             result.updatedAt = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["updatedAt"] as AnyObject?)
+            result.group = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["group"] as AnyObject?)
             result.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
             result.deviceType = Decoders.decodeOptional(clazz: DeviceType.self, source: sourceDictionary["deviceType"] as AnyObject?)
             return result
@@ -210,6 +211,34 @@ class Decoders {
         Decoders.addDecoder(clazz: Devices.self) { (source: AnyObject, instance: AnyObject?) -> Devices in
             let sourceArray = source as! [AnyObject]
             return sourceArray.map({ Decoders.decode(clazz: Device.self, source: $0, instance: nil) })
+        }
+
+
+        // Decoder for [IBeaconTriple]
+        Decoders.addDecoder(clazz: [IBeaconTriple].self) { (source: AnyObject, instance: AnyObject?) -> [IBeaconTriple] in
+            return Decoders.decode(clazz: [IBeaconTriple].self, source: source)
+        }
+        // Decoder for IBeaconTriple
+        Decoders.addDecoder(clazz: IBeaconTriple.self) { (source: AnyObject, instance: AnyObject?) -> IBeaconTriple in
+            let sourceDictionary = source as! [AnyHashable: Any]
+            let result = instance == nil ? IBeaconTriple() : instance as! IBeaconTriple
+            
+            result.deviceId = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["deviceId"] as AnyObject?)
+            result.proximityUUID = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["proximityUUID"] as AnyObject?)
+            result.major = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["major"] as AnyObject?)
+            result.minor = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["minor"] as AnyObject?)
+            return result
+        }
+
+
+        // Decoder for [IBeaconTriples]
+        Decoders.addDecoder(clazz: [IBeaconTriples].self) { (source: AnyObject, instance: AnyObject?) -> [IBeaconTriples] in
+            return Decoders.decode(clazz: [IBeaconTriples].self, source: source)
+        }
+        // Decoder for IBeaconTriples
+        Decoders.addDecoder(clazz: IBeaconTriples.self) { (source: AnyObject, instance: AnyObject?) -> IBeaconTriples in
+            let sourceArray = source as! [AnyObject]
+            return sourceArray.map({ Decoders.decode(clazz: IBeaconTriple.self, source: $0, instance: nil) })
         }
 
 
@@ -288,6 +317,7 @@ class Decoders {
             
             result.id = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["id"] as AnyObject?)
             result.createdAt = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["createdAt"] as AnyObject?)
+            result.worldId = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["worldId"] as AnyObject?)
             result.deviceId = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["deviceId"] as AnyObject?)
             result.topic = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["topic"] as AnyObject?)
             result.range = Decoders.decodeOptional(clazz: Double.self, source: sourceDictionary["range"] as AnyObject?)
@@ -319,6 +349,7 @@ class Decoders {
             
             result.id = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["id"] as AnyObject?)
             result.createdAt = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["createdAt"] as AnyObject?)
+            result.worldId = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["worldId"] as AnyObject?)
             result.deviceId = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["deviceId"] as AnyObject?)
             result.topic = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["topic"] as AnyObject?)
             result.selector = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["selector"] as AnyObject?)
@@ -340,34 +371,6 @@ class Decoders {
         }
 
 
-        // Decoder for [User]
-        Decoders.addDecoder(clazz: [User].self) { (source: AnyObject, instance: AnyObject?) -> [User] in
-            return Decoders.decode(clazz: [User].self, source: source)
-        }
-        // Decoder for User
-        Decoders.addDecoder(clazz: User.self) { (source: AnyObject, instance: AnyObject?) -> User in
-            let sourceDictionary = source as! [AnyHashable: Any]
-            let result = instance == nil ? User() : instance as! User
-            
-            result.id = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["id"] as AnyObject?)
-            result.createdAt = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["createdAt"] as AnyObject?)
-            result.updatedAt = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["updatedAt"] as AnyObject?)
-            result.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
-            return result
-        }
-
-
-        // Decoder for [Users]
-        Decoders.addDecoder(clazz: [Users].self) { (source: AnyObject, instance: AnyObject?) -> [Users] in
-            return Decoders.decode(clazz: [Users].self, source: source)
-        }
-        // Decoder for Users
-        Decoders.addDecoder(clazz: Users.self) { (source: AnyObject, instance: AnyObject?) -> Users in
-            let sourceArray = source as! [AnyObject]
-            return sourceArray.map({ Decoders.decode(clazz: User.self, source: $0, instance: nil) })
-        }
-
-
         // Decoder for [IBeaconDevice]
         Decoders.addDecoder(clazz: [IBeaconDevice].self) { (source: AnyObject, instance: AnyObject?) -> [IBeaconDevice] in
             return Decoders.decode(clazz: [IBeaconDevice].self, source: source)
@@ -383,6 +386,7 @@ class Decoders {
             result.id = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["id"] as AnyObject?)
             result.createdAt = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["createdAt"] as AnyObject?)
             result.updatedAt = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["updatedAt"] as AnyObject?)
+            result.group = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["group"] as AnyObject?)
             result.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
             result.deviceType = Decoders.decodeOptional(clazz: DeviceType.self, source: sourceDictionary["deviceType"] as AnyObject?)
             result.proximityUUID = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["proximityUUID"] as AnyObject?)
@@ -407,6 +411,7 @@ class Decoders {
             result.id = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["id"] as AnyObject?)
             result.createdAt = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["createdAt"] as AnyObject?)
             result.updatedAt = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["updatedAt"] as AnyObject?)
+            result.group = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["group"] as AnyObject?)
             result.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
             result.deviceType = Decoders.decodeOptional(clazz: DeviceType.self, source: sourceDictionary["deviceType"] as AnyObject?)
             result.platform = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["platform"] as AnyObject?)
@@ -431,6 +436,7 @@ class Decoders {
             result.id = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["id"] as AnyObject?)
             result.createdAt = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["createdAt"] as AnyObject?)
             result.updatedAt = Decoders.decodeOptional(clazz: Int64.self, source: sourceDictionary["updatedAt"] as AnyObject?)
+            result.group = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["group"] as AnyObject?)
             result.name = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["name"] as AnyObject?)
             result.deviceType = Decoders.decodeOptional(clazz: DeviceType.self, source: sourceDictionary["deviceType"] as AnyObject?)
             result.location = Decoders.decodeOptional(clazz: Location.self, source: sourceDictionary["location"] as AnyObject?)
