@@ -1,6 +1,6 @@
 # Alps iOS API
 
-Alps iOS API is code generated using Swagger Code Generator and Soucery. It allows using MatchMore REST api using one simple dependency.
+`Alps iOS API` is code generated using Swagger Code Generator and Soucery. It allows using MatchMore REST api using one simple dependency.
 
 ## Installation
 
@@ -18,4 +18,4 @@ simply add the following line to your Podfile:
 
 ## License
 
-Alps iOS API pod is available under the MIT license. See the LICENSE file for more info.
+`Alps iOS API` pod is available under the MIT license. See the LICENSE file for more info.
