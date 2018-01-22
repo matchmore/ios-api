@@ -6,3 +6,4 @@ extension Subscription: AutoCodable { }
 extension Match: AutoCodable { }
 extension Location: AutoCodable { }
 extension IBeaconTriple: AutoCodable { }
+extension SimpleLocation: AutoCodable { }

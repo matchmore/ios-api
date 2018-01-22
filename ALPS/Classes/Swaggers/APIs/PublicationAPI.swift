@@ -34,11 +34,14 @@ open class PublicationAPI: APIBase {
   "worldId" : "aeiou",
   "topic" : "aeiou",
   "range" : 6.027456183070403,
+  "location" : {
+    "altitude" : 2.3021358869347655,
+    "latitude" : 5.962133916683182,
+    "longitude" : 5.637376656633329
+  },
   "id" : "aeiou",
   "deviceId" : "aeiou",
-  "properties" : {
-    "key" : "aeiou"
-  }
+  "properties" : ""
 }}]
      
      - parameter deviceId: (path) The id (UUID) of the device. 
@@ -122,11 +125,14 @@ open class PublicationAPI: APIBase {
   "worldId" : "aeiou",
   "topic" : "aeiou",
   "range" : 6.027456183070403,
+  "location" : {
+    "altitude" : 2.3021358869347655,
+    "latitude" : 5.962133916683182,
+    "longitude" : 5.637376656633329
+  },
   "id" : "aeiou",
   "deviceId" : "aeiou",
-  "properties" : {
-    "key" : "aeiou"
-  }
+  "properties" : ""
 }}]
      
      - parameter deviceId: (path) The id (UUID) of the device. 
