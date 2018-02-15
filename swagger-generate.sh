@@ -5,7 +5,7 @@
 custom_url=$1
 
 if [ -z $custom_url ]; then
-    custom_url="https://raw.githubusercontent.com/matchmore/alps-api/master/src/main/resources/alps-core.yaml"
+    custom_url="https://raw.githubusercontent.com/matchmore/alps-api/gamejam/src/main/resources/alps-core.yaml"
 fi
 wget $custom_url
 

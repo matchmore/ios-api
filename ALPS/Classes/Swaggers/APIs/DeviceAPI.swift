@@ -121,11 +121,14 @@ open class DeviceAPI: APIBase {
   "worldId" : "aeiou",
   "topic" : "aeiou",
   "range" : 6.027456183070403,
+  "location" : {
+    "altitude" : 2.3021358869347655,
+    "latitude" : 5.962133916683182,
+    "longitude" : 5.637376656633329
+  },
   "id" : "aeiou",
   "deviceId" : "aeiou",
-  "properties" : {
-    "key" : "aeiou"
-  }
+  "properties" : ""
 }}]
      
      - parameter deviceId: (path) The id (UUID) of the device. 
@@ -171,6 +174,11 @@ open class DeviceAPI: APIBase {
   "topic" : "aeiou",
   "range" : 6.027456183070403,
   "selector" : "aeiou",
+  "location" : {
+    "altitude" : 2.3021358869347655,
+    "latitude" : 5.962133916683182,
+    "longitude" : 5.637376656633329
+  },
   "pushers" : [ "aeiou" ],
   "id" : "aeiou",
   "deviceId" : "aeiou"
@@ -385,6 +393,78 @@ open class DeviceAPI: APIBase {
     }
 
     /**
+     Get match for the device by its id
+     
+     - parameter userId: (path) The id (UUID) of the user of the device. 
+     - parameter deviceId: (path) The id (UUID) of the user device. 
+     - parameter matchId: (path) The id (UUID) of the match. 
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    open class func getMatch(userId: String, deviceId: String, matchId: String, completion: @escaping ((_ data: Match?,_ error: Error?) -> Void)) {
+        getMatchWithRequestBuilder(userId: userId, deviceId: deviceId, matchId: matchId).execute { (response, error) -> Void in
+            completion(response?.body, error);
+        }
+    }
+
+
+    /**
+     Get match for the device by its id
+     - GET /devices/{deviceId}/matches/{matchId}
+     - examples: [{contentType=application/json, example={
+  "createdAt" : 0,
+  "publication" : {
+    "duration" : 5.962133916683182,
+    "createdAt" : 6,
+    "worldId" : "aeiou",
+    "topic" : "aeiou",
+    "range" : 1.4658129805029452,
+    "location" : {
+      "altitude" : 7.061401241503109,
+      "latitude" : 5.637376656633329,
+      "longitude" : 2.3021358869347655
+    },
+    "id" : "aeiou",
+    "deviceId" : "aeiou",
+    "properties" : ""
+  },
+  "id" : "aeiou",
+  "subscription" : {
+    "duration" : 2.027123023002322,
+    "createdAt" : 9,
+    "worldId" : "aeiou",
+    "topic" : "aeiou",
+    "range" : 3.616076749251911,
+    "selector" : "aeiou",
+    "location" : "",
+    "pushers" : [ "aeiou" ],
+    "id" : "aeiou",
+    "deviceId" : "aeiou"
+  }
+}}]
+     
+     - parameter userId: (path) The id (UUID) of the user of the device. 
+     - parameter deviceId: (path) The id (UUID) of the user device. 
+     - parameter matchId: (path) The id (UUID) of the match. 
+
+     - returns: RequestBuilder<Match> 
+     */
+    open class func getMatchWithRequestBuilder(userId: String, deviceId: String, matchId: String) -> RequestBuilder<Match> {
+        var path = "/devices/{deviceId}/matches/{matchId}"
+        path = path.replacingOccurrences(of: "{userId}", with: "\(userId)", options: .literal, range: nil)
+        path = path.replacingOccurrences(of: "{deviceId}", with: "\(deviceId)", options: .literal, range: nil)
+        path = path.replacingOccurrences(of: "{matchId}", with: "\(matchId)", options: .literal, range: nil)
+        let URLString = AlpsAPI.basePath + path
+        let parameters: [String:Any]? = nil
+
+        let url = NSURLComponents(string: URLString)
+
+
+        let requestBuilder: RequestBuilder<Match>.Type = AlpsAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
+    }
+
+    /**
      Get matches for the device
      
      - parameter deviceId: (path) The id (UUID) of the device. 
@@ -443,11 +523,14 @@ open class DeviceAPI: APIBase {
   "worldId" : "aeiou",
   "topic" : "aeiou",
   "range" : 6.027456183070403,
+  "location" : {
+    "altitude" : 2.3021358869347655,
+    "latitude" : 5.962133916683182,
+    "longitude" : 5.637376656633329
+  },
   "id" : "aeiou",
   "deviceId" : "aeiou",
-  "properties" : {
-    "key" : "aeiou"
-  }
+  "properties" : ""
 }}]
      
      - parameter deviceId: (path) The id (UUID) of the device. 
@@ -530,6 +613,11 @@ open class DeviceAPI: APIBase {
   "topic" : "aeiou",
   "range" : 6.027456183070403,
   "selector" : "aeiou",
+  "location" : {
+    "altitude" : 2.3021358869347655,
+    "latitude" : 5.962133916683182,
+    "longitude" : 5.637376656633329
+  },
   "pushers" : [ "aeiou" ],
   "id" : "aeiou",
   "deviceId" : "aeiou"
@@ -632,6 +720,49 @@ open class DeviceAPI: APIBase {
         let requestBuilder: RequestBuilder<ProximityEvent>.Type = AlpsAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
+    }
+
+    /**
+     Updates name or/and device token for existing device
+     
+     - parameter device: (body) The device update description. 
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    open class func updateDevice(device: DeviceUpdate, completion: @escaping ((_ data: Device?,_ error: Error?) -> Void)) {
+        updateDeviceWithRequestBuilder(device: device).execute { (response, error) -> Void in
+            completion(response?.body, error);
+        }
+    }
+
+
+    /**
+     Updates name or/and device token for existing device
+     - PATCH /devices/{deviceId}
+     - Token can be only updated for mobile devices.
+     - examples: [{contentType=application/json, example={
+  "deviceType" : { },
+  "createdAt" : 0,
+  "name" : "aeiou",
+  "id" : "aeiou",
+  "updatedAt" : 6,
+  "group" : [ "first_group", "SecondGroup", "thirdGroup" ]
+}}]
+     
+     - parameter device: (body) The device update description. 
+
+     - returns: RequestBuilder<Device> 
+     */
+    open class func updateDeviceWithRequestBuilder(device: DeviceUpdate) -> RequestBuilder<Device> {
+        let path = "/devices/{deviceId}"
+        let URLString = AlpsAPI.basePath + path
+        let parameters = device.encodeToJSON() as? [String:AnyObject]
+
+        let url = NSURLComponents(string: URLString)
+
+
+        let requestBuilder: RequestBuilder<Device>.Type = AlpsAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "PATCH", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
     }
 
 }

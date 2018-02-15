@@ -25,8 +25,9 @@ open class Publication: JSONEncodable {
     public var range: Double?
     /** The duration of the publication in seconds. If set to &#39;-1&#39; the publication will live forever and if set to &#39;0&#39; it will be instant at the time of publication.  */
     public var duration: Double?
-    /** The dictionary of key, value pairs. */
-    public var properties: [String:String]?
+    public var location: SimpleLocation?
+    /** The dictionary of key, value pairs. Allowed values are number, boolean, string and array of afformentioned types */
+    public var properties: [String: Any]?
 
     public init() {}
 
@@ -40,7 +41,8 @@ open class Publication: JSONEncodable {
         nillableDictionary["topic"] = self.topic
         nillableDictionary["range"] = self.range
         nillableDictionary["duration"] = self.duration
-        nillableDictionary["properties"] = self.properties?.encodeToJSON()
+        nillableDictionary["location"] = self.location?.encodeToJSON()
+        nillableDictionary["properties"] = self.properties
 
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
