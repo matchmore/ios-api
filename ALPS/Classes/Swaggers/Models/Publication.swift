@@ -27,7 +27,7 @@ open class Publication: JSONEncodable {
     public var duration: Double?
     public var location: SimpleLocation?
     /** The dictionary of key, value pairs. Allowed values are number, boolean, string and array of afformentioned types */
-    public var properties: [String: String]?
+    public var properties: [String: Any]?
 
     public init() {}
 
