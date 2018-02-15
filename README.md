@@ -7,7 +7,7 @@
 Alps iOS API pod is available through [CocoaPods](http://cocoapods.org). To install it,
 simply add the following line to your Podfile:
 
-`pod 'Alps', :git => 'https://github.com/MatchMore/alps-ios-api.git'`
+`pod 'Alps'`
 
 ## Authors
 
