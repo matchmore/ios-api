@@ -27,6 +27,7 @@ open class Subscription: JSONEncodable {
     public var range: Double?
     /** The duration of the subscription in seconds. If set to &#39;-1&#39; the subscription will live forever and if set to &#39;0&#39; it will be instant at the time of subscription.  */
     public var duration: Double?
+    public var location: SimpleLocation?
     /** When match will occurs, they will be notified on these provided URI(s) address(es) in the pushers array.  */
     public var pushers: [String]?
 
@@ -43,6 +44,7 @@ open class Subscription: JSONEncodable {
         nillableDictionary["selector"] = self.selector
         nillableDictionary["range"] = self.range
         nillableDictionary["duration"] = self.duration
+        nillableDictionary["location"] = self.location?.encodeToJSON()
         nillableDictionary["pushers"] = self.pushers?.encodeToJSON()
 
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]

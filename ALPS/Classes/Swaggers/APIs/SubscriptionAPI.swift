@@ -35,6 +35,11 @@ open class SubscriptionAPI: APIBase {
   "topic" : "aeiou",
   "range" : 6.027456183070403,
   "selector" : "aeiou",
+  "location" : {
+    "altitude" : 2.3021358869347655,
+    "latitude" : 5.962133916683182,
+    "longitude" : 5.637376656633329
+  },
   "pushers" : [ "aeiou" ],
   "id" : "aeiou",
   "deviceId" : "aeiou"
@@ -122,6 +127,11 @@ open class SubscriptionAPI: APIBase {
   "topic" : "aeiou",
   "range" : 6.027456183070403,
   "selector" : "aeiou",
+  "location" : {
+    "altitude" : 2.3021358869347655,
+    "latitude" : 5.962133916683182,
+    "longitude" : 5.637376656633329
+  },
   "pushers" : [ "aeiou" ],
   "id" : "aeiou",
   "deviceId" : "aeiou"

@@ -250,7 +250,9 @@ open class EncodablePublication: NSObject, NSCoding {
         self.object?.topic = decoder.decodeObject(forKey: "topic") as? String
         self.object?.range = decoder.decodeObject(forKey: "range") as? Double
         self.object?.duration = decoder.decodeObject(forKey: "duration") as? Double
-        self.object?.properties = decoder.decodeObject(forKey: "properties") as? [String:String]
+        let encodable_location = decoder.decodeObject(forKey: "location") as? EncodableSimpleLocation
+        self.object?.location = encodable_location?.object
+        self.object?.properties = decoder.decodeObject(forKey: "properties") as? [String: Any]
     }      
     public func encode(with encoder: NSCoder) {
         encoder.encode(object?.id, forKey: "id")
@@ -260,7 +262,33 @@ open class EncodablePublication: NSObject, NSCoding {
         encoder.encode(object?.topic, forKey: "topic")
         encoder.encode(object?.range, forKey: "range")
         encoder.encode(object?.duration, forKey: "duration")
+        encoder.encode(EncodableSimpleLocation(object: object?.location), forKey: "location")
         encoder.encode(object?.properties, forKey: "properties")
+    }
+}
+
+
+public extension SimpleLocation {
+    var encodableSimpleLocation: EncodableSimpleLocation {
+        return EncodableSimpleLocation(object: self)
+    }
+}
+
+open class EncodableSimpleLocation: NSObject, NSCoding {
+    public let object: SimpleLocation!
+    public init(object: SimpleLocation?) {
+        self.object = object
+    }
+    required public init?(coder decoder: NSCoder) {
+        self.object = SimpleLocation()
+        self.object?.latitude = decoder.decodeObject(forKey: "latitude") as? Double
+        self.object?.longitude = decoder.decodeObject(forKey: "longitude") as? Double
+        self.object?.altitude = decoder.decodeObject(forKey: "altitude") as? Double
+    }      
+    public func encode(with encoder: NSCoder) {
+        encoder.encode(object?.latitude, forKey: "latitude")
+        encoder.encode(object?.longitude, forKey: "longitude")
+        encoder.encode(object?.altitude, forKey: "altitude")
     }
 }
 
@@ -286,6 +314,8 @@ open class EncodableSubscription: NSObject, NSCoding {
         self.object?.selector = decoder.decodeObject(forKey: "selector") as? String
         self.object?.range = decoder.decodeObject(forKey: "range") as? Double
         self.object?.duration = decoder.decodeObject(forKey: "duration") as? Double
+        let encodable_location = decoder.decodeObject(forKey: "location") as? EncodableSimpleLocation
+        self.object?.location = encodable_location?.object
         self.object?.pushers = decoder.decodeObject(forKey: "pushers") as? [String]
     }      
     public func encode(with encoder: NSCoder) {
@@ -297,6 +327,7 @@ open class EncodableSubscription: NSObject, NSCoding {
         encoder.encode(object?.selector, forKey: "selector")
         encoder.encode(object?.range, forKey: "range")
         encoder.encode(object?.duration, forKey: "duration")
+        encoder.encode(EncodableSimpleLocation(object: object?.location), forKey: "location")
         encoder.encode(object?.pushers, forKey: "pushers")
     }
 }
