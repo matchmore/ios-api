@@ -252,7 +252,7 @@ open class EncodablePublication: NSObject, NSCoding {
         self.object?.duration = decoder.decodeObject(forKey: "duration") as? Double
         let encodable_location = decoder.decodeObject(forKey: "location") as? EncodableSimpleLocation
         self.object?.location = encodable_location?.object
-        self.object?.properties = decoder.decodeObject(forKey: "properties") as? [String: String]
+        self.object?.properties = decoder.decodeObject(forKey: "properties") as? [String: Any]
     }      
     public func encode(with encoder: NSCoder) {
         encoder.encode(object?.id, forKey: "id")
