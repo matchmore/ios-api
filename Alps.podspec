@@ -10,4 +10,5 @@ Pod::Spec.new do |s|
   s.description = 'This is Alps pod description'
   s.source_files = 'Alps/Classes/Swaggers/**/*.swift'
   s.dependency 'Alamofire', '~> 4.0'
+  s.license = 'MIT'
 end
